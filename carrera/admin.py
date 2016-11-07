@@ -8,3 +8,8 @@ class CarreraAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Carrera, CarreraAdmin)
+
+class PlanAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Plan, PlanAdmin)
