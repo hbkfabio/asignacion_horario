@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-pygraphviz
+
 ROOT_URLCONF = 'horario.urls'
 
 TEMPLATES = [
