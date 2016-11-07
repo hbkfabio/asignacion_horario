@@ -9,7 +9,7 @@ class Carrera(models.Model):
 
 class Plan(models.Model):
     nombre = models.CharField(max_length=10)
-    carrera = models.Foreignkey(Carrera)
+    carrera = models.ForeignKey(Carrera, null=True)
 
 
 class Modulo(models.Model):
@@ -19,6 +19,7 @@ class Modulo(models.Model):
 
 class Departamento(models.Model):
     nombre = models.CharField(max_length=50)
+    descripcion = models.TextField(max_length=200, null=True, blank=True)
 
 
 class Profesor(models.Model):
@@ -32,7 +33,7 @@ class Anio(models.Model):
 
 class Periodo(models.Model):
     nombre = models.CharField(max_length=10)
-    anio = models.ForeignKey(Anio)
+    anio = models.ForeignKey(Anio, null=True)
 
 class Bloque(models.Model):
     nombre = models.CharField(max_length=2)
