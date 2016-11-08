@@ -19,7 +19,7 @@ class Modulo(models.Model):
 
 class Departamento(models.Model):
     nombre = models.CharField(max_length=50)
-    descripcion = models.TextField(max_length=200, null=True, blank=True)
+    descripcion = models.TextField(u'Descripción', max_length=200, null=True, blank=True)
 
 
 class Profesor(models.Model):
