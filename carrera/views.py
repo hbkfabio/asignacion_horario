@@ -2,9 +2,15 @@ from django.shortcuts import render
 from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponseRedirect
 
-from .forms import (DepartamentoForm,
-                CarreraForm,
-                )
+from .forms import (
+    DepartamentoForm,
+    CarreraForm,
+)
+
+from .models import (
+    Departamento,
+    Carrera,
+)
 
 
 def DepartamentoView(request):
@@ -32,9 +38,12 @@ def CarreraView(request):
 
     form = CarreraForm(request.POST or None, request.FILES or None)
 
+    queryset = Carrera.objects.all().order_by('nombre')
+
     context = {
         "titulo": titulo,
-        "form": form
+        "form": form,
+        "queryset": queryset,
     }
 
     if form.is_valid():
