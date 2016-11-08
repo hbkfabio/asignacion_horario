@@ -1,0 +1,19 @@
+
+
+
+
+{% block content %}
+
+<h1>{{titulo}}</h1>
+
+
+{% if form %}
+<form class="form-inline" method="POST" action="" enctype="multipart/form-data"> {% csrf_token %}
+{{ form.as_p }}
+
+<input type="submit" value="Registrarse" class="btn btn-primary">
+</form>
+{% endif %}
+
+
+{% endblock %}
