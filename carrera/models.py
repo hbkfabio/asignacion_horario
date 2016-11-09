@@ -19,7 +19,7 @@ class Plan(models.Model):
 class Modulo(models.Model):
     nombre = models.CharField(max_length=50)
     plan = models.ForeignKey(Plan)
-    credito = models.IntegerField()
+    credito = models.IntegerField(default=0)
 
     def __str__ (self):
         return ("%s del %s")%(self.nombre, self.plan.nombre)
