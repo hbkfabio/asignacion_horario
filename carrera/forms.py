@@ -3,6 +3,7 @@ from .models import (
     Carrera,
     Departamento,
     Plan,
+    Modulo,
 )
 
 
@@ -28,6 +29,13 @@ class PlanForm(forms.ModelForm):
     class Meta:
         model = Plan
         fields = ["nombre", "carrera"]
+
+
+class ModuloForm(forms.ModelForm):
+
+    class Meta:
+        model = Modulo
+        fields = ["nombre", "plan"]
 
 # class DepartamentoForm(forms.ModelForm):
 

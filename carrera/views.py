@@ -6,13 +6,16 @@ from django.contrib import messages
 from .forms import (
     DepartamentoForm,
     CarreraForm,
-    PlanForm
+    PlanForm,
+    ModuloForm,
+
 )
 
 from .models import (
     Departamento,
     Carrera,
-    Plan
+    Plan,
+    Modulo,
 )
 
 
@@ -93,3 +96,34 @@ def PlanView(request):
 
 
     return render(request, template, context)
+
+
+def ModuloView(request):
+
+    titulo = "Modulos"
+
+    template = "maestro.html"
+
+    form = ModuloForm(request.POST or None, request.FILES or None)
+
+    queryset = Modulo.objects.all().order_by("id")
+
+
+    context = {
+        "titulo":titulo,
+        "form":form,
+        "queryset":queryset,
+    }
+
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.add_message(request, messages.INFO,
+        "Se ha guardado %s para el plan %s"%
+                             (instance.nombre,
+                              instance.plan.nombre)
+                             )
+        return HttpResponseRedirect("/modulo/")
+
+    return render(request, template, context)
+
