@@ -42,28 +42,16 @@
     </fieldset>
     </form>
 
+    {% if titulo == 'Carreras' or titulo == 'Departamentos' %}
+      {% include "maestro_generico.html" %}
+    {% endif %}
 
-    <fieldset>
-      <legend>Listado de {{ titulo }}</legend>
-      <table class="table">
-        <thead class="thead-default">
-        <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-        </tr>
-        </thead>
-        {% for obj in queryset %}
-        <tbody>
-          <tr>
-            <th scope="row">{{ obj.id }}</th>
-            <td>{{ obj.nombre }}</td>
-            <td>{{ obj.descripcion }}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </fieldset>
+  {% if titulo == 'Planes' %}
+      <fielset>
+      {% include "plan.html" %}
+      </fielset>
+    {% endif %}
+
 
 <!-- end container -->
 </div>

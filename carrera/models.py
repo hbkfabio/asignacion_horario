@@ -14,7 +14,7 @@ class Plan(models.Model):
     carrera = models.ForeignKey(Carrera, null=True)
 
     def __str__(self):
-        return "%s %s" %(self.carrera.nombre, self.nombre)
+        return "%s de %s" %(self.nombre, self.carrera.nombre)
 
 class Modulo(models.Model):
     nombre = models.CharField(max_length=50)

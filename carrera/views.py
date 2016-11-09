@@ -66,7 +66,7 @@ def CarreraView(request):
 
 def PlanView(request):
 
-    titulo = "carrera"
+    titulo = "Planes"
 
     template = "maestro.html"
 
@@ -80,5 +80,16 @@ def PlanView(request):
         "form":form,
         "queryset":queryset,
     }
+
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.add_message(request, messages.INFO,
+        "Se ha guardado %s para la carrera %s"%
+                             (instance.nombre,
+                              instance.carrera.nombre)
+                             )
+        return HttpResponseRedirect("/plan/")
+
 
     return render(request, template, context)
