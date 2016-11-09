@@ -47,16 +47,17 @@
     {% endif %}
 
   {% if titulo == 'Planes' %}
-      <fielset>
       {% include "plan.html" %}
-      </fielset>
   {% endif %}
 
   {% if titulo == 'Modulos' %}
-      <fielset>
       {% include "modulo.html" %}
-      </fielset>
   {% endif %}
+
+  {% if titulo == 'Años' %}
+      {% include 'anio.html' %}
+  {% endif %}
+
 
 
 <!-- end container -->

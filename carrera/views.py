@@ -8,6 +8,7 @@ from .forms import (
     CarreraForm,
     PlanForm,
     ModuloForm,
+    AnioForm,
 
 )
 
@@ -16,6 +17,7 @@ from .models import (
     Carrera,
     Plan,
     Modulo,
+    Anio
 )
 
 
@@ -127,3 +129,33 @@ def ModuloView(request):
 
     return render(request, template, context)
 
+
+
+def AnioView(request):
+
+    titulo = "Años"
+
+    template = "maestro.html"
+
+    form = AnioForm(request.POST or None, request.FILES or None)
+
+    queryset = Anio.objects.all().order_by("id")
+
+
+    context = {
+        "titulo":titulo,
+        "form":form,
+        "queryset":queryset,
+    }
+
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.add_message(request, messages.INFO,
+        "Se ha guardado el año %s "
+                             (instance.nombre,
+                             )
+                             )
+        return HttpResponseRedirect("/anio/")
+
+    return render(request, template, context)
