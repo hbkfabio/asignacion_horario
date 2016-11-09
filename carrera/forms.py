@@ -1,5 +1,9 @@
 from django import forms
-from .models import *
+from .models import (
+    Carrera,
+    Departamento,
+    Plan,
+)
 
 
 class MaestroForm(forms.ModelForm):
@@ -18,6 +22,12 @@ class CarreraForm(MaestroForm):
 
     MaestroForm.Meta.model = Carrera
 
+
+class PlanForm(forms.ModelForm):
+
+    class Meta:
+        model = Plan
+        fields = ["nombre", "carrera"]
 
 # class DepartamentoForm(forms.ModelForm):
 

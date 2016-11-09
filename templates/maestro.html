@@ -43,27 +43,27 @@
     </form>
 
 
-<h2> {{ titulo }}</h2>
-
-<table class="table">
-  <thead class="thead-default">
-    <tr>
-      <th>#</th>
-      <th>Nombre</th>
-      <th>Descripción</th>
-    </tr>
-  </thead>
-  {% for obj in queryset %}
-  <tbody>
-    <tr>
-      <th scope="row">{{ obj.id }}</th>
-      <td>{{ obj.nombre }}</td>
-      <td>{{ obj.descripcion }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
+    <fieldset>
+      <legend>Listado de {{ titulo }}</legend>
+      <table class="table">
+        <thead class="thead-default">
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+        </tr>
+        </thead>
+        {% for obj in queryset %}
+        <tbody>
+          <tr>
+            <th scope="row">{{ obj.id }}</th>
+            <td>{{ obj.nombre }}</td>
+            <td>{{ obj.descripcion }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </fieldset>
 
 <!-- end container -->
 </div>

@@ -6,17 +6,19 @@ from django.contrib import messages
 from .forms import (
     DepartamentoForm,
     CarreraForm,
+    PlanForm
 )
 
 from .models import (
     Departamento,
     Carrera,
+    Plan
 )
 
 
 def DepartamentoView(request):
 
-    titulo = "Departamento"
+    titulo = "Departamentos"
 
     form = DepartamentoForm(request.POST or None, request.FILES or None)
 
@@ -39,7 +41,7 @@ def DepartamentoView(request):
 
 def CarreraView(request):
 
-    titulo = "Carrera"
+    titulo = "Carreras"
 
     template = "maestro.html"
 
@@ -61,3 +63,22 @@ def CarreraView(request):
         return HttpResponseRedirect("carrera")
 
     return render(request,template, context)
+
+def PlanView(request):
+
+    titulo = "carrera"
+
+    template = "maestro.html"
+
+    form = PlanForm(request.POST or None, request.FILES or None)
+
+    queryset = Plan.objects.all().order_by("id")
+
+
+    context = {
+        "titulo":titulo,
+        "form":form,
+        "queryset":queryset,
+    }
+
+    return render(request, template, context)

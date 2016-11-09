@@ -7,6 +7,8 @@ class Carrera(models.Model):
     descripcion = models.TextField (max_length=200, blank=True, null=True)
 
 
+
+
 class Plan(models.Model):
     nombre = models.CharField(max_length=10)
     carrera = models.ForeignKey(Carrera, null=True)
