@@ -9,7 +9,7 @@ from .forms import (
     PlanForm,
     ModuloForm,
     AnioForm,
-
+    PeriodoForm,
 )
 
 from .models import (
@@ -17,7 +17,8 @@ from .models import (
     Carrera,
     Plan,
     Modulo,
-    Anio
+    Anio,
+    Periodo,
 )
 
 
@@ -153,9 +154,40 @@ def AnioView(request):
         instance.save()
         messages.add_message(request, messages.INFO,
         "Se ha guardado el año %s "
-                             (instance.nombre,
+                             %(instance.nombre,
                              )
                              )
         return HttpResponseRedirect("/anio/")
 
     return render(request, template, context)
+
+
+def PeriodoView(request):
+
+    titulo = "Periodos"
+
+    template = "maestro.html"
+
+    form = PeriodoForm(request.POST or None, request.FILES or None)
+
+    queryset = Periodo.objects.all().order_by("id")
+
+
+    context = {
+        "titulo":titulo,
+        "form":form,
+        "queryset":queryset,
+    }
+
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.add_message(request, messages.INFO,
+        "Se ha guardado el periodo %s para el Año %s"
+                            %(instance.nombre,
+                             instance.anio.nombre)
+                             )
+        return HttpResponseRedirect("/anio/")
+
+    return render(request, template, context)
+

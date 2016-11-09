@@ -45,7 +45,7 @@ class Anio(models.Model):
 
 
 class Periodo(models.Model):
-    nombre = models.CharField(max_length=10)
+    nombre = models.CharField(max_length=50)
     anio = models.ForeignKey(Anio, null=True)
 
 class Bloque(models.Model):

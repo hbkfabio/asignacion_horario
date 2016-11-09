@@ -4,7 +4,8 @@ from .views import (
     CarreraView,
     PlanView,
     ModuloView,
-    AnioView
+    AnioView,
+    PeriodoView,
     )
 
 urlpatterns = [
@@ -13,6 +14,7 @@ urlpatterns = [
     url(r'^plan/$', PlanView, name='Plan'),
     url(r'^modulo/$', ModuloView, name='Modulo'),
     url(r'^anio/$', AnioView, name='Anio'),
+    url(r'^periodo/$', PeriodoView, name='Periodo'),
     #url(r'^sobrenosotros/$', sobre, name='sobre'),
 
 ] 

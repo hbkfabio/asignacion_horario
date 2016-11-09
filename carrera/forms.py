@@ -5,6 +5,7 @@ from .models import (
     Plan,
     Modulo,
     Anio,
+    Periodo,
 )
 
 
@@ -46,7 +47,11 @@ class AnioForm(forms.ModelForm):
         fields = ["nombre"]
 
 
+class PeriodoForm(forms.ModelForm):
 
+    class Meta:
+        model = Periodo
+        fields = ["nombre", "anio"]
 # class DepartamentoForm(forms.ModelForm):
 
 #     class Meta:
