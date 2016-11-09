@@ -6,13 +6,15 @@ class Carrera(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField (max_length=200, blank=True, null=True)
 
-
-
+    def __str__(self):
+        return self.nombre
 
 class Plan(models.Model):
     nombre = models.CharField(max_length=10)
     carrera = models.ForeignKey(Carrera, null=True)
 
+    def __str__(self):
+        return "%s %s" %(self.carrera.nombre, self.nombre)
 
 class Modulo(models.Model):
     nombre = models.CharField(max_length=50)
@@ -23,6 +25,8 @@ class Departamento(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField(u'Descripción', max_length=200, null=True, blank=True)
 
+    def __str__(self):
+        return self.nombre
 
 class Profesor(models.Model):
     nombre = models.CharField(max_length=100)
