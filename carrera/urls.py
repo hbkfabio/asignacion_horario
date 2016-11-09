@@ -6,7 +6,7 @@ from .views import (
 
 urlpatterns = [
     url(r'^departamento/$', DepartamentoView, name='departamento'),
-    url(r'^carrera/$', CarreraView, name='carrera'),
+    url(r'^carrera/$', CarreraView, name='Carrera'),
     #url(r'^sobrenosotros/$', sobre, name='sobre'),
 
 ] 

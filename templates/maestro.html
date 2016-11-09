@@ -9,9 +9,31 @@
 
 {% endblock %}
 
+
+
 {% block content %}
+
+
 <div class="container">
-    <form role="form" class="form-horizontal" method="post">
+
+  {% if confirm %}
+  <div class="alert alert-info alert-dismissable">
+    {{ confirm }}
+  </div>
+  {% endif %}
+
+
+  {% if messages %}
+
+  <div class="alert alert-info alert-dismissable">
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+
+  </div>
+  {% endif %}
+
+    <form id="form" role="form" class="form-horizontal" method="post">
         {% csrf_token %}
       <fieldset>
         <legend>{{ titulo }}</legend>
