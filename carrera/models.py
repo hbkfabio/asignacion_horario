@@ -36,6 +36,7 @@ class Departamento(models.Model):
     def __str__(self):
         return self.nombre
 
+
 class Profesor(models.Model):
     nombre = models.CharField(max_length=100)
     departamento = models.ForeignKey(Departamento)

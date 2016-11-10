@@ -11,6 +11,7 @@ from .forms import (
     AnioForm,
     PeriodoForm,
     BloqueForm,
+    ProfesorForm,
 )
 
 from .models import (
@@ -21,6 +22,7 @@ from .models import (
     Anio,
     Periodo,
     Bloque,
+    Profesor,
 )
 
 
@@ -221,6 +223,36 @@ def BloqueView(request):
                              )
                             )
         return HttpResponseRedirect("/bloque/")
+
+    return render(request, template, context)
+
+
+def ProfesorView(request):
+
+    titulo = "Profesores"
+
+    template = "maestro.html"
+
+    form = ProfesorForm(request.POST or None, request.FILES or None)
+
+    queryset = Profesor.objects.all().order_by("id")
+
+
+    context = {
+        "titulo":titulo,
+        "form":form,
+        "queryset":queryset,
+    }
+
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.add_message(request, messages.INFO,
+        "Se ha guardado al profesor %s "
+                             %(instance.nombre,
+                             )
+                            )
+        return HttpResponseRedirect("/profesor/")
 
     return render(request, template, context)
 

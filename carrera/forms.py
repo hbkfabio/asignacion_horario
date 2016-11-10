@@ -7,6 +7,7 @@ from .models import (
     Anio,
     Periodo,
     Bloque,
+    Profesor
 )
 
 
@@ -61,6 +62,12 @@ class BloqueForm(forms.ModelForm):
         model = Bloque
         fields = ["nombre"]
 
+
+class ProfesorForm(forms.ModelForm):
+
+    class Meta:
+        model = Profesor
+        fields = ["nombre", "rut", "correo", "departamento"]
 
 # class DepartamentoForm(forms.ModelForm):
 
