@@ -55,3 +55,6 @@ class Periodo(models.Model):
 
 class Bloque(models.Model):
     nombre = models.CharField(max_length=2)
+
+    def __str__(self):
+        return self.nombre

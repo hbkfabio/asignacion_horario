@@ -6,6 +6,7 @@ from .views import (
     ModuloView,
     AnioView,
     PeriodoView,
+    BloqueView,
     )
 
 urlpatterns = [
@@ -15,6 +16,7 @@ urlpatterns = [
     url(r'^modulo/$', ModuloView, name='Modulo'),
     url(r'^anio/$', AnioView, name='Anio'),
     url(r'^periodo/$', PeriodoView, name='Periodo'),
+    url(r'^bloque/$', BloqueView, name='Bloque'),
     #url(r'^sobrenosotros/$', sobre, name='sobre'),
 
 ] 

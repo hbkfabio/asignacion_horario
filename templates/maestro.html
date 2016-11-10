@@ -51,11 +51,11 @@
   {% endif %}
 
   {% if titulo == 'Modulos' %}
-      {% include "modulo.html" %}
+      {% include 'modulo.html' %}
   {% endif %}
 
-  {% if titulo == 'Años' %}
-      {% include 'anio.html' %}
+  {% if titulo == 'Años' or titulo == 'Bloques' %}
+      {% include 'maestro_single.html' %}
   {% endif %}
 
   {% if titulo == 'Periodos' %}

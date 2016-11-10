@@ -10,6 +10,7 @@ from .forms import (
     ModuloForm,
     AnioForm,
     PeriodoForm,
+    BloqueForm,
 )
 
 from .models import (
@@ -19,6 +20,7 @@ from .models import (
     Modulo,
     Anio,
     Periodo,
+    Bloque,
 )
 
 
@@ -188,6 +190,37 @@ def PeriodoView(request):
                              instance.anio.nombre)
                              )
         return HttpResponseRedirect("/anio/")
+
+    return render(request, template, context)
+
+
+def BloqueView(request):
+
+    titulo = "Bloques"
+
+    template = "maestro.html"
+
+    form = BloqueForm(request.POST or None, request.FILES or None)
+
+    queryset = Bloque.objects.all().order_by("id")
+
+
+    context = {
+        "titulo":titulo,
+        "form":form,
+        "queryset":queryset,
+    }
+
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.add_message(request, messages.INFO,
+        "Se ha guardado el %s %s "
+                             %(titulo,
+                             instance.nombre,
+                             )
+                            )
+        return HttpResponseRedirect("/bloque/")
 
     return render(request, template, context)
 

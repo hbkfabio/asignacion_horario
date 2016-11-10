@@ -6,6 +6,7 @@ from .models import (
     Modulo,
     Anio,
     Periodo,
+    Bloque,
 )
 
 
@@ -52,6 +53,15 @@ class PeriodoForm(forms.ModelForm):
     class Meta:
         model = Periodo
         fields = ["nombre", "anio"]
+
+
+class BloqueForm(forms.ModelForm):
+
+    class Meta:
+        model = Bloque
+        fields = ["nombre"]
+
+
 # class DepartamentoForm(forms.ModelForm):
 
 #     class Meta:
