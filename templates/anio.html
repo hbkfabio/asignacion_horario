@@ -1,0 +1,22 @@
+{% block content %}
+    <fieldset>
+      <legend>Listado de {{ titulo }}</legend>
+      <table class="table">
+        <thead class="thead-default">
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+        </tr>
+        </thead>
+        {% for obj in queryset %}
+        <tbody>
+          <tr>
+            <th scope="row">{{ obj.id }}</th>
+            <td>{{ obj.nombre }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </fieldset>
+
+{% endblock %}
