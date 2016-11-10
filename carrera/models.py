@@ -17,9 +17,13 @@ class Plan(models.Model):
         return "%s de %s" %(self.nombre, self.carrera.nombre)
 
 class Modulo(models.Model):
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(u'Modulo', max_length=100)
     plan = models.ForeignKey(Plan)
-    credito = models.IntegerField(default=0)
+    creditos = models.IntegerField(u'Créditos', default=0)
+    horas_clase = models.IntegerField(u'Horas de clase', default=0)
+    horas_seminario = models.IntegerField(u'Horas de seminario',default=0)
+    horas_laboratorio = models.IntegerField(u'horas de laboratorio', default=0)
+    horas_taller = models.IntegerField(u'Horas de Taller', default=0)
 
     def __str__ (self):
         return ("%s del %s")%(self.nombre, self.plan.nombre)
