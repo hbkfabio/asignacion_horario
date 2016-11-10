@@ -39,6 +39,11 @@ class Departamento(models.Model):
 class Profesor(models.Model):
     nombre = models.CharField(max_length=100)
     departamento = models.ForeignKey(Departamento)
+    rut = models.CharField(u'RUT', max_length=12, default='')
+    correo = models.EmailField('Correo Electrónico', max_length=100, default='')
+
+    def __str__(self):
+        return self.nombre
 
 
 class Anio(models.Model):
