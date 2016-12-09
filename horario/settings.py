@@ -132,3 +132,4 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

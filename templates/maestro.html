@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 
-
-
 {% load bootstrap3 %}
 
 {% block title %}
@@ -13,13 +11,11 @@
 
 {% block content %}
 
-
   {% if confirm %}
   <div class="alert alert-info alert-dismissable">
     {{ confirm }}
   </div>
   {% endif %}
-
 
   {% if messages %}
 
@@ -31,14 +27,6 @@
   </div>
   {% endif %}
 
-    <form id="form" role="form" class="form-horizontal" method="post">
-        {% csrf_token %}
-      <fieldset>
-        <legend>{{ titulo }}</legend>
-        {% bootstrap_form form layout="horizontal" %}
-        {% buttons submit='Guardar' reset='Cancelar' layout='horizontal' %}{% endbuttons %}
-    </fieldset>
-    </form>
 
     {% if titulo == 'Carreras' or titulo == 'Departamentos' %}
       {% include "maestro_generico.html" %}
