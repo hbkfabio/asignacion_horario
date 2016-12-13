@@ -470,7 +470,7 @@ class ProfesorCreateView(ViewCreateView):
     template_name = "profesor_form.html"
     success_message = 'Profesor %(nombre)s ha sido creado'
     titulo = 'Agregar Profesor'
-    success_url = '/profesor'
+    success_url = '/profesor/'
 
 
 class ProfesorUpdateView(ViewUpdateView):
@@ -478,7 +478,7 @@ class ProfesorUpdateView(ViewUpdateView):
     form_class = ProfesorForm
     template_name = "profesor_form.html"
     success_message = "Profesor %(nombre)s ha sido actualizado"
-    success_url = "/profesor"
+    success_url = "/profesor/"
 
 
 
@@ -486,6 +486,6 @@ class ProfesorDeleteView(ViewDeleteView):
     model = Profesor
     template_name = "elimina.html"
     success_message = 'Profesor %(nombre)s ha sido Eliminado'
-    sucess_url = "/profesor"
+    sucess_url = "/profesor/"
 
 
