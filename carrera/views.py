@@ -79,35 +79,35 @@ def CarreraView(request):
 
     return render(request,template, context)
 
-def PlanView(request):
+# def PlanView(request):
 
-    titulo = "Planes"
+#     titulo = "Planes"
 
-    template = "maestro.html"
+#     template = "maestro.html"
 
-    form = PlanForm(request.POST or None, request.FILES or None)
+#     form = PlanForm(request.POST or None, request.FILES or None)
 
-    queryset = Plan.objects.all().order_by("id")
-
-
-    context = {
-        "titulo":titulo,
-        "form":form,
-        "queryset":queryset,
-    }
-
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        messages.add_message(request, messages.INFO,
-        "Se ha guardado %s para la carrera %s"%
-                             (instance.nombre,
-                              instance.carrera.nombre)
-                             )
-        return HttpResponseRedirect("/plan/")
+#     queryset = Plan.objects.all().order_by("id")
 
 
-    return render(request, template, context)
+#     context = {
+#         "titulo":titulo,
+#         "form":form,
+#         "queryset":queryset,
+#     }
+
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.save()
+#         messages.add_message(request, messages.INFO,
+#         "Se ha guardado %s para la carrera %s"%
+#                              (instance.nombre,
+#                               instance.carrera.nombre)
+#                              )
+#         return HttpResponseRedirect("/plan/")
+
+
+#     return render(request, template, context)
 
 
 # def ModuloView(request):
@@ -331,6 +331,36 @@ class ViewDeleteView(SuccessMessageMixin, DeleteView):
         obj = self.get_object()
         messages.success(self.request, self.success_message %dict(nombre=obj,))
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
+
+
+class CarreraView(ViewListView):
+    model = Carrera
+    template_name = "maestro.html"
+    titulo = "Carreras"
+    extra_context = {}
+
+
+class CarreraCreateView(ViewCreateView):
+    form_class = CarreraForm
+    template_name = "profesor_form.html"
+    titulo = "Agrega Carrera"
+    success_message = "La carrera %(nombre)s ha sido creado"
+    success_url = "/carrera/"
+
+
+class CarreraUpdateView(ViewUpdateView):
+    model = Carrera
+    form_class = CarreraForm
+    template_name = "profesor_form.html"
+    success_message = "La carrera %(name)s ha sido actualizado"
+    sucess_url = "/carrera/"
+
+
+class CarreraDeleteView(ViewDeleteView):
+    model = Carrera
+    template_name = "elimina.html"
+    success_message = 'La carrera %(nombre)s ha sido Eliminada'
+    sucess_url = "/carrera/"
 
 
 class PlanView(ViewListView):

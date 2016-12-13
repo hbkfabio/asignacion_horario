@@ -1,7 +1,13 @@
 from django.conf.urls import url
 from .views import (
     CarreraView,
+    CarreraCreateView,
+    CarreraUpdateView,
+    CarreraDeleteView,
     PlanView,
+    PlanCreateView,
+    PlanUpdateView,
+    PlanDeleteView,
     ModuloView,
     ModuloCreateView,
     ModuloUpdateView,
@@ -29,13 +35,17 @@ from .views import (
     )
 
 urlpatterns = [
-    url(r'^carrera/$', CarreraView, name='Carrera'),
+    #carrera
+    url(r'^carrera/$', CarreraView.as_view(), name='carrera-list'),
+    url(r'^carrera/add/$', CarreraCreateView.as_view(), name='carrera-add'),
+    url(r'^carrera/edit/(?P<pk>\d+)/$', CarreraUpdateView.as_view(), name='carrera-edit'),
+    url(r'^carrera/(?P<pk>\d+)/delete/$', CarreraDeleteView.as_view(), name='carrera-delete'),
     #plan
-    url(r'^plan/$', ModuloView.as_view(), name='plan-list'),
-    url(r'^plan/add/$', ModuloCreateView.as_view(), name='plan-add'),
-    url(r'^plan/edit/(?P<pk>\d+)/$', ModuloUpdateView.as_view(), name='plan-edit'),
-    url(r'^plan/(?P<pk>\d+)/delete/$', ModuloDeleteView.as_view(), name='plan-delete'),
-    #module
+    url(r'^plan/$', PlanView.as_view(), name='plan-list'),
+    url(r'^plan/add/$', PlanCreateView.as_view(), name='plan-add'),
+    url(r'^plan/edit/(?P<pk>\d+)/$', PlanUpdateView.as_view(), name='plan-edit'),
+    url(r'^plan/(?P<pk>\d+)/delete/$', PlanDeleteView.as_view(), name='plan-delete'),
+    #modulo
     url(r'^modulo/$', ModuloView.as_view(), name='modulo-list'),
     url(r'^modulo/add/$', ModuloCreateView.as_view(), name='modulo-add'),
     url(r'^modulo/edit/(?P<pk>\d+)/$', ModuloUpdateView.as_view(), name='modulo-edit'),
