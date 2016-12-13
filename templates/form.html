@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+
+{% endblock %}
+
+
+
+{% block content %}
+    <form id="form" role="form" class="form-horizontal" method="post">
+        {% csrf_token %}
+      <fieldset>
+        <legend>{{ titulo }}</legend>
+        {% bootstrap_form form layout="horizontal" %}
+        {% buttons submit='Guardar' reset='Cancelar' button_class="cancelar" layout='horizontal' %}
+
+	{% endbuttons %}
+    </fieldset>
+    </form>
+
+{% endblock %}
