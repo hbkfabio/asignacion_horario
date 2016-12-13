@@ -30,8 +30,11 @@ from .views import (
 
 urlpatterns = [
     url(r'^carrera/$', CarreraView, name='Carrera'),
-    url(r'^plan/$', PlanView, name='Plan'),
-    url(r'^modulo/$', ModuloView, name='Modulo'),
+    #plan
+    url(r'^plan/$', ModuloView.as_view(), name='plan-list'),
+    url(r'^plan/add/$', ModuloCreateView.as_view(), name='plan-add'),
+    url(r'^plan/edit/(?P<pk>\d+)/$', ModuloUpdateView.as_view(), name='plan-edit'),
+    url(r'^plan/(?P<pk>\d+)/delete/$', ModuloDeleteView.as_view(), name='plan-delete'),
     #module
     url(r'^modulo/$', ModuloView.as_view(), name='modulo-list'),
     url(r'^modulo/add/$', ModuloCreateView.as_view(), name='modulo-add'),

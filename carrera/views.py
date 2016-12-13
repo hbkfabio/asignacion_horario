@@ -31,27 +31,27 @@ from .models import (
 )
 
 
-def DepartamentoView(request):
+# def DepartamentoView(request):
 
-    titulo = "Departamentos"
+#     titulo = "Departamentos"
 
-    form = DepartamentoForm(request.POST or None, request.FILES or None)
+#     form = DepartamentoForm(request.POST or None, request.FILES or None)
 
-    queryset = Departamento.objects.all().order_by("nombre")
+#     queryset = Departamento.objects.all().order_by("nombre")
 
-    context = {
-            "titulo": titulo,
-            "form": form,
-            "queryset": queryset
-    }
+#     context = {
+#             "titulo": titulo,
+#             "form": form,
+#             "queryset": queryset
+#     }
 
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        messages.add_message(request, messages.INFO, "Se ha guardado %s" %instance.nombre)
-        return HttpResponseRedirect("/departamento/")
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.save()
+#         messages.add_message(request, messages.INFO, "Se ha guardado %s" %instance.nombre)
+#         return HttpResponseRedirect("/departamento/")
 
-    return render(request, "maestro.html", context)
+#     return render(request, "maestro.html", context)
 
 
 def CarreraView(request):
@@ -110,34 +110,34 @@ def PlanView(request):
     return render(request, template, context)
 
 
-def ModuloView(request):
+# def ModuloView(request):
 
-    titulo = "Modulos"
+#     titulo = "Modulos"
 
-    template = "maestro.html"
+#     template = "maestro.html"
 
-    form = ModuloForm(request.POST or None, request.FILES or None)
+#     form = ModuloForm(request.POST or None, request.FILES or None)
 
-    queryset = Modulo.objects.all().order_by("id")
+#     queryset = Modulo.objects.all().order_by("id")
 
 
-    context = {
-        "titulo":titulo,
-        "form":form,
-        "queryset":queryset,
-    }
+#     context = {
+#         "titulo":titulo,
+#         "form":form,
+#         "queryset":queryset,
+#     }
 
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        messages.add_message(request, messages.INFO,
-        "Se ha guardado %s para el plan %s"%
-                             (instance.nombre,
-                              instance.plan.nombre)
-                             )
-        return HttpResponseRedirect("/modulo/")
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.save()
+#         messages.add_message(request, messages.INFO,
+#         "Se ha guardado %s para el plan %s"%
+#                              (instance.nombre,
+#                               instance.plan.nombre)
+#                              )
+#         return HttpResponseRedirect("/modulo/")
 
-    return render(request, template, context)
+#     return render(request, template, context)
 
 
 
@@ -331,6 +331,36 @@ class ViewDeleteView(SuccessMessageMixin, DeleteView):
         obj = self.get_object()
         messages.success(self.request, self.success_message %dict(nombre=obj,))
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
+
+
+class PlanView(ViewListView):
+    model = Plan
+    template_name = "maestro.html"
+    titulo = "Planes"
+    extra_context = {}
+
+
+class PlanCreateView(ViewCreateView):
+    form_class = PlanForm
+    template_name = "profesor_form.html"
+    titulo = "Agrega Plan"
+    success_message = "El Plan %(nombre)s ha sido creado"
+    success_url = "/plan/"
+
+
+class PlanUpdateView(ViewUpdateView):
+    model = Plan
+    form_class = PlanForm
+    template_name = "profesor_form.html"
+    success_message = "El Plan %(name)s ha sido actualizado"
+    sucess_url = "/plan/"
+
+
+class PlanDeleteView(ViewDeleteView):
+    model = Plan
+    template_name = "elimina.html"
+    success_message = 'El Plan %(nombre)s ha sido Eliminado'
+    sucess_url = "/plan/"
 
 
 class ModuloView(ViewListView):
