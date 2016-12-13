@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "horario.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "asignacion_horario.settings")
 
 application = get_wsgi_application()
