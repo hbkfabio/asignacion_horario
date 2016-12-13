@@ -141,34 +141,34 @@ def ModuloView(request):
 
 
 
-def AnioView(request):
+# def AnioView(request):
 
-    titulo = "Años"
+#     titulo = "Años"
 
-    template = "maestro.html"
+#     template = "maestro.html"
 
-    form = AnioForm(request.POST or None, request.FILES or None)
+#     form = AnioForm(request.POST or None, request.FILES or None)
 
-    queryset = Anio.objects.all().order_by("id")
+#     queryset = Anio.objects.all().order_by("id")
 
 
-    context = {
-        "titulo":titulo,
-        "form":form,
-        "queryset":queryset,
-    }
+#     context = {
+#         "titulo":titulo,
+#         "form":form,
+#         "queryset":queryset,
+#     }
 
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        messages.add_message(request, messages.INFO,
-        "Se ha guardado el año %s "
-                             %(instance.nombre,
-                             )
-                             )
-        return HttpResponseRedirect("/anio/")
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.save()
+#         messages.add_message(request, messages.INFO,
+#         "Se ha guardado el año %s "
+#                              %(instance.nombre,
+#                              )
+#                              )
+#         return HttpResponseRedirect("/anio/")
 
-    return render(request, template, context)
+#     return render(request, template, context)
 
 
 # def PeriodoView(request):
@@ -333,6 +333,36 @@ class ViewDeleteView(SuccessMessageMixin, DeleteView):
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
+class AnioView(ViewListView):
+    model = Anio
+    template_name = "maestro.html"
+    titulo = "Años"
+    extra_context = {}
+
+
+class AnioCreateView(ViewCreateView):
+    form_class = AnioForm
+    template_name = "profesor_form.html"
+    titulo = "Agrega Año"
+    success_message = "El Año %(nombre)s ha sido creado"
+    success_url = "/anio"
+
+
+class AnioUpdateView(ViewUpdateView):
+    model = Anio
+    form_class = AnioForm
+    template_name = "profesor_form.html"
+    success_message = "El Año %(name)s ha sido actualizado"
+    sucess_url = "/anio"
+
+
+class AnioDeleteView(ViewDeleteView):
+    model = Anio
+    template_name = "elimina.html"
+    success_message = 'El Año %(nombre)s ha sido Eliminado'
+    sucess_url = "/anio"
+
+
 class PeriodoView(ViewListView):
     model = Bloque
     template_name = "maestro.html"
@@ -361,8 +391,6 @@ class PeriodoDeleteView(ViewDeleteView):
     template_name = "elimina.html"
     success_message = 'El Periodo %(nombre)s ha sido Eliminado'
     sucess_url = "/periodo"
-
-
 
 
 class BloqueView(ViewListView):
