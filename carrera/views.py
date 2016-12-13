@@ -171,34 +171,34 @@ def AnioView(request):
     return render(request, template, context)
 
 
-def PeriodoView(request):
+# def PeriodoView(request):
 
-    titulo = "Periodos"
+#     titulo = "Periodos"
 
-    template = "maestro.html"
+#     template = "maestro.html"
 
-    form = PeriodoForm(request.POST or None, request.FILES or None)
+#     form = PeriodoForm(request.POST or None, request.FILES or None)
 
-    queryset = Periodo.objects.all().order_by("id")
+#     queryset = Periodo.objects.all().order_by("id")
 
 
-    context = {
-        "titulo":titulo,
-        "form":form,
-        "queryset":queryset,
-    }
+#     context = {
+#         "titulo":titulo,
+#         "form":form,
+#         "queryset":queryset,
+#     }
 
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        messages.add_message(request, messages.INFO,
-        "Se ha guardado el periodo %s para el Año %s"
-                            %(instance.nombre,
-                             instance.anio.nombre)
-                             )
-        return HttpResponseRedirect("/anio/")
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.save()
+#         messages.add_message(request, messages.INFO,
+#         "Se ha guardado el periodo %s para el Año %s"
+#                             %(instance.nombre,
+#                              instance.anio.nombre)
+#                              )
+#         return HttpResponseRedirect("/anio/")
 
-    return render(request, template, context)
+#     return render(request, template, context)
 
 
 # def BloqueView(request):
@@ -331,6 +331,38 @@ class ViewDeleteView(SuccessMessageMixin, DeleteView):
         obj = self.get_object()
         messages.success(self.request, self.success_message %dict(nombre=obj,))
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
+
+
+class PeriodoView(ViewListView):
+    model = Bloque
+    template_name = "maestro.html"
+    titulo = "Periodos"
+    extra_context = {}
+
+
+class PeriodoCreateView(ViewCreateView):
+    form_class = BloqueForm
+    template_name = "profesor_form.html"
+    titulo = "Agrega Periodo"
+    success_message = "El Periodo %(nombre)s ha sido creado"
+    success_url = "/periodo"
+
+
+class PeriodoUpdateView(ViewUpdateView):
+    model = Periodo
+    form_class = PeriodoForm
+    template_name = "profesor_form.html"
+    success_message = "El Periodo %(name)s ha sido actualizado"
+    sucess_url = "/periodo"
+
+
+class PeriodoDeleteView(ViewDeleteView):
+    model = Periodo
+    template_name = "elimina.html"
+    success_message = 'El Periodo %(nombre)s ha sido Eliminado'
+    sucess_url = "/periodo"
+
+
 
 
 class BloqueView(ViewListView):
