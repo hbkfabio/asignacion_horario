@@ -333,6 +333,37 @@ class ViewDeleteView(SuccessMessageMixin, DeleteView):
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
+class ModuloView(ViewListView):
+    model = Modulo
+    template_name = "maestro.html"
+    titulo = "Modulos"
+    extra_context = {}
+
+
+class ModuloCreateView(ViewCreateView):
+    form_class = ModuloForm
+    template_name = "profesor_form.html"
+    titulo = "Agrega Modulo"
+    success_message = "El Modulo %(nombre)s ha sido creado"
+    success_url = "/modulo/"
+
+
+class ModuloUpdateView(ViewUpdateView):
+    model = Departamento
+    form_class = DepartamentoForm
+    template_name = "profesor_form.html"
+    success_message = "El Modulo %(name)s ha sido actualizado"
+    sucess_url = "/modulo/"
+
+
+class ModuloDeleteView(ViewDeleteView):
+    model = Modulo
+    template_name = "elimina.html"
+    success_message = 'El Modulo %(nombre)s ha sido Eliminado'
+    sucess_url = "/modulo/"
+
+
+
 class DepartamentoView(ViewListView):
     model = Departamento
     template_name = "maestro.html"
