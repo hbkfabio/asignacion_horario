@@ -363,7 +363,6 @@ class BloqueDeleteView(ViewDeleteView):
     sucess_url = "/bloque"
 
 
-
 class ProfesorView(ViewListView):
     model = Profesor
     template_name = "maestro.html"
