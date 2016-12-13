@@ -333,6 +333,35 @@ class ViewDeleteView(SuccessMessageMixin, DeleteView):
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
+class DepartamentoView(ViewListView):
+    model = Departamento
+    template_name = "maestro.html"
+    titulo = "Departamentos"
+    extra_context = {}
+
+
+class DepartamentoCreateView(ViewCreateView):
+    form_class = DepartamentoForm
+    template_name = "profesor_form.html"
+    titulo = "Agrega Departamento"
+    success_message = "El Departamento %(nombre)s ha sido creado"
+    success_url = "/departamento"
+
+
+class DepartamentoUpdateView(ViewUpdateView):
+    model = Departamento
+    form_class = DepartamentoForm
+    template_name = "profesor_form.html"
+    success_message = "El Departamento %(name)s ha sido actualizado"
+    sucess_url = "/departamento"
+
+
+class DepartamentoDeleteView(ViewDeleteView):
+    model = Departamento
+    template_name = "elimina.html"
+    success_message = 'El Departamento %(nombre)s ha sido Eliminado'
+    sucess_url = "/departamento"
+
 class AnioView(ViewListView):
     model = Anio
     template_name = "maestro.html"
@@ -364,14 +393,14 @@ class AnioDeleteView(ViewDeleteView):
 
 
 class PeriodoView(ViewListView):
-    model = Bloque
+    model = Periodo
     template_name = "maestro.html"
     titulo = "Periodos"
     extra_context = {}
 
 
 class PeriodoCreateView(ViewCreateView):
-    form_class = BloqueForm
+    form_class = PeriodoForm
     template_name = "profesor_form.html"
     titulo = "Agrega Periodo"
     success_message = "El Periodo %(nombre)s ha sido creado"
