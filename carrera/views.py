@@ -333,6 +333,36 @@ class ViewDeleteView(SuccessMessageMixin, DeleteView):
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
+class BloqueView(ViewListView):
+    model = Bloque
+    template_name = "maestro.html"
+    titulo = "Bloques"
+    extra_context = {}
+
+
+class BloqueCreateView(ViewCreateView):
+    form_class = BloqueForm
+    template_name = "profesor_form.html"
+    titulo = "Agrega Bloques"
+    success_message = "El Bloque %(nombre)s ha sido creado"
+    success_url = "/bloque"
+
+
+class BloqueUpdateView(ViewUpdateView):
+    model = Bloque
+    form_class = BloqueForm
+    template_name = "profesor_form.html"
+    success_message = "El Bloque %(name)s ha sido actualizado"
+    sucess_url = "/bloque"
+
+
+class BloqueDeleteView(ViewDeleteView):
+    model = Bloque
+    template_name = "elimina.html"
+    success_message = 'Bloque %(nombre)s ha sido Eliminado'
+    sucess_url = "/bloque"
+
+
 
 class ProfesorView(ViewListView):
     model = Profesor
@@ -346,12 +376,6 @@ class ProfesorView(ViewListView):
         return context
 
 
-class BloqueView(ViewListView):
-    model = Bloque
-    template_name = "maestro.html"
-    titulo = "Bloques"
-    extra_context = {}
-
 
 class ProfesorCreateView(ViewCreateView):
     form_class = ProfesorForm
@@ -359,14 +383,6 @@ class ProfesorCreateView(ViewCreateView):
     success_message = 'Profesor %(nombre)s ha sido creado'
     titulo = 'Agregar Profesor'
     success_url = '/profesor'
-
-
-class BloqueCreateView(ViewCreateView):
-    form_class = BloqueForm
-    template_name = "profesor_form.html"
-    titulo = "Agrega Bloques"
-    success_message = "El Bloque %(nombre)s ha sido creado"
-    success_url = "/bloque"
 
 
 class ProfesorUpdateView(ViewUpdateView):
