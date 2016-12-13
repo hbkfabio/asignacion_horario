@@ -29,27 +29,27 @@
 
 
     {% if titulo == 'Carreras' or titulo == 'Departamentos' %}
-      {% include "maestro_generico.html" %}
+      {% include "parametros/maestro_generico.html" %}
     {% endif %}
 
     {% if titulo == 'Planes' %}
-        {% include "plan.html" %}
+        {% include "parametros/plan.html" %}
     {% endif %}
 
     {% if titulo == 'Modulos' %}
-        {% include 'modulo.html' %}
+        {% include 'parametros/modulo.html' %}
     {% endif %}
 
     {% if titulo == 'Años' or titulo == 'Bloques' %}
-        {% include 'maestro_single.html' %}
+        {% include 'parametros/maestro_single.html' %}
     {% endif %}
 
     {% if titulo == 'Periodos' %}
-        {% include 'periodo.html' %}
+        {% include 'parametros/periodo.html' %}
     {% endif %}
 
     {% if titulo == 'Profesores' %}
-        {% include 'profesor.html' %}
+        {% include 'parametros/profesor.html' %}
     {% endif %}
 
 
