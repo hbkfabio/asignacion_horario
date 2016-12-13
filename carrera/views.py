@@ -201,56 +201,107 @@ def PeriodoView(request):
     return render(request, template, context)
 
 
-def BloqueView(request):
+# def BloqueView(request):
 
-    titulo = "Bloques"
+#     titulo = "Bloques"
 
-    template = "maestro.html"
+#     template = "maestro.html"
 
-    form = BloqueForm(request.POST or None, request.FILES or None)
+#     form = BloqueForm(request.POST or None, request.FILES or None)
 
-    queryset = Bloque.objects.all().order_by("id")
-
-
-    context = {
-        "titulo":titulo,
-        "form":form,
-        "queryset":queryset,
-    }
-
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        messages.add_message(request, messages.INFO,
-        "Se ha guardado el %s %s "
-                             %(titulo,
-                             instance.nombre,
-                             )
-                            )
-        return HttpResponseRedirect("/bloque/")
-
-    return render(request, template, context)
+#     queryset = Bloque.objects.all().order_by("id")
 
 
+#     context = {
+#         "titulo":titulo,
+#         "form":form,
+#         "queryset":queryset,
+#     }
+
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.save()
+#         messages.add_message(request, messages.INFO,
+#         "Se ha guardado el %s %s "
+#                              %(titulo,
+#                              instance.nombre,
+#                              )
+#                             )
+#         return HttpResponseRedirect("/bloque/")
+
+#     return render(request, template, context)
 
 
-
-# class ProfesorView(SuccessMessageMixin, TemplateView):
-#     model = Profesor
-#     success_url = '/profesor/'
-#     success_message = "%(nombre)s was created successfully"
-#     form_class = ProfesorForm
+# class BloqueView(ListView):
+#     model = Bloque
 #     template_name = "maestro.html"
+#     titulo = "Bloques"
+#     extra_context = {}
+
+#     def get_context_data(self, **kwargs):
+#         context = super(BloqueView, self).get_context_data(*kwargs)
+#         context['titulo'] = self.titulo
+#         return context
+
+
+
+# class BloqueCreateView(SuccessMessageMixin, CreateView):
+#     form_class = BloqueForm
+#     template_name = "profesor_form.html"
+#     titulo = "Agrega Bloques"
+#     success_message = "El Bloque %(nombre)s ha sido creado"
+
+
+#     def get_context_data(self, **kwargs):
+#         context = super(BloqueCreateView, self).get_context_data(*kwargs)
+#         context['titulo'] = self.titulo
+#         return context
+
+
+#     def get_success_url(self):
+#         return reverse("Bloque")
 
 #     def get_success_message(self, cleaned_data):
-#         return self.success_message % dict(
-#             cleaned_data,
-#             nombre=self.object.nombre,
-#         )
+    #cleaned_data is the cleaned data from the form which is used for string formatting
+#         return self.success_message % dict(cleaned_data,
+#                                        nombre=self.object.nombre)
+
+
+class ViewListView(ListView):
+    model = None
+    template_name = None
+    titulo = None
+    extra_context = {}
+
+    def get_context_data(self, **kwargs):
+        context = super(ViewListView, self).get_context_data(**kwargs)
+        context['titulo'] = self.titulo
+        return context
 
 
 
-class ProfesorView(ListView):
+class ViewCreateView(SuccessMessageMixin, CreateView):
+    form_class = None
+    template_name = None
+    success_message = None
+    titulo = None
+
+
+    def get_context_data(self, **kwargs):
+        context = super(ViewCreateView, self).get_context_data(*kwargs)
+        context['titulo'] = self.titulo
+        return context
+
+
+    def get_success_message(self, cleaned_data):
+    #cleaned_data is the cleaned data from the form which is used for string formatting
+        return self.success_message % dict(cleaned_data,
+                                       nombre=self.object.nombre)
+
+
+
+
+class ProfesorView(ViewListView):
     model = Profesor
     template_name = "maestro.html"
     titulo = "Profesores"
@@ -262,20 +313,27 @@ class ProfesorView(ListView):
         return context
 
 
-class ProfesorCreateView(SuccessMessageMixin, CreateView):
-	# model = ComprarArticulo
-	# fields = ["nombre", "tipo_de_comida"]
+class BloqueView(ViewListView):
+    model = Bloque
+    template_name = "maestro.html"
+    titulo = "Bloques"
+    extra_context = {}
+
+
+class ProfesorCreateView(ViewCreateView):
     form_class = ProfesorForm
     template_name = "profesor_form.html"
     success_message = 'Profesor %(nombre)s ha sido creado'
+    titulo = 'Agregar Profesor'
+    success_url = '/profesor'
 
-    def get_success_url(self):
-        return reverse("Profesor")
 
-    def get_success_message(self, cleaned_data):
-    #cleaned_data is the cleaned data from the form which is used for string formatting
-        return self.success_message % dict(cleaned_data,
-                                       nombre=self.object.nombre)
+class BloqueCreateView(ProfesorCreateView):
+    form_class = BloqueForm
+    template_name = "profesor_form.html"
+    titulo = "Agrega Bloques"
+    success_message = "El Bloque %(nombre)s ha sido creado"
+    success_url = "/bloque"
 
 
 class ProfesorUpdateView(SuccessMessageMixin, UpdateView):
