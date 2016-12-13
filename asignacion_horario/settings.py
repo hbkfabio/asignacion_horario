@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'horario.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'horario',
+        'NAME': 'asignacion_horario',
         'USER': 'fabio',
         'PASSWORD': '123',
         'HOST': '127.0.0.1',

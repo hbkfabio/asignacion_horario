@@ -21,10 +21,9 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^',include("carrera.urls")),
+    url(r'^',include("parametros.urls")),
 ]
 
 
 if settings.DEBUG:
-    print (settings.STATIC_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

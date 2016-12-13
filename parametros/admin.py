@@ -1,5 +1,5 @@
 from django.contrib import admin
-from carrera.models import *
+from .models import *
 
 # Register your models here.
 
