@@ -300,6 +300,39 @@ class ViewCreateView(SuccessMessageMixin, CreateView):
 
 
 
+class ViewUpdateView(SuccessMessageMixin, UpdateView):
+    model = None
+    form_class = None
+    template_name = None
+    success_message = None
+    titulo = None
+
+
+    def get_context_data(self, **kwargs):
+        context = super(ViewUpdateView, self).get_context_data(*kwargs)
+        context['titulo'] = self.titulo
+        return context
+
+
+    def get_success_message(self, cleaned_data):
+        # print (_a)
+        return self.success_message % dict(cleaned_data,
+                                       nombre=self.object.nombre)
+
+
+
+class ViewDeleteView(SuccessMessageMixin, DeleteView):
+    model = None
+    template_name = None
+    success_message = None
+
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message %dict(nombre=obj,))
+        return super(ViewDeleteView, self).delete(request, *args, **kwargs)
+
+
 
 class ProfesorView(ViewListView):
     model = Profesor
@@ -328,7 +361,7 @@ class ProfesorCreateView(ViewCreateView):
     success_url = '/profesor'
 
 
-class BloqueCreateView(ProfesorCreateView):
+class BloqueCreateView(ViewCreateView):
     form_class = BloqueForm
     template_name = "profesor_form.html"
     titulo = "Agrega Bloques"
@@ -336,22 +369,16 @@ class BloqueCreateView(ProfesorCreateView):
     success_url = "/bloque"
 
 
-class ProfesorUpdateView(SuccessMessageMixin, UpdateView):
+class ProfesorUpdateView(ViewUpdateView):
     model = Profesor
     form_class = ProfesorForm
     template_name = "profesor_form.html"
     success_message = "Profesor %(nombre)s ha sido actualizado"
-
-    def get_success_url(self):
-        return reverse("Profesor")
-
-    def get_success_message(self, cleaned_data):
-        # print (_a)
-        return self.success_message % dict(cleaned_data,
-                                       nombre=self.object.nombre)
+    success_url = "/profesor"
 
 
-class ProfesorDeleteView(SuccessMessageMixin, DeleteView):
+
+class ProfesorDeleteView(ViewDeleteView):
     model = Profesor
     template_name = "elimina.html"
     success_message = 'Profesor %(nombre)s ha sido Eliminado'
