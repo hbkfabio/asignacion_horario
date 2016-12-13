@@ -382,14 +382,6 @@ class ProfesorDeleteView(ViewDeleteView):
     model = Profesor
     template_name = "elimina.html"
     success_message = 'Profesor %(nombre)s ha sido Eliminado'
-
-    def get_success_url(self):
-        return reverse("Profesor")
-
-
-    def delete(self, request, *args, **kwargs):
-        obj = self.get_object()
-        messages.success(self.request, self.success_message %dict(nombre=obj,))
-        return super(ProfesorDeleteView, self).delete(request, *args, **kwargs)
+    sucess_url = "/profesor"
 
 
