@@ -40,8 +40,12 @@
         {% include 'parametros/modulo.html' %}
     {% endif %}
 
-    {% if titulo == 'Años' or titulo == 'Bloques' %}
-        {% include 'parametros/maestro_single.html' %}
+    {% if titulo == 'Años' %}
+        {% include 'parametros/anio.html' %}
+    {% endif %}
+
+    {% if titulo == 'Bloques' %}
+        {% include 'parametros/bloque.html' %}
     {% endif %}
 
     {% if titulo == 'Periodos' %}
