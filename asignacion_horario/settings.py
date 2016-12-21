@@ -37,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #aplicaciones de terceros
     'django_extensions',
     'crispy_forms',
     'bootstrap3',
-
+    #mis aplicaciones
     'parametros',
+    'horario',
 
 ]
 
