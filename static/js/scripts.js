@@ -28,3 +28,12 @@ $(document).on("click", "button[type='reset']", function(){
     window.location.href =pathname;
 
 });
+
+
+$(document).on("click", ".save-addother", function(event){
+
+    alert("hola");
+     var pathname = window.location.pathname;
+    // var id = $(this).val();
+    window.location.href = pathname+"add/";
+});
