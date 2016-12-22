@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+  {% if confirm %}
+  <div class="alert alert-info alert-dismissable">
+    {{ confirm }}
+  </div>
+  {% endif %}
+
+  {% if messages %}
+
+  <div class="alert alert-info alert-dismissable">
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+
+  </div>
+  {% endif %}
+
+
+    {% if titulo == 'Asignación Profesor Módulo' %}
+      {% include "horario/periodoprofesormodulo.html" %}
+    {% endif %}
+
+{% endblock %}
