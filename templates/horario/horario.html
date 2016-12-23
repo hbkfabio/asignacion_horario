@@ -1,0 +1,84 @@
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-lg-12">
+		<div class="header">
+			<h1>{{ titulo }}</h1>
+		    <div class="col-lg-10">
+		        <select class="form-control">
+                  <option selected>Seleccione un periodo</option>
+		            {% for obj in queryset_periodo %}
+                        <option value="{{ obj.id }}">{{obj.anio}} {{ obj.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+		</div>
+		<div class="col-lg-2">
+		    <button class="btn btn-success add">Añadir Nuevo</button>
+		    <br></br>
+		</div>
+	</div>
+
+
+{% for i in dia_semana %}
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+
+            	    {{ i }}
+            </div>
+        	<!-- /.panel-heading -->
+            <div class="panel-body">
+		    	<table width="100%" class="table table-striped table-bordered table-hover" id=''>
+                    <thead class="thead-default">
+						<tr>
+						    <th>Nombre</th>
+		      				<th>Modulo</th>
+						    <th>Plan</th>
+						    <th width=33px>1</th>
+						    <th width=33px>2</th>
+						    <th width=33px>3</th>
+						    <th width=33px>4</th>
+						    <th width=33px>5</th>
+						    <th width=33px>6</th>
+						    <th width=33px>7</th>
+						    <th width=33px>8</th>
+						    <th width=33px>9</th>
+						    <th width=33px>10</th>
+        				</tr>
+        			</thead>
+					<tbody>
+					{% for obj in queryset %}
+						<tr>
+						    <td>{{ obj.profesor.nombre }}</td>
+							<td>{{ obj.modulo.nombre }}</td>
+						    <td>{{ obj.modulo.plan.nombre }}</td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						    <td class="actividades"></td>
+						</tr>
+					{% endfor %}
+					</tbody>
+                </table>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+
+        </div>
+        <!-- /.panel panel-default -->
+    </div>
+    <!-- /.col-lg-12 -->
+{% endfor %}
+</div>
+<!-- /.row -->
+
+{% endblock %}

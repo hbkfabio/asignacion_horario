@@ -32,4 +32,8 @@
       {% include "horario/periodoprofesormodulo.html" %}
     {% endif %}
 
+    {% if titulo == 'Horario' %}
+        {% include "horario/horario.html" %}
+    {% endif %}
+
 {% endblock %}

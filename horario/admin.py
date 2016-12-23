@@ -7,3 +7,4 @@ class PeriodoProfesorModuloAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(PeriodoProfesorModulo, PeriodoProfesorModuloAdmin)
+

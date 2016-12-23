@@ -37,3 +37,23 @@ $(document).on("click", ".save-addother", function(event){
     // var id = $(this).val();
     window.location.href = pathname+"add/";
 });
+
+
+$(document).on("click", ".actividades", function(event){
+
+  var val = $(this).text();
+
+  console.log(val);
+
+  if (val == ""){
+    $(this).text("C");
+  }else if(val == "C"){
+    $(this).text("A");
+  }else if(val == "A"){
+    $(this).text("L");
+  }else if( val == "L"){
+    $(this).text("");
+  }
+
+
+});

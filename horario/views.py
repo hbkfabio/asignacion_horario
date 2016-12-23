@@ -9,6 +9,9 @@ from parametros.views import (ViewListView,
 from .models import (PeriodoProfesorModulo,
                      )
 
+from parametros.models import (Periodo,
+                               )
+
 from .forms import (PeriodoProfesorModuloForm,
                     )
 # Create your views here.
@@ -62,3 +65,21 @@ class PeriodoProfesorModuloDeleteView(ViewDeleteView):
         messages.success(self.request, self.success_message %dict(nombre=obj,))
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
+
+
+def HorarioView(request):
+
+    titulo = "Horario"
+    dia_semana = ('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes')
+    queryset = PeriodoProfesorModulo.objects.all()
+    queryset_periodo = Periodo.objects.all().order_by('-id')
+    context = {
+
+        "titulo":titulo,
+        "dia_semana":dia_semana,
+        "queryset" : queryset,
+        "queryset_periodo": queryset_periodo,
+
+    }
+
+    return render(request, "horario/base_horario.html", context)
