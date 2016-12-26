@@ -42,8 +42,12 @@ $(document).on("click", ".save-addother", function(event){
 $(document).on("click", ".actividades", function(event){
 
   var val = $(this).text();
+  var profesor = $(this).closest("tr").find(".profesor").text();
+  var profesor = $(this).closest("tr").find(".modulo").text();
+  var profesor = $(this).closest("tr").find(".plan").text();
 
   console.log(val);
+  console.log(profesor);
 
   if (val == ""){
     $(this).text("C");
@@ -55,5 +59,51 @@ $(document).on("click", ".actividades", function(event){
     $(this).text("");
   }
 
+  val = $(this).text();
+  console.log(val);
 
+});
+
+
+// $(document).on("change", "#periodo", function(event){
+
+//     var pathname = window.location.pathname;
+    // console.log(pathname);
+
+//     var combo = $(this).find('option:selected').val();
+
+//     $.get({% url "HorarioTemplateView" %}, { periodo:combo }, function(event){})
+//       .done(function( data ) {
+        // window.location.href = pathname;
+//       });
+
+// });
+
+
+function change_combo_periodo(combo){
+
+  $("#periodo").val(combo);
+
+}
+
+$(document).on("change", "#periodo", function(event){
+
+    var combo = $(this).find('option:selected').val();
+    //var pathname = window.location.pathname;
+    //window.location.href = pathname + "?periodo="+combo;
+
+    //change_combo_periodo(combo);
+
+    $.ajax({
+            type: "GET",
+            //url: "/horario1/add",
+            data: { 'periodo': combo }
+        })
+         .done(function(response) {
+             $('#wrapper').html(response);
+             $("#periodo").val(combo);
+        });
+
+    event.stopPropagation();
+    event.preventDefault();
 });

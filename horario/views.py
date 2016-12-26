@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from parametros.views import (ViewListView,
                             ViewCreateView,
@@ -14,6 +14,10 @@ from parametros.models import (Periodo,
 
 from .forms import (PeriodoProfesorModuloForm,
                     )
+
+from django.views.generic.base import TemplateView
+
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -42,8 +46,8 @@ class PeriodoProfesorModuloUpdateView(ViewUpdateView):
     model = PeriodoProfesorModulo
     form_class = PeriodoProfesorModuloForm
     template_name = "horario/form.html"
-    success_message = "El Profesor %(name)s ha sido actualizado"
-    success_url = "/plan/"
+    success_message = "El Profesor %(nombre)s ha sido actualizado"
+    success_url = "/periodoprofesormodulo/"
 
 
     def get_success_message(self, cleaned_data):
@@ -66,12 +70,43 @@ class PeriodoProfesorModuloDeleteView(ViewDeleteView):
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
+#@csrf_exempt
+class HorarioTemplateView(TemplateView):
+
+    template_name = "horario/base_horario.html"
+
+    def get_context_data(self, **kwargs):
+
+        periodo = self.request.GET.get("periodo")
+        context = super(HorarioTemplateView, self).get_context_data(**kwargs)
+        context["titulo"] = "Horario"
+        context["dia_semana"] = ('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes')
+        queryset = PeriodoProfesorModulo.objects.all()
+        if periodo is not None or periodo !="0":
+            context["queryset_profesor_modulo"] = queryset.filter(periodo=periodo)
+        context["queryset_periodo"] = Periodo.objects.all().order_by('-id')
+        return context
+
 
 def HorarioView(request):
 
     titulo = "Horario"
     dia_semana = ('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes')
+
+    print (request.GET.get("periodo"))
     queryset = PeriodoProfesorModulo.objects.all()
+    if request.GET.get("periodo") is not None:
+        queryset = queryset.filter(periodo=request.GET.get("periodo"))
+
+        redirect(HorarioView)
+    # try:
+    #     if not request.POST["periodo"]:
+    #         queryset = PeriodoProfesorModulo.objects.all()
+    # except:
+        #queryset = PeriodoProfesorModulo.objects.all().filter(periodo=request.POST["periodo"])
+    #     pass
+
+    # queryset = PeriodoProfesorModulo.objects.all()
     queryset_periodo = Periodo.objects.all().order_by('-id')
     context = {
 
@@ -81,5 +116,6 @@ def HorarioView(request):
         "queryset_periodo": queryset_periodo,
 
     }
+
 
     return render(request, "horario/base_horario.html", context)

@@ -3,12 +3,12 @@
 
 <div class="row">
 
-    <div class="col-lg-12">
+    <div class="col-lg-12" id="_appendHere">
 		<div class="header">
 			<h1>{{ titulo }}</h1>
 		    <div class="col-lg-10">
-		        <select class="form-control">
-                  <option selected>Seleccione un periodo</option>
+		        <select class="form-control" id="periodo">
+                  <option selected value="0">Seleccione un periodo</option>
 		            {% for obj in queryset_periodo %}
                         <option value="{{ obj.id }}">{{obj.anio}} {{ obj.nombre }}</option>
                     {% endfor %}
@@ -50,11 +50,11 @@
         				</tr>
         			</thead>
 					<tbody>
-					{% for obj in queryset %}
+					{% for obj in queryset_profesor_modulo %}
 						<tr>
-						    <td>{{ obj.profesor.nombre }}</td>
-							<td>{{ obj.modulo.nombre }}</td>
-						    <td>{{ obj.modulo.plan.nombre }}</td>
+						    <td class="profesor">{{ obj.profesor.nombre }}</td>
+							<td class="modulo">{{ obj.modulo.nombre }}</td>
+						    <td class="plan">{{ obj.modulo.plan.nombre }}</td>
 						    <td class="actividades"></td>
 						    <td class="actividades"></td>
 						    <td class="actividades"></td>
