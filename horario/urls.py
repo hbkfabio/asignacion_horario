@@ -5,6 +5,7 @@ from .views import (PeriodoProfesorModuloListView,
                     PeriodoProfesorModuloDeleteView,
                     # HorarioView,
                     HorarioTemplateView,
+                    HorarioSave,
                     )
 
 urlpatterns = [
@@ -15,6 +16,7 @@ urlpatterns = [
     url(r'^periodoprofesormodulo/(?P<pk>\d+)/delete/$', PeriodoProfesorModuloDeleteView.as_view(), name='periodoprofesormodulo-delete'),
     #Horario
     # url(r'^horario/add/$', HorarioView, name='horario-add'),
-    url(r'^horario1/add/$', HorarioTemplateView.as_view(), name='horario1-add'),
+    url(r'^horario/add/$', HorarioTemplateView.as_view(), name='horario-add'),
+    url(r'^horario/save/$', HorarioSave, name='horario-save'),
 
     ]

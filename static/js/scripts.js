@@ -54,15 +54,13 @@ $(document).on("click", ".save-addother", function(event){
 });
 
 
-$(document).on("click", ".actividades", function(event){
+$(document).on("click", ".accion", function(event){
 
   var val = $(this).text();
-  var profesor = $(this).closest("tr").find(".profesor").text();
-  var profesor = $(this).closest("tr").find(".modulo").text();
-  var profesor = $(this).closest("tr").find(".plan").text();
-
-  console.log(val);
-  //console.log(profesor);
+  var row = $(this).closest("tr").children('td');
+  // var profesor = $(this).closest("tr").find(".profesor").text();
+  // var modulo = $(this).closest("tr").find(".modulo").text();
+  // var plan = $(this).closest("tr").find(".plan").text();
 
   if (val == ""){
     $(this).text("C");
@@ -74,25 +72,31 @@ $(document).on("click", ".actividades", function(event){
     $(this).text("");
   }
 
-  val = $(this).text();
-  console.log(val);
+
+  dic = {}
+  row.each(function(){
+    dic[$(this).attr("class")] = $(this).text();
+  })
+
+  console.log(dic);
+
+  dic = JSON.stringify(dic)
+
+  var parametros = {"diccionario":dic}
+  //             "valor":val,
+  //             "profesor":profesor,
+  //             "modulo":modulo,
+              // "bloque":cabecera,
+  //             "plan":plan}
+
+   $.ajax({
+       type: "POST",
+       url: "/horario/save/",
+       data: parametros,
+      })
+      .done();
 
 });
-
-
-// $(document).on("change", "#periodo", function(event){
-
-//     var pathname = window.location.pathname;
-    // console.log(pathname);
-
-//     var combo = $(this).find('option:selected').val();
-
-//     $.get({% url "HorarioTemplateView" %}, { periodo:combo }, function(event){})
-//       .done(function( data ) {
-        // window.location.href = pathname;
-//       });
-
-// });
 
 
 $(document).on("change", "#periodo", function(event){

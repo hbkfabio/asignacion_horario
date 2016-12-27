@@ -34,19 +34,19 @@
 		    	<table width="100%" class="table table-striped table-bordered table-hover" id=''>
                     <thead class="thead-default">
 						<tr>
-						    <th>Nombre</th>
-		      				<th>Modulo</th>
-						    <th>Plan</th>
-						    <th width=33px>1</th>
-						    <th width=33px>2</th>
-						    <th width=33px>3</th>
-						    <th width=33px>4</th>
-						    <th width=33px>5</th>
-						    <th width=33px>6</th>
-						    <th width=33px>7</th>
-						    <th width=33px>8</th>
-						    <th width=33px>9</th>
-						    <th width=33px>10</th>
+						    <th id="nombre">Nombre</th>
+		      				<th id="modulo">Modulo</th>
+						    <th id="plan">Plan</th>
+						    <th id="bloque1" width=33px>1</th>
+						    <th id="bloque2" width=33px>2</th>
+						    <th id="bloque3" width=33px>3</th>
+						    <th id="bloque4" width=33px>4</th>
+						    <th id="bloque5" width=33px>5</th>
+						    <th id="bloque6" width=33px>6</th>
+						    <th id="bloque7" width=33px>7</th>
+						    <th id="bloque8" width=33px>8</th>
+						    <th id="bloque9" width=33px>9</th>
+						    <th id="bloque10" width=33px>10</th>
         				</tr>
         			</thead>
 					<tbody>
@@ -55,16 +55,16 @@
 						    <td class="profesor">{{ obj.profesor.nombre }}</td>
 							<td class="modulo">{{ obj.modulo.nombre }}</td>
 						    <td class="plan">{{ obj.modulo.plan.nombre }}</td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
-						    <td class="actividades"></td>
+						    <td class="accion bloque1"></td>
+						    <td class="accion bloque2"></td>
+						    <td class="accion bloque3"></td>
+						    <td class="accion bloque4"></td>
+						    <td class="accion bloque5"></td>
+						    <td class="accion bloque6"></td>
+						    <td class="accion bloque7"></td>
+						    <td class="accion bloque8"></td>
+						    <td class="accion bloque9"></td>
+						    <td class="accion bloque10"></td>
 						</tr>
 					{% endfor %}
 					</tbody>

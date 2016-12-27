@@ -7,6 +7,7 @@ from parametros.views import (ViewListView,
                             )
 
 from .models import (PeriodoProfesorModulo,
+                     Horario,
                      )
 
 from parametros.models import (Periodo,
@@ -18,6 +19,9 @@ from .forms import (PeriodoProfesorModuloForm,
 from django.views.generic.base import TemplateView
 
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
+import simplejson as json
 # Create your views here.
 
 
@@ -86,6 +90,75 @@ class HorarioTemplateView(TemplateView):
             context["queryset_profesor_modulo"] = queryset.filter(periodo=periodo)
         context["queryset_periodo"] = Periodo.objects.all().order_by('-id')
         return context
+
+
+@csrf_exempt
+def HorarioSave(request):
+
+    if request.method == "POST" and request.is_ajax():
+        model = Horario
+        dic = request.POST.get("diccionario")
+        dic = json.loads(dic)
+        print (dic)
+
+        bloque1 = dic["accion bloque1"]
+        bloque2 = dic["accion bloque2"]
+        bloque3 = dic["accion bloque3"]
+        bloque4 = dic["accion bloque4"]
+        bloque5 = dic["accion bloque5"]
+        bloque6 = dic["accion bloque6"]
+        bloque7 = dic["accion bloque7"]
+        bloque8 = dic["accion bloque8"]
+        bloque9 = dic["accion bloque9"]
+        bloque10 = dic["accion bloque10"]
+
+        profesor = dic["profesor"];
+        modulo = dic["modulo"]
+        plan = dic["plan"]
+
+        query_ppm = PeriodoProfesorModulo.objects.all().filter(
+                        profesor__nombre=profesor,
+                        modulo__nombre=modulo,
+                        modulo__plan__nombre = plan,
+        )
+
+        query_horario = Horario.objects.all()
+        query_horario.filter(periodoprofesormodulo=query_ppm[0])
+
+        if query_horario.exists():
+            print("existe")
+            query_horario=query_horario.get()
+            query_horario.bloque1=bloque1
+            query_horario.bloque2=bloque2
+            query_horario.bloque3=bloque3
+            query_horario.bloque4=bloque4
+            query_horario.bloque5=bloque5
+            query_horario.bloque6=bloque6
+            query_horario.bloque7=bloque7
+            query_horario.bloque8=bloque8
+            query_horario.bloque9=bloque9
+            query_horario.bloque10=bloque10
+        else:
+            print("no existe")
+            query_horario=Horario(
+                periodoprofesormodulo=query_ppm[0],
+                bloque1=bloque1,
+                bloque2=bloque2,
+                bloque3=bloque3,
+                bloque4=bloque4,
+                bloque5=bloque5,
+                bloque6=bloque6,
+                bloque7=bloque7,
+                bloque8=bloque8,
+                bloque9=bloque9,
+                bloque10=bloque10,
+            )
+        query_horario.save()
+
+        return HttpResponse("Save")
+    else:
+
+        return redirect("/horario/add/")
 
 
 def HorarioView(request):
