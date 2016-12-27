@@ -95,10 +95,10 @@ def HorarioView(request):
 
     print (request.GET.get("periodo"))
     queryset = PeriodoProfesorModulo.objects.all()
-    if request.GET.get("periodo") is not None:
-        queryset = queryset.filter(periodo=request.GET.get("periodo"))
+    # if request.GET.get("periodo") is not None:
+    #     queryset = queryset.filter(periodo=request.GET.get("periodo"))
 
-        redirect(HorarioView)
+
     # try:
     #     if not request.POST["periodo"]:
     #         queryset = PeriodoProfesorModulo.objects.all()

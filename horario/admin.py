@@ -8,3 +8,7 @@ class PeriodoProfesorModuloAdmin(admin.ModelAdmin):
 
 admin.site.register(PeriodoProfesorModulo, PeriodoProfesorModuloAdmin)
 
+
+class HorarioAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Horario, HorarioAdmin)

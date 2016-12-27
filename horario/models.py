@@ -11,7 +11,7 @@ class PeriodoProfesorModulo(models.Model):
         return ('%s %s %s')%(self.periodo, self.profesor, self.modulo)
 
 
-class horario(models.Model):
+class Horario(models.Model):
     periodoprofesormodulo = models.ForeignKey(PeriodoProfesorModulo)
     bloque1 = models.CharField(max_length=1)
     bloque2 = models.CharField(max_length=1)
