@@ -58,7 +58,6 @@ $(document).on("click", ".accion", function(event){
 
   var val = $(this).text();
   var row = $(this).closest("tr").children('td');
-  // var profesor = $(this).closest("tr").find(".profesor").text();
   var dia_semana = $(this).closest('table').attr('id');
   var dic = {};
 
@@ -77,17 +76,9 @@ $(document).on("click", ".accion", function(event){
     dic[$(this).attr("class")] = $(this).text();
   })
 
-
-  console.log(dic);
-
   dic = JSON.stringify(dic)
 
   var parametros = {"diccionario":dic}
-  //             "valor":val,
-  //             "profesor":profesor,
-  //             "modulo":modulo,
-              // "bloque":cabecera,
-  //             "plan":plan}
 
    $.ajax({
        type: "POST",
