@@ -1,3 +1,18 @@
+
+//FIXME the document ready
+$(document).ready(function() {
+    $('#dataTables-example').DataTable({
+          responsive: true
+    });
+
+
+    var pathname = window.location.href.split("=")[1];
+    console.log(pathname);
+    $("#periodo").val(pathname);
+
+});
+
+
 $(document).on("click", ".edit", function(event){
 
     var pathname = window.location.pathname;
@@ -47,7 +62,7 @@ $(document).on("click", ".actividades", function(event){
   var profesor = $(this).closest("tr").find(".plan").text();
 
   console.log(val);
-  console.log(profesor);
+  //console.log(profesor);
 
   if (val == ""){
     $(this).text("C");
@@ -80,30 +95,26 @@ $(document).on("click", ".actividades", function(event){
 // });
 
 
-function change_combo_periodo(combo){
-
-  $("#periodo").val(combo);
-
-}
-
 $(document).on("change", "#periodo", function(event){
 
     var combo = $(this).find('option:selected').val();
-    //var pathname = window.location.pathname;
-    //window.location.href = pathname + "?periodo="+combo;
+    var pathname = window.location.pathname;
+    window.location.href = pathname + "?periodo="+combo;
 
     //change_combo_periodo(combo);
 
-    $.ajax({
-            type: "GET",
-            //url: "/horario1/add",
-            data: { 'periodo': combo }
-        })
-         .done(function(response) {
-             $('#wrapper').html(response);
-             $("#periodo").val(combo);
-        });
 
-    event.stopPropagation();
-    event.preventDefault();
+    // $.ajax({
+    //         type: "GET",
+            //url: "/horario1/add",
+    //         data: { 'periodo': combo }
+    //     })
+    //      .done(function(response) {
+    //         $("#wrapper").empty();
+    //         $('#wrapper').html(response);
+    //         $("#periodo").val(combo);
+    //     });
+
+    // event.stopPropagation();
+    // event.preventDefault();
 });
