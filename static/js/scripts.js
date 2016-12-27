@@ -59,8 +59,8 @@ $(document).on("click", ".accion", function(event){
   var val = $(this).text();
   var row = $(this).closest("tr").children('td');
   // var profesor = $(this).closest("tr").find(".profesor").text();
-  // var modulo = $(this).closest("tr").find(".modulo").text();
-  // var plan = $(this).closest("tr").find(".plan").text();
+  var dia_semana = $(this).closest('table').attr('id');
+  var dic = {};
 
   if (val == ""){
     $(this).text("C");
@@ -72,11 +72,11 @@ $(document).on("click", ".accion", function(event){
     $(this).text("");
   }
 
-
-  dic = {}
+  dic["dia_semana"] = dia_semana;
   row.each(function(){
     dic[$(this).attr("class")] = $(this).text();
   })
+
 
   console.log(dic);
 

@@ -115,6 +115,7 @@ def HorarioSave(request):
         profesor = dic["profesor"];
         modulo = dic["modulo"]
         plan = dic["plan"]
+        dia_semana = dic["dia_semana"]
 
         query_ppm = PeriodoProfesorModulo.objects.all().filter(
                         profesor__nombre=profesor,
@@ -123,7 +124,8 @@ def HorarioSave(request):
         )
 
         query_horario = Horario.objects.all()
-        query_horario.filter(periodoprofesormodulo=query_ppm[0])
+        query_horario = query_horario.filter(periodoprofesormodulo=query_ppm[0],
+                            dia_semana=dia_semana)
 
         if query_horario.exists():
             print("existe")
@@ -138,6 +140,7 @@ def HorarioSave(request):
             query_horario.bloque8=bloque8
             query_horario.bloque9=bloque9
             query_horario.bloque10=bloque10
+            # query_horario.dia_semana=dia_semana
         else:
             print("no existe")
             query_horario=Horario(
@@ -152,6 +155,7 @@ def HorarioSave(request):
                 bloque8=bloque8,
                 bloque9=bloque9,
                 bloque10=bloque10,
+                dia_semana = dia_semana,
             )
         query_horario.save()
 

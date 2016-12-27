@@ -23,7 +23,7 @@ class Horario(models.Model):
     bloque8 = models.CharField(max_length=1)
     bloque9 = models.CharField(max_length=1)
     bloque10 = models.CharField(max_length=1)
-    dia = models.CharField(max_length=20, default="")
+    dia_semana = models.CharField(max_length=20, default="")
 
 
     
