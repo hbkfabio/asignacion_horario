@@ -10,18 +10,21 @@
 
 
 {% block content %}
+
+<fieldset>
+        <legend>{{ titulo }}</legend>
+    </fieldset>
+<br>
     <form id="form" role="form" class="form-horizontal" method="post">
         {% csrf_token %}
-      <fieldset>
-        <legend>{{ titulo }}</legend>
+
         {% bootstrap_form form layout="horizontal" %}
+
         {% buttons layout='horizontal'%}
         <button type="submit" class="btn btn-primary save-addother"><span class="glyphicon glyphicon-save"></span> Guardar y añadir otro</button>
         <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Guardar</button>
         <button type="reset" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
-          	{% endbuttons %}
-
-    </fieldset>
+        {% endbuttons %}
     </form>
 
 {% endblock %}

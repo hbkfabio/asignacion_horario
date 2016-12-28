@@ -26,7 +26,13 @@
 						<tr>
 		      				<th>Modulo</th>
 		      				<th>Plan</th>
+						    <th>Semestre</th>
 						    <th>Carrera</th>
+						    <th>Clases</th>
+						    <th>Seminario</th>
+						    <th>Laboratorio</th>
+						    <th>Taller</th>
+						    <th>Ayudantía</th>
 							<th></th>
 							<th></th>
         				</tr>
@@ -36,7 +42,13 @@
 						<tr>
 							<td>{{ obj.nombre }}</td>
 						    <td>{{ obj.plan }}</td>
+						    <td>{{ obj.semestre.nombre }}</td>
 							<td>{{ obj.plan.carrera }}</td>
+						    <td>{{ obj.horas_clase }}</td>
+						    <td>{{ obj.horas_seminario }}</td>
+						    <td>{{ obj.horas_laboratorio }}</td>
+						    <td>{{ obj.horas_taller }}</td>
+						    <td>{{ obj.horas_ayudantia }}</td>
 							<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" data-title="Edit" data-toggle="modal" data-target="#edit" value="{{ obj.id }}" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
 							<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" data-title="Delete" data-toggle="modal" data-target="#delete" value="{{ obj.id }}"><span class="glyphicon glyphicon-trash"></span></button></p></td>
 						</tr>

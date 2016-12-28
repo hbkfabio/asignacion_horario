@@ -174,8 +174,8 @@ class ModuloCreateView(ViewCreateView):
 
 
 class ModuloUpdateView(ViewUpdateView):
-    model = Departamento
-    form_class = DepartamentoForm
+    model = Modulo
+    form_class = ModuloForm
     template_name = "parametros/form.html"
     success_message = "El Modulo %(name)s ha sido actualizado"
     success_url = "/modulo/"

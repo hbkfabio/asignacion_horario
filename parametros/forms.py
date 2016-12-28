@@ -1,4 +1,5 @@
 from django import forms
+from .sectioned_form import SectionedForm
 from .models import (
     Carrera,
     Departamento,
@@ -10,6 +11,7 @@ from .models import (
     Profesor,
     Semestre,
 )
+
 
 
 class MaestroForm(forms.ModelForm):
@@ -40,7 +42,16 @@ class ModuloForm(forms.ModelForm):
 
     class Meta:
         model = Modulo
-        fields = ["nombre", "plan"]
+
+        fields = ["nombre",
+                    "semestre",
+                    "plan",
+                    "horas_clase",
+                    "horas_seminario",
+                    "horas_laboratorio",
+                    "horas_taller",
+                    "horas_ayudantia",
+                 ]
 
 
 class AnioForm(forms.ModelForm):
