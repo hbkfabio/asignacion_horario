@@ -7,7 +7,8 @@ from .models import (
     Anio,
     Periodo,
     Bloque,
-    Profesor
+    Profesor,
+    Semestre,
 )
 
 
@@ -69,20 +70,10 @@ class ProfesorForm(forms.ModelForm):
         model = Profesor
         fields = ["nombre", "rut", "correo", "departamento"]
 
-# class DepartamentoForm(forms.ModelForm):
-
-#     class Meta:
-#         model = Departamento
-#         fields = ["nombre", "descripcion"]
 
 
+class SemestreForm(forms.ModelForm):
 
-
-# class CarreraForm(forms.ModelForm):
-
-#     class Meta:
-#         model = Carrera
-#         fields =
-
-
-
+    class Meta:
+        model = Semestre
+        fields = ["nombre"]

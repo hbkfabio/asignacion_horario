@@ -31,7 +31,11 @@ from .views import (
     ProfesorView,
     ProfesorUpdateView,
     ProfesorCreateView,
-    ProfesorDeleteView
+    ProfesorDeleteView,
+    SemestreView,
+    SemestreCreateView,
+    SemestreUpdateView,
+    SemestreDeleteView,
     )
 
 urlpatterns = [
@@ -75,5 +79,9 @@ urlpatterns = [
     url(r'^profesor/add/$', ProfesorCreateView.as_view(), name='profesor-add'),
     url(r'^profesor/edit/(?P<pk>\d+)/$', ProfesorUpdateView.as_view(), name='profesor-edit'),
     url(r'^profesor/(?P<pk>\d+)/delete/$', ProfesorDeleteView.as_view(), name='profesor-delete'),
-
+    #semestre
+    url(r'^semestre/$', SemestreView.as_view(), name='semestre-list'),
+    url(r'^semestre/add/$', SemestreCreateView.as_view(), name='semestre-add'),
+    url(r'^semestre/edit/(?P<pk>\d+)/$', SemestreUpdateView.as_view(), name='semestre-edit'),
+    url(r'^semestre/(?P<pk>\d+)/delete/$', SemestreDeleteView.as_view(), name='semestre-delete'),
 ] 

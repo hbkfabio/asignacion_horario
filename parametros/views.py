@@ -17,6 +17,7 @@ from .forms import (
     PeriodoForm,
     BloqueForm,
     ProfesorForm,
+    SemestreForm,
 )
 
 from .models import (
@@ -28,6 +29,7 @@ from .models import (
     Periodo,
     Bloque,
     Profesor,
+    Semestre,
 )
 
 
@@ -340,4 +342,37 @@ class ProfesorDeleteView(ViewDeleteView):
     success_message = 'Profesor %(nombre)s ha sido Eliminado'
     success_url = "/profesor/"
 
+class SemestreView(ViewListView):
+    model = Semestre
+    template_name = "parametros/maestro.html"
+    titulo = "Semestres"
+    extra_context = {}
 
+    def get_context_data(self, **kwargs):
+        context = super(SemestreView, self).get_context_data(**kwargs)
+        context['titulo'] = self.titulo
+        return context
+
+
+class SemestreCreateView(ViewCreateView):
+    form_class = SemestreForm
+    template_name = "parametros/form.html"
+    success_message = 'El semestre %(nombre)s ha sido creado'
+    titulo = 'Agregar Semestre'
+    success_url = '/semestre/'
+
+
+class SemestreUpdateView(ViewUpdateView):
+    model = Semestre
+    form_class = SemestreForm
+    template_name = "parametros/form.html"
+    success_message = "El semestre %(nombre)s ha sido actualizado"
+    success_url = "/semestre/"
+
+
+
+class SemestreDeleteView(ViewDeleteView):
+    model = Semestre
+    template_name = "parametros/elimina.html"
+    success_message = 'El semestre %(nombre)s ha sido Eliminado'
+    success_url = "/semestre/"
