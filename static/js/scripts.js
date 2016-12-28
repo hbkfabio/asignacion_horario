@@ -2,7 +2,9 @@
 //FIXME the document ready
 $(document).ready(function() {
     $('#dataTables-example').DataTable({
-          responsive: true
+          responsive: true,
+          "order": []
+
     });
 
 
@@ -18,6 +20,13 @@ $(document).on("click", ".edit", function(event){
     var pathname = window.location.pathname;
     var id = $(this).val();
     window.location.href = pathname+"edit/"+id;
+});
+
+$(document).on("click", ".edit-listado-horario", function(event){
+
+    var pathname = window.location.pathname;
+    var id = $(this).val();
+    window.location.href = pathname+"edit/?periodo="+id;
 });
 
 

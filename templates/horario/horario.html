@@ -6,7 +6,7 @@
     <div class="col-lg-12" id="_appendHere">
 		<div class="header">
 			<h1>{{ titulo }}</h1>
-		    <div class="col-lg-10">
+		    <div class="col-lg-12">
 		        <select class="form-control" id="periodo">
                   <option selected value="0">Seleccione un periodo</option>
 		            {% for obj in queryset_periodo %}
@@ -14,12 +14,17 @@
                     {% endfor %}
                 </select>
             </div>
+
 		</div>
+        <!--
 		<div class="col-lg-2">
 		    <button class="btn btn-success add">Añadir Nuevo</button>
 		    <br></br>
 		</div>
+        -->
+        <br></br>
 	</div>
+
 
 
 {% for i in dia_semana %}

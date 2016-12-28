@@ -58,10 +58,13 @@ class Periodo(models.Model):
     nombre = models.CharField(max_length=50)
     anio = models.ForeignKey(Anio, null=True)
 
-    def __str__(self):
+    class Meta:
+        ordering = ["-id"]
 
+    def __str__(self):
         return "%s del año %s"%(self.nombre,
                                 self.anio.nombre)
+
 
 class Bloque(models.Model):
     nombre = models.CharField(max_length=2)

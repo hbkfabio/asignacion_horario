@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from parametros.views import (ViewListView,
                             ViewCreateView,
@@ -75,6 +75,24 @@ class PeriodoProfesorModuloDeleteView(ViewDeleteView):
 
 
 #@csrf_exempt
+
+
+class HorarioListView(ViewListView):
+    #queryset = Periodo.objects.all().order_by("-id")
+
+    template_name = "horario/base_horario.html"
+    titulo = "Listado de Horarios"
+    # extra_context = {}
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(HorarioListView, self).get_context_data(**kwargs)
+    #     context["titulo"] = "Listado de Horarios"
+    #     return context
+
+    def get_queryset(self):
+        return Periodo.objects.all().order_by("-id")
+
+
 class HorarioTemplateView(TemplateView):
 
     template_name = "horario/base_horario.html"
@@ -165,13 +183,13 @@ def HorarioSave(request):
         return redirect("/horario/add/")
 
 
-def HorarioView(request):
+# def HorarioView(request):
 
-    titulo = "Horario"
-    dia_semana = ('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes')
+#     titulo = "Horario"
+#     dia_semana = ('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes')
 
-    print (request.GET.get("periodo"))
-    queryset = PeriodoProfesorModulo.objects.all()
+#     print (request.GET.get("periodo"))
+#     queryset = PeriodoProfesorModulo.objects.all()
     # if request.GET.get("periodo") is not None:
     #     queryset = queryset.filter(periodo=request.GET.get("periodo"))
 
@@ -184,15 +202,15 @@ def HorarioView(request):
     #     pass
 
     # queryset = PeriodoProfesorModulo.objects.all()
-    queryset_periodo = Periodo.objects.all().order_by('-id')
-    context = {
+#     queryset_periodo = Periodo.objects.all().order_by('-id')
+#     context = {
 
-        "titulo":titulo,
-        "dia_semana":dia_semana,
-        "queryset" : queryset,
-        "queryset_periodo": queryset_periodo,
+#         "titulo":titulo,
+#         "dia_semana":dia_semana,
+#         "queryset" : queryset,
+#         "queryset_periodo": queryset_periodo,
 
-    }
+#     }
 
 
-    return render(request, "horario/base_horario.html", context)
+#     return render(request, "horario/base_horario.html", context)
