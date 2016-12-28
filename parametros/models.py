@@ -16,6 +16,13 @@ class Plan(models.Model):
     def __str__(self):
         return "%s de %s" %(self.nombre, self.carrera.nombre)
 
+
+class Semestre(models.Model):
+    nombre = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.nombre
+
 class Modulo(models.Model):
     nombre = models.CharField(u'Modulo', max_length=100)
     plan = models.ForeignKey(Plan)
