@@ -87,14 +87,17 @@ $(document).on("click", ".accion", function(event){
 
   dic = JSON.stringify(dic)
 
-  var parametros = {"diccionario":dic}
+  var parametros = {"diccionario":dic,
+                    "valor":val}
 
    $.ajax({
        type: "POST",
        url: "/horario/save/",
        data: parametros,
       })
-      .done();
+      .done(function( data ){
+        console.log(data);
+      });
 
 });
 

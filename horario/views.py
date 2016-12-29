@@ -21,6 +21,8 @@ from django.views.generic.base import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
+from .valida import (valida_cantidad_horas)
+
 import simplejson as json
 # Create your views here.
 
@@ -44,6 +46,12 @@ class PeriodoProfesorModuloCreateView(ViewCreateView):
     #cleaned_data is the cleaned data from the form which is used for string formatting
         return self.success_message % dict(cleaned_data,
                                        nombre=self.object.profesor.nombre)
+
+    def form_valid(self, form):
+        form.save()
+        horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'))
+        horario.save()
+        return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
 
 class PeriodoProfesorModuloUpdateView(ViewUpdateView):
@@ -94,7 +102,7 @@ class HorarioListView(ViewListView):
 
 
 class HorarioTemplateView(TemplateView):
-
+    #edit
     template_name = "horario/base_horario.html"
 
     def get_context_data(self, **kwargs):
@@ -102,10 +110,13 @@ class HorarioTemplateView(TemplateView):
         periodo = self.request.GET.get("periodo")
         context = super(HorarioTemplateView, self).get_context_data(**kwargs)
         context["titulo"] = "Horario"
-        context["dia_semana"] = ('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes')
-        queryset = PeriodoProfesorModulo.objects.all()
+        context["dia_semana"] = ('1', '2', '3', '4', '5')
+        queryset = Horario.objects.all()
         if periodo is not None or periodo !="0":
-            context["queryset_profesor_modulo"] = queryset.filter(periodo=periodo)
+            queryset =queryset.filter(periodoprofesormodulo__periodo=periodo)
+            if not queryset:
+                queryset = PeriodoProfesorModulo.objects.all().filter(periodo=periodo)
+            context["queryset_profesor_modulo"] = queryset
         context["queryset_periodo"] = Periodo.objects.all().order_by('-id')
         return context
 
@@ -117,7 +128,7 @@ def HorarioSave(request):
         model = Horario
         dic = request.POST.get("diccionario")
         dic = json.loads(dic)
-        print (dic)
+        valor = request.POST.get("valor") #ultimo valor insertado
 
         bloque1 = dic["accion bloque1"]
         bloque2 = dic["accion bloque2"]
@@ -133,7 +144,17 @@ def HorarioSave(request):
         profesor = dic["profesor"];
         modulo = dic["modulo"]
         plan = dic["plan"]
-        dia_semana = dic["dia_semana"]
+
+        dic_dia_semana={"Lunes":1,
+                        "Martes":2,
+                        "Miercoles":3,
+                        "Jueves":4,
+                        "Viernes":5,
+                       "Sabado":6,
+                       "Domingo":7,
+                       }
+
+        dia_semana = dic_dia_semana[dic["dia_semana"]]
 
         query_ppm = PeriodoProfesorModulo.objects.all().filter(
                         profesor__nombre=profesor,
@@ -141,9 +162,15 @@ def HorarioSave(request):
                         modulo__plan__nombre = plan,
         )
 
-        query_horario = Horario.objects.all()
-        query_horario = query_horario.filter(periodoprofesormodulo=query_ppm[0],
-                            dia_semana=dia_semana)
+        query_horario = Horario.objects.all().filter(periodoprofesormodulo=query_ppm[0])
+
+        #dictionaries = [ obj.as_dict() for obj in self.get_queryset() ]
+        valida_cantidad_horas(query_horario, valor)
+
+        query_horario = query_horario.filter(dia_semana=dia_semana)
+
+
+
 
         if query_horario.exists():
             print("existe")
@@ -182,35 +209,3 @@ def HorarioSave(request):
 
         return redirect("/horario/add/")
 
-
-# def HorarioView(request):
-
-#     titulo = "Horario"
-#     dia_semana = ('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes')
-
-#     print (request.GET.get("periodo"))
-#     queryset = PeriodoProfesorModulo.objects.all()
-    # if request.GET.get("periodo") is not None:
-    #     queryset = queryset.filter(periodo=request.GET.get("periodo"))
-
-
-    # try:
-    #     if not request.POST["periodo"]:
-    #         queryset = PeriodoProfesorModulo.objects.all()
-    # except:
-        #queryset = PeriodoProfesorModulo.objects.all().filter(periodo=request.POST["periodo"])
-    #     pass
-
-    # queryset = PeriodoProfesorModulo.objects.all()
-#     queryset_periodo = Periodo.objects.all().order_by('-id')
-#     context = {
-
-#         "titulo":titulo,
-#         "dia_semana":dia_semana,
-#         "queryset" : queryset,
-#         "queryset_periodo": queryset_periodo,
-
-#     }
-
-
-#     return render(request, "horario/base_horario.html", context)

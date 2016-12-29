@@ -55,22 +55,37 @@
         				</tr>
         			</thead>
 					<tbody>
+
 					{% for obj in queryset_profesor_modulo %}
+
 						<tr>
-						    <td class="profesor">{{ obj.profesor.nombre }}</td>
-							<td class="modulo">{{ obj.modulo.nombre }}</td>
-						    <td class="plan">{{ obj.modulo.plan.nombre }}</td>
-						    <td class="accion bloque1"></td>
-						    <td class="accion bloque2"></td>
-						    <td class="accion bloque3"></td>
-						    <td class="accion bloque4"></td>
-						    <td class="accion bloque5"></td>
-						    <td class="accion bloque6"></td>
-						    <td class="accion bloque7"></td>
-						    <td class="accion bloque8"></td>
-						    <td class="accion bloque9"></td>
-						    <td class="accion bloque10"></td>
+						    <td class="profesor">{{ obj.periodoprofesormodulo.profesor.nombre }}</td>
+							<td class="modulo">{{ obj.periodoprofesormodulo.modulo.nombre }}</td>
+						    <td class="plan">{{ obj.periodoprofesormodulo.modulo.plan.nombre }}</td>
+						    {% if i == obj.dia_semana %}
+						        <td class="accion bloque1">{{ obj.bloque1 }}</td>
+						        <td class="accion bloque2">{{ obj.bloque2 }}</td>
+						        <td class="accion bloque3">{{ obj.bloque3 }}</td>
+						        <td class="accion bloque4">{{ obj.bloque4 }}</td>
+						        <td class="accion bloque5">{{ obj.bloque5 }}</td>
+						        <td class="accion bloque6">{{ obj.bloque6 }}</td>
+						        <td class="accion bloque7">{{ obj.bloque7 }}</td>
+						        <td class="accion bloque8">{{ obj.bloque8 }}</td>
+						        <td class="accion bloque9">{{ obj.bloque9 }}</td>
+						        <td class="accion bloque10">{{ obj.bloque10 }}</td>
 						</tr>
+					        {% else %}
+					            <td class="accion bloque1"></td>
+						        <td class="accion bloque2"></td>
+						        <td class="accion bloque3"></td>
+						        <td class="accion bloque4"></td>
+						        <td class="accion bloque5"></td>
+						        <td class="accion bloque6"></td>
+						        <td class="accion bloque7"></td>
+						        <td class="accion bloque8"></td>
+						        <td class="accion bloque9"></td>
+						        <td class="accion bloque10"></td>
+					        {% endif %}
 					{% endfor %}
 					</tbody>
                 </table>
