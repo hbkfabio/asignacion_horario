@@ -65,6 +65,7 @@ $(document).on("click", ".save-addother", function(event){
 
 $(document).on("click", ".accion", function(event){
 
+  var cell = $(this);
   var val = $(this).text();
   var row = $(this).closest("tr").children('td');
   var dia_semana = $(this).closest('table').attr('id');
@@ -80,12 +81,14 @@ $(document).on("click", ".accion", function(event){
     $(this).text("");
   }
 
+  val = $(this).text();
+
   dic["dia_semana"] = dia_semana;
   row.each(function(){
     dic[$(this).attr("class")] = $(this).text();
   })
 
-  dic = JSON.stringify(dic)
+  dic = JSON.stringify(dic);
 
   var parametros = {"diccionario":dic,
                     "valor":val}
@@ -94,9 +97,14 @@ $(document).on("click", ".accion", function(event){
        type: "POST",
        url: "/horario/save/",
        data: parametros,
+       async: false,
       })
       .done(function( data ){
-        console.log(data);
+        console.log(data + "Hola");
+        if (data.slice(0, 100) != ""){
+          alert(data.slice(0, 300));
+          cell.text("");
+        }
       });
 
 });

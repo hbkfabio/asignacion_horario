@@ -166,45 +166,47 @@ def HorarioSave(request):
 
         query_horario = Horario.objects.all().filter(periodoprofesormodulo=query_ppm[0])
 
+        validar, msj = valida_cantidad_horas(query_horario, valor)
+        print("MSJ: ", msj)
+        if validar:
+            query_horario = query_horario.filter(dia_semana=dia_semana)
 
-        valida_cantidad_horas(query_horario, valor)
-
-        query_horario = query_horario.filter(dia_semana=dia_semana)
-
-        if query_horario.exists():
-            print("existe")
-            query_horario=query_horario.get()
-            query_horario.bloque1=bloque1
-            query_horario.bloque2=bloque2
-            query_horario.bloque3=bloque3
-            query_horario.bloque4=bloque4
-            query_horario.bloque5=bloque5
-            query_horario.bloque6=bloque6
-            query_horario.bloque7=bloque7
-            query_horario.bloque8=bloque8
-            query_horario.bloque9=bloque9
-            query_horario.bloque10=bloque10
-            # query_horario.dia_semana=dia_semana
+            if query_horario.exists():
+                print("existe")
+                query_horario=query_horario.get()
+                query_horario.bloque1=bloque1
+                query_horario.bloque2=bloque2
+                query_horario.bloque3=bloque3
+                query_horario.bloque4=bloque4
+                query_horario.bloque5=bloque5
+                query_horario.bloque6=bloque6
+                query_horario.bloque7=bloque7
+                query_horario.bloque8=bloque8
+                query_horario.bloque9=bloque9
+                query_horario.bloque10=bloque10
+                # query_horario.dia_semana=dia_semana
+            else:
+                print("no existe")
+                query_horario=Horario(
+                    periodoprofesormodulo=query_ppm[0],
+                    bloque1=bloque1,
+                    bloque2=bloque2,
+                    bloque3=bloque3,
+                    bloque4=bloque4,
+                    bloque5=bloque5,
+                    bloque6=bloque6,
+                    bloque7=bloque7,
+                    bloque8=bloque8,
+                    bloque9=bloque9,
+                    bloque10=bloque10,
+                    dia_semana = dia_semana,
+                )
+            query_horario.save()
+            return HttpResponse(msj)
         else:
-            print("no existe")
-            query_horario=Horario(
-                periodoprofesormodulo=query_ppm[0],
-                bloque1=bloque1,
-                bloque2=bloque2,
-                bloque3=bloque3,
-                bloque4=bloque4,
-                bloque5=bloque5,
-                bloque6=bloque6,
-                bloque7=bloque7,
-                bloque8=bloque8,
-                bloque9=bloque9,
-                bloque10=bloque10,
-                dia_semana = dia_semana,
-            )
-        query_horario.save()
+            return HttpResponse(msj)
+            #return redirect("/horario/add/")
 
-        return HttpResponse("Save")
     else:
-
         return redirect("/horario/add/")
 
