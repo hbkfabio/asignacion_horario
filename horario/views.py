@@ -34,14 +34,16 @@ dic_dia_semana={"1": "Lunes",
                 "5":"Viernes",
                 }
 
-class PeriodoProfesorModuloListView(ViewListView):
+from parametros.views import StaffRequiredMixin
+
+class PeriodoProfesorModuloListView(StaffRequiredMixin, ViewListView):
     model = PeriodoProfesorModulo
     template_name = "horario/base_horario.html"
     titulo = "Asignación Profesor Módulo"
     extra_context = {}
 
 
-class PeriodoProfesorModuloCreateView(ViewCreateView):
+class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = PeriodoProfesorModuloForm
     template_name = "horario/form.html"
     titulo = "Agrega Asignacion de periodo-profesor-modulo"
@@ -63,7 +65,7 @@ class PeriodoProfesorModuloCreateView(ViewCreateView):
         return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
 
-class PeriodoProfesorModuloUpdateView(ViewUpdateView):
+class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = PeriodoProfesorModulo
     form_class = PeriodoProfesorModuloForm
     template_name = "horario/form.html"
@@ -78,7 +80,7 @@ class PeriodoProfesorModuloUpdateView(ViewUpdateView):
 
 
 
-class PeriodoProfesorModuloDeleteView(ViewDeleteView):
+class PeriodoProfesorModuloDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = PeriodoProfesorModulo
     template_name = "parametros/elimina.html"
     success_message = 'El Profesor %(nombre)s ha sido Eliminado'
@@ -94,7 +96,7 @@ class PeriodoProfesorModuloDeleteView(ViewDeleteView):
 #@csrf_exempt
 
 
-class HorarioListView(ViewListView):
+class HorarioListView(StaffRequiredMixin, ViewListView):
     #queryset = Periodo.objects.all().order_by("-id")
 
     template_name = "horario/base_horario.html"
@@ -110,7 +112,7 @@ class HorarioListView(ViewListView):
         return Periodo.objects.all().order_by("-id")
 
 
-class HorarioTemplateView(TemplateView):
+class HorarioTemplateView(StaffRequiredMixin, TemplateView):
     #edit
     template_name = "horario/base_horario.html"
 
