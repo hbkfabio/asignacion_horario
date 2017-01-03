@@ -177,6 +177,9 @@ $(document).on("click", ".accion", function(event){
   // change_to_select_item(cell);
 
   var val = $(this).text();
+  if (val == "X"){
+    return false
+  }
   var row = $(this).closest("tr").children('td');
   var dia_semana = $(this).closest('table').attr('id');
   var dic = {};

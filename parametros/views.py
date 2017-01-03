@@ -63,7 +63,7 @@ class ViewCreateView(SuccessMessageMixin, CreateView):
 
 
     def get_context_data(self, **kwargs):
-        context = super(ViewCreateView, self).get_context_data(*kwargs)
+        context = super(ViewCreateView, self).get_context_data(**kwargs)
         context['titulo'] = self.titulo
         return context
 
@@ -84,7 +84,7 @@ class ViewUpdateView(SuccessMessageMixin, UpdateView):
 
 
     def get_context_data(self, **kwargs):
-        context = super(ViewUpdateView, self).get_context_data(*kwargs)
+        context = super(ViewUpdateView, self).get_context_data(**kwargs)
         context['titulo'] = self.titulo
         return context
 

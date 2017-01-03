@@ -66,10 +66,58 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
         #     horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
         #                       dia_semana=dic_dia_semana[i])
         #     horario.save()
+
+        bloque_protegido = ReservaBloqueProtegido.objects.all()
+        bloque1=""
+        bloque2=""
+        bloque3=""
+        bloque4=""
+        bloque5=""
+        bloque6=""
+        bloque7=""
+        bloque8=""
+        bloque9=""
+        bloque10=""
+        for i in bloque_protegido:
+            if i.bloque1 == True:
+                bloque1 = "X"
+            if i.bloque2 == True:
+                bloque2 = "X"
+            if i.bloque3 == True:
+                bloque3 = "X"
+            if i.bloque4 == True:
+                bloque4 = "X"
+            if i.bloque5 == True:
+                bloque5 = "X"
+            if i.bloque6 == True:
+                bloque6 = "X"
+            if i.bloque7 == True:
+                bloque7 = "X"
+            if i.bloque8 == True:
+                bloque8 = "X"
+            if i.bloque9 == True:
+                bloque9 = "X"
+            if i.bloque10 == True:
+                bloque10 = "X"
+
         dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
         for i in dia_semana:
+
+
+
             horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
-                               dia_semana=i)
+                               dia_semana=i,
+                               bloque1=bloque1,
+                               bloque2=bloque2,
+                               bloque3=bloque3,
+                               bloque4=bloque4,
+                               bloque5=bloque5,
+                               bloque6=bloque6,
+                               bloque7=bloque7,
+                               bloque8=bloque8,
+                               bloque9=bloque9,
+                               bloque10=bloque10,
+                               )
             horario.save()
         return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
@@ -103,7 +151,14 @@ class PeriodoProfesorModuloDeleteView(StaffRequiredMixin, ViewDeleteView):
 
 
 
-class ReservaModuloProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
+class ReservaBloqueProtegidoListView(StaffRequiredMixin, ViewListView):
+    model = ReservaBloqueProtegido
+    template_name = "horario/base_horario.html"
+    titulo = "Reserva Bloques protegidos Módulo"
+    extra_context = {}
+
+
+class ReservaBloqueProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = ReservaBloqueProtegidoForm
     template_name = "horario/form.html"
     titulo = "Agrega Reserva de Bloque Protegido"
@@ -121,7 +176,7 @@ class ReservaBloqueProtegidoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = ReservaBloqueProtegido
     form_class = ReservaBloqueProtegido
     template_name = "horario/form.html"
-    success_message = "Se han reservado los bloques"
+    success_message = "Se han Actualizado los bloques"
     success_url = "/reservabloqueprotegido/"
 
 
@@ -221,20 +276,29 @@ def HorarioSave(request):
         query_horario_ppm = query_horario.filter(periodoprofesormodulo=query_ppm[0])
 
         validar, msj = valida_cantidad_horas(query_horario_ppm, valor)
-        validar1, msj1 = valida_choque_horario(dia_semana, titulo_bloque,
+
+        if validar is False:
+            return HttpResponse(msj)
+
+        validar1, msj = valida_choque_horario(dia_semana, titulo_bloque,
                                             query_ppm[0].periodo,
                                             query_ppm[0].modulo.semestre,
                                             )
+        if validar1 is False:
+            return HttpResponse(msj)
+
+
 
 
 
         print("valor:", valor)
-        if validar and valida1:
-            if valida:
-                if valida1:
-                    msj = msj1
+        print (msj)
+        if validar and validar1:
+            # if valida:
+            #     if validar1:
+            #         msj = msj1
             query_horario = query_horario_ppm.filter(dia_semana=dia_semana)
-
+            print("paso")
             if query_horario.exists():
                 print("existe")
                 query_horario=query_horario.get()
@@ -268,6 +332,7 @@ def HorarioSave(request):
             query_horario.save()
             return HttpResponse(msj)
         else:
+
             return HttpResponse(msj)
             #return redirect("/horario/add/")
 
