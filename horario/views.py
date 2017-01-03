@@ -8,6 +8,7 @@ from parametros.views import (ViewListView,
 
 from .models import (PeriodoProfesorModulo,
                      Horario,
+                     ReservaBloqueProtegido,
                      )
 
 from parametros.models import (Periodo,
@@ -106,28 +107,40 @@ class ReservaModuloProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = ReservaBloqueProtegidoForm
     template_name = "horario/form.html"
     titulo = "Agrega Reserva de Bloque Protegido"
-    success_message = "La Asignacion %(nombre)s ha sido creado"
+    success_message = "Se han reservado los bloques"
     success_url = "/reservabloqueprotegido/"
 
 
     def get_success_message(self, cleaned_data):
     #cleaned_data is the cleaned data from the form which is used for string formatting
-        return self.success_message % dict(cleaned_data,
-                                       nombre=self.object.profesor.nombre)
+        return self.success_message
 
-    # def form_valid(self, form):
-    #     form.save()
-        # for i in sorted(dic_dia_semana, key=dic_dia_semana.get, reverse=False):
-        #     horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
-        #                       dia_semana=dic_dia_semana[i])
-        #     horario.save()
-    #     dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
-    #     for i in dia_semana:
-    #         horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
-    #                            dia_semana=i)
-    #         horario.save()
-    #     return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
+
+class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
+    model = ReservaBloqueProtegido
+    form_class = ReservaBloqueProtegido
+    template_name = "horario/form.html"
+    success_message = "Se han reservado los bloques"
+    success_url = "/reservabloqueprotegido/"
+
+
+    def get_success_message(self, cleaned_data):
+    #cleaned_data is the cleaned data from the form which is used for string formatting
+        return self.success_message
+
+
+class PeriodoProfesorModuloDeleteView(StaffRequiredMixin, ViewDeleteView):
+    model = ReservaBloqueProtegido
+    template_name = "parametros/elimina.html"
+    success_message = 'Se han eliminado los bloques protegidos'
+    success_url = "/reservabloqueprotegido/"
+
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message %dict(nombre=obj,))
+        return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
 
