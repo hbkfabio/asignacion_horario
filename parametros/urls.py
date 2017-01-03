@@ -36,6 +36,8 @@ from .views import (
     SemestreCreateView,
     SemestreUpdateView,
     SemestreDeleteView,
+    LogoutView,
+    LoginView,
     )
 
 urlpatterns = [
@@ -84,4 +86,8 @@ urlpatterns = [
     url(r'^semestre/add/$', SemestreCreateView.as_view(), name='semestre-add'),
     url(r'^semestre/edit/(?P<pk>\d+)/$', SemestreUpdateView.as_view(), name='semestre-edit'),
     url(r'^semestre/(?P<pk>\d+)/delete/$', SemestreDeleteView.as_view(), name='semestre-delete'),
+
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
+
 ] 
