@@ -26,4 +26,16 @@ class Horario(models.Model):
     dia_semana = models.CharField(max_length=20, default="")
 
 
-    
+
+class ReservaBloqueProtegido(models.Model):
+    bloque1 = models.BooleanField()
+    bloque2 = models.BooleanField()
+    bloque3 = models.BooleanField()
+    bloque4 = models.BooleanField()
+    bloque5 = models.BooleanField()
+    bloque6 = models.BooleanField()
+    bloque7 = models.BooleanField()
+    bloque8 = models.BooleanField()
+    bloque9 = models.BooleanField()
+    bloque10 = models.BooleanField()
+    dia_semana = models.CharField(max_length=20, default="")

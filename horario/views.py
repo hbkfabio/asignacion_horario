@@ -14,6 +14,7 @@ from parametros.models import (Periodo,
                                )
 
 from .forms import (PeriodoProfesorModuloForm,
+                    ReservaBloqueProtegidoForm,
                     )
 
 from django.views.generic.base import TemplateView
@@ -21,7 +22,9 @@ from django.views.generic.base import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
-from .valida import (valida_cantidad_horas)
+from .valida import (valida_cantidad_horas,
+                     valida_choque_horario,
+                     )
 
 import simplejson as json
 import collections
@@ -58,9 +61,14 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
 
     def form_valid(self, form):
         form.save()
-        for i in sorted(dic_dia_semana, key=dic_dia_semana.get, reverse=False):
+        # for i in sorted(dic_dia_semana, key=dic_dia_semana.get, reverse=False):
+        #     horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
+        #                       dia_semana=dic_dia_semana[i])
+        #     horario.save()
+        dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
+        for i in dia_semana:
             horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
-                              dia_semana=dic_dia_semana[i])
+                               dia_semana=i)
             horario.save()
         return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
@@ -93,7 +101,34 @@ class PeriodoProfesorModuloDeleteView(StaffRequiredMixin, ViewDeleteView):
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
-#@csrf_exempt
+
+class ReservaModuloProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
+    form_class = ReservaBloqueProtegidoForm
+    template_name = "horario/form.html"
+    titulo = "Agrega Reserva de Bloque Protegido"
+    success_message = "La Asignacion %(nombre)s ha sido creado"
+    success_url = "/reservabloqueprotegido/"
+
+
+    def get_success_message(self, cleaned_data):
+    #cleaned_data is the cleaned data from the form which is used for string formatting
+        return self.success_message % dict(cleaned_data,
+                                       nombre=self.object.profesor.nombre)
+
+    # def form_valid(self, form):
+    #     form.save()
+        # for i in sorted(dic_dia_semana, key=dic_dia_semana.get, reverse=False):
+        #     horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
+        #                       dia_semana=dic_dia_semana[i])
+        #     horario.save()
+    #     dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
+    #     for i in dia_semana:
+    #         horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
+    #                            dia_semana=i)
+    #         horario.save()
+    #     return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
+
+
 
 
 class HorarioListView(StaffRequiredMixin, ViewListView):
@@ -160,6 +195,7 @@ def HorarioSave(request):
         plan = dic["plan"]
         semestre = dic["semestre"]
         dia_semana = dic["dia_semana"]
+        titulo_bloque = dic["titulo_bloque"]
 
         query_ppm = PeriodoProfesorModulo.objects.all().filter(
                         profesor__nombre=profesor,
@@ -167,12 +203,24 @@ def HorarioSave(request):
                         modulo__plan__nombre = plan,
         )
 
-        query_horario = Horario.objects.all().filter(periodoprofesormodulo=query_ppm[0])
+        print("QUERY PPM", query_ppm[0].modulo.semestre)
+        query_horario = Horario.objects.all()
+        query_horario_ppm = query_horario.filter(periodoprofesormodulo=query_ppm[0])
 
-        validar, msj = valida_cantidad_horas(query_horario, valor)
+        validar, msj = valida_cantidad_horas(query_horario_ppm, valor)
+        validar1, msj1 = valida_choque_horario(dia_semana, titulo_bloque,
+                                            query_ppm[0].periodo,
+                                            query_ppm[0].modulo.semestre,
+                                            )
+
+
+
         print("valor:", valor)
-        if validar:
-            query_horario = query_horario.filter(dia_semana=dia_semana)
+        if validar and valida1:
+            if valida:
+                if valida1:
+                    msj = msj1
+            query_horario = query_horario_ppm.filter(dia_semana=dia_semana)
 
             if query_horario.exists():
                 print("existe")

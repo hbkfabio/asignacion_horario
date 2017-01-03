@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 
     var pathname = window.location.href.split("=")[1];
-    console.log(pathname);
+    // console.log(pathname);
     $("#periodo").val(pathname);
 
 });
@@ -82,41 +82,107 @@ $(document).on("click", ".save-addother", function(event){
 
 
 
-function change_to_select_item(item){
+// function change_to_select_item(item){
 
-  html ='<select class="custom-select accion1">';
-  html += '<option selected> </option>';
-  html += '<option value="C">C</option>';
-  html += '<option value="A">A</option>';
-  html += '<option value="L">L</option>';
-  html += '<option value="S">S</option>';
-  html += '</select>';
-  cell = item;
+//   html ='<select class="custom-select accion1">';
+//   html += '<option value=""> </option>';
+//   html += '<option value="C" selected>C</option>';
+//   html += '<option value="A">A</option>';
+//   html += '<option value="L">L</option>';
+//   html += '<option value="S">S</option>';
+//   html += '</select>';
+//   cell = item;
   // item.attr('class', 'Nuevo');
 
   // item.remove();
-  cell.html(html);
+//   cell.html(html);
 
 
-}
+// }
 
 
+// function popover_horario(cell){
 
-$(document).on("change", ".editables", function(event){
+
+//     a = $("#myModal").modal();
+
+//     a.on('hide.bs.modal', function(){
+//       c = $(".tipo-clase").val();
+//       console.log(c);
+// 		  cell.text(c);
+// 		  console.log(cell);
+// 		  a.remove();
+// 		  save_horario(cell);
+
+// 	});
+// };
 
 
-})
+// function save_horario(cell){
+
+//   var val = cell.text();
+//   var row = cell.closest("tr").children('td');
+//   var dia_semana = cell.closest('table').attr('id');
+//   var dic = {};
+
+//   dic["dia_semana"] = dia_semana;
+//   row.each(function(){
+//     dic[$(this).attr("class")] = $(this).text().trim();
+//   })
+
+//   dic = JSON.stringify(dic);
+
+//   console.log(dic);
+
+//   var parametros = {"diccionario":dic,
+//                     "valor":val}
+
+
+//      $.ajax({
+//          type: "POST",
+//          url: "/horario/save/",
+//          data: parametros,
+//          async: false,
+//         })
+//         .done(function( data ){
+//           console.log(data);
+//           if (data.slice(0, 100).length > 1){
+//             alert(data.slice(0, 300));
+//               cell.css("background-color", "red");
+//               var myBackup = $('#myModal').clone();
+//               var myClone = myBackup.clone();
+//               $('body').append(myClone);
+//               popover_horario(cell);
+//           }else{
+//             cell.css("background-color", "");
+//           }
+//         });
+
+// }
+
+
 
 $(document).on("click", ".accion", function(event){
 
-  event.preventDefault();
 
+  // popover_horario();
 
+  // var myBackup = $('#myModal').clone();
   var cell = $(this);
+  // popover_horario(cell);
+
+  // var myClone = myBackup.clone();
+  // $('body').append(myClone);
+
+  // change_to_select_item(cell);
+
   var val = $(this).text();
   var row = $(this).closest("tr").children('td');
   var dia_semana = $(this).closest('table').attr('id');
   var dic = {};
+
+
+  var titulo_bloque = cell.closest('table').find('th').eq(cell.index());
 
   if (val == ""){
     $(this).text("C");
@@ -131,18 +197,19 @@ $(document).on("click", ".accion", function(event){
   }
 
   val = $(this).text();
-
   dic["dia_semana"] = dia_semana;
+  dic["titulo_bloque"] = titulo_bloque.text();
   row.each(function(){
     dic[$(this).attr("class")] = $(this).text().trim();
   })
 
   dic = JSON.stringify(dic);
 
-  console.log(dic);
+  // console.log(dic);
 
   var parametros = {"diccionario":dic,
-                    "valor":val}
+                    "valor":val,
+                    }
 
      $.ajax({
          type: "POST",

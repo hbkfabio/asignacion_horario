@@ -35,3 +35,9 @@ def exceso_horas(query, valor):
             valor
             )
     return msj
+
+
+def choque_horario():
+
+    msj= "Existe un choque de horario para el bloque seleccionado"
+    return msj
