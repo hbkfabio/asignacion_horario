@@ -156,6 +156,7 @@ def HorarioSave(request):
         profesor = dic["profesor"];
         modulo = dic["modulo"]
         plan = dic["plan"]
+        semestre = dic["semestre"]
         dia_semana = dic["dia_semana"]
 
         query_ppm = PeriodoProfesorModulo.objects.all().filter(
@@ -167,7 +168,7 @@ def HorarioSave(request):
         query_horario = Horario.objects.all().filter(periodoprofesormodulo=query_ppm[0])
 
         validar, msj = valida_cantidad_horas(query_horario, valor)
-        print("MSJ: ", msj)
+        print("valor:", valor)
         if validar:
             query_horario = query_horario.filter(dia_semana=dia_semana)
 

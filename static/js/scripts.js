@@ -7,12 +7,30 @@ $(document).ready(function() {
 
     });
 
+    //make status editable
+    // $(".accion").editable({
+    //     type: 'select',
+    //     title: 'Select status',
+    //     placement: 'bottom',
+    //     emptytext: '',
+
+
+    //     source: [
+    //         {value: "C", text: 'C'},
+    //         {value: "A", text: 'A'},
+    //         {value: "L", text: 'L'},
+    //         {value: "S", text: 'S'},
+    //     ]
+    //  });
+
+
 
     var pathname = window.location.href.split("=")[1];
     console.log(pathname);
     $("#periodo").val(pathname);
 
 });
+
 
 
 $(document).on("click", ".edit", function(event){
@@ -63,7 +81,36 @@ $(document).on("click", ".save-addother", function(event){
 });
 
 
+
+function change_to_select_item(item){
+
+  html ='<select class="custom-select accion1">';
+  html += '<option selected> </option>';
+  html += '<option value="C">C</option>';
+  html += '<option value="A">A</option>';
+  html += '<option value="L">L</option>';
+  html += '<option value="S">S</option>';
+  html += '</select>';
+  cell = item;
+  // item.attr('class', 'Nuevo');
+
+  // item.remove();
+  cell.html(html);
+
+
+}
+
+
+
+$(document).on("change", ".editables", function(event){
+
+
+})
+
 $(document).on("click", ".accion", function(event){
+
+  event.preventDefault();
+
 
   var cell = $(this);
   var val = $(this).text();
@@ -76,6 +123,8 @@ $(document).on("click", ".accion", function(event){
   }else if(val == "C"){
     $(this).text("A");
   }else if(val == "A"){
+    $(this).text("S");
+  }else if(val == "S"){
     $(this).text("L");
   }else if( val == "L"){
     $(this).text("");
@@ -85,27 +134,31 @@ $(document).on("click", ".accion", function(event){
 
   dic["dia_semana"] = dia_semana;
   row.each(function(){
-    dic[$(this).attr("class")] = $(this).text();
+    dic[$(this).attr("class")] = $(this).text().trim();
   })
 
   dic = JSON.stringify(dic);
 
+  console.log(dic);
+
   var parametros = {"diccionario":dic,
                     "valor":val}
 
-   $.ajax({
-       type: "POST",
-       url: "/horario/save/",
-       data: parametros,
-       async: false,
-      })
-      .done(function( data ){
-        console.log(data + "Hola");
-        if (data.slice(0, 100) != ""){
-          alert(data.slice(0, 300));
-          cell.text("");
-        }
-      });
+     $.ajax({
+         type: "POST",
+         url: "/horario/save/",
+         data: parametros,
+         async: false,
+        })
+        .done(function( data ){
+          console.log(data);
+          if (data.slice(0, 100).length > 1){
+            alert(data.slice(0, 300));
+              cell.css("background-color", "red");
+          }else{
+            cell.css("background-color", "");
+          }
+        });
 
 });
 
@@ -116,20 +169,6 @@ $(document).on("change", "#periodo", function(event){
     var pathname = window.location.pathname;
     window.location.href = pathname + "?periodo="+combo;
 
-    //change_combo_periodo(combo);
-
-
-    // $.ajax({
-    //         type: "GET",
-            //url: "/horario1/add",
-    //         data: { 'periodo': combo }
-    //     })
-    //      .done(function(response) {
-    //         $("#wrapper").empty();
-    //         $('#wrapper').html(response);
-    //         $("#periodo").val(combo);
-    //     });
-
-    // event.stopPropagation();
-    // event.preventDefault();
 });
+
+

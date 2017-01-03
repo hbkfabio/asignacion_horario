@@ -41,6 +41,8 @@
 						    <th id="nombre">Nombre</th>
 		      				<th id="modulo">Modulo</th>
 						    <th id="plan">Plan</th>
+						    <th id="plan">Semestre</th>
+
 						    <th id="bloque1" width=33px>1</th>
 						    <th id="bloque2" width=33px>2</th>
 						    <th id="bloque3" width=33px>3</th>
@@ -54,13 +56,13 @@
         				</tr>
         			</thead>
 					<tbody>
-
 					{% for obj in queryset_profesor_modulo %}
                         {% if key == obj.dia_semana %}
 						<tr>
 						    <td class="profesor">{{ obj.periodoprofesormodulo.profesor.nombre }}</td>
 							<td class="modulo">{{ obj.periodoprofesormodulo.modulo.nombre }}</td>
 						    <td class="plan">{{ obj.periodoprofesormodulo.modulo.plan.nombre }}</td>
+						    <td class="semestre">{{ obj.periodoprofesormodulo.modulo.semestre.nombre }}</td>
 						        <td class="accion bloque1">{{ obj.bloque1 }}</td>
 						        <td class="accion bloque2">{{ obj.bloque2 }}</td>
 						        <td class="accion bloque3">{{ obj.bloque3 }}</td>
@@ -86,7 +88,16 @@
     <!-- /.col-lg-12 -->
 {% endfor %}
 </div>
-<!-- /.row -->
 
+<!-- <div id="myPopoverContent"> -->
+<!--     <ul class="list-group"> -->
+<!--         <li class="list-group-item accion-data">C</li> -->
+<!--         <li class="list-group-item accion-data">A</li> -->
+<!--         <li class="list-group-item accion-data">L</li> -->
+<!--         <li class="list-group-item action-data">S</li> -->
+<!--     </ul> -->
+
+<!-- </div> -->
+<!-- /.row -->
 
 {% endblock %}

@@ -11,6 +11,15 @@
 
 {% block content %}
 
+
+<div class="message-alert"
+    style="border-width:3px;background-color:#cae8ca;border-style:solid;
+    position:fixed;padding:5px;bottom:0;right:0;
+    max-width:300px;z-index:999">
+    This <div> element has position: fixed;</div>
+</div>
+
+
   {% if confirm %}
   <div class="alert alert-info alert-dismissable">
     {{ confirm }}
