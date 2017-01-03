@@ -107,14 +107,14 @@ class ViewDeleteView(SuccessMessageMixin, DeleteView):
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
-class CarreraView(ViewListView):
+class CarreraView(StaffRequiredMixin, ViewListView):
     model = Carrera
     template_name = "parametros/maestro.html"
     titulo = "Carreras"
     extra_context = {}
 
 
-class CarreraCreateView(ViewCreateView):
+class CarreraCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = CarreraForm
     template_name = "parametros/form.html"
     titulo = "Agrega Carrera"
@@ -122,7 +122,7 @@ class CarreraCreateView(ViewCreateView):
     success_url = "/carrera/"
 
 
-class CarreraUpdateView(ViewUpdateView):
+class CarreraUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Carrera
     form_class = CarreraForm
     template_name = "parametros/form.html"
@@ -130,21 +130,21 @@ class CarreraUpdateView(ViewUpdateView):
     success_url = "/carrera/"
 
 
-class CarreraDeleteView(ViewDeleteView):
+class CarreraDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Carrera
     template_name = "parametros/elimina.html"
     success_message = 'La carrera %(nombre)s ha sido Eliminada'
     success_url = "/carrera/"
 
 
-class PlanView(ViewListView):
+class PlanView(StaffRequiredMixin, ViewListView):
     model = Plan
     template_name = "parametros/maestro.html"
     titulo = "Planes"
     extra_context = {}
 
 
-class PlanCreateView(ViewCreateView):
+class PlanCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = PlanForm
     template_name = "parametros/form.html"
     titulo = "Agrega Plan"
@@ -152,7 +152,7 @@ class PlanCreateView(ViewCreateView):
     success_url = "/plan/"
 
 
-class PlanUpdateView(ViewUpdateView):
+class PlanUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Plan
     form_class = PlanForm
     template_name = "parametros/form.html"
@@ -160,21 +160,21 @@ class PlanUpdateView(ViewUpdateView):
     success_url = "/plan/"
 
 
-class PlanDeleteView(ViewDeleteView):
+class PlanDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Plan
     template_name = "parametros/elimina.html"
     success_message = 'El Plan %(nombre)s ha sido Eliminado'
     success_url = "/plan/"
 
 
-class ModuloView(ViewListView):
+class ModuloView(StaffRequiredMixin, ViewListView):
     model = Modulo
     template_name = "parametros/maestro.html"
     titulo = "Modulos"
     extra_context = {}
 
 
-class ModuloCreateView(ViewCreateView):
+class ModuloCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = ModuloForm
     template_name = "parametros/form.html"
     titulo = "Agrega Modulo"
@@ -182,7 +182,7 @@ class ModuloCreateView(ViewCreateView):
     success_url = "/modulo/"
 
 
-class ModuloUpdateView(ViewUpdateView):
+class ModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Modulo
     form_class = ModuloForm
     template_name = "parametros/form.html"
@@ -190,21 +190,21 @@ class ModuloUpdateView(ViewUpdateView):
     success_url = "/modulo/"
 
 
-class ModuloDeleteView(ViewDeleteView):
+class ModuloDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Modulo
     template_name = "parametros/elimina.html"
     success_message = 'El Modulo %(nombre)s ha sido Eliminado'
     success_url = "/modulo/"
 
 
-class DepartamentoView(ViewListView):
+class DepartamentoView(StaffRequiredMixin, ViewListView):
     model = Departamento
     template_name = "parametros/maestro.html"
     titulo = "Departamentos"
     extra_context = {}
 
 
-class DepartamentoCreateView(ViewCreateView):
+class DepartamentoCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = DepartamentoForm
     template_name = "parametros/form.html"
     titulo = "Agrega Departamento"
@@ -212,7 +212,7 @@ class DepartamentoCreateView(ViewCreateView):
     success_url = "/departamento"
 
 
-class DepartamentoUpdateView(ViewUpdateView):
+class DepartamentoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Departamento
     form_class = DepartamentoForm
     template_name = "parametros/form.html"
@@ -220,7 +220,7 @@ class DepartamentoUpdateView(ViewUpdateView):
     success_url = "/departamento"
 
 
-class DepartamentoDeleteView(ViewDeleteView):
+class DepartamentoDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Departamento
     template_name = "parametros/elimina.html"
     success_message = 'El Departamento %(nombre)s ha sido Eliminado'
@@ -233,7 +233,7 @@ class AnioView(ViewListView):
     extra_context = {}
 
 
-class AnioCreateView(ViewCreateView):
+class AnioCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = AnioForm
     template_name = "parametros/form.html"
     titulo = "Agrega Año"
@@ -241,7 +241,7 @@ class AnioCreateView(ViewCreateView):
     success_url = "/anio"
 
 
-class AnioUpdateView(ViewUpdateView):
+class AnioUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Anio
     form_class = AnioForm
     template_name = "parametros/form.html"
@@ -249,21 +249,21 @@ class AnioUpdateView(ViewUpdateView):
     success_url = "/anio"
 
 
-class AnioDeleteView(ViewDeleteView):
+class AnioDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Anio
     template_name = "parametros/elimina.html"
     success_message = 'El Año %(nombre)s ha sido Eliminado'
     success_url = "/anio"
 
 
-class PeriodoView(ViewListView):
+class PeriodoView(StaffRequiredMixin, ViewListView):
     model = Periodo
     template_name = "parametros/maestro.html"
     titulo = "Periodos"
     extra_context = {}
 
 
-class PeriodoCreateView(ViewCreateView):
+class PeriodoCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = PeriodoForm
     template_name = "parametros/form.html"
     titulo = "Agrega Periodo"
@@ -271,7 +271,7 @@ class PeriodoCreateView(ViewCreateView):
     success_url = "/periodo"
 
 
-class PeriodoUpdateView(ViewUpdateView):
+class PeriodoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Periodo
     form_class = PeriodoForm
     template_name = "parametros/form.html"
@@ -279,21 +279,21 @@ class PeriodoUpdateView(ViewUpdateView):
     success_url = "/periodo"
 
 
-class PeriodoDeleteView(ViewDeleteView):
+class PeriodoDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Periodo
     template_name = "parametros/elimina.html"
     success_message = 'El Periodo %(nombre)s ha sido Eliminado'
     success_url = "/periodo"
 
 
-class BloqueView(ViewListView):
+class BloqueView(StaffRequiredMixin, ViewListView):
     model = Bloque
     template_name = "parametros/maestro.html"
     titulo = "Bloques"
     extra_context = {}
 
 
-class BloqueCreateView(ViewCreateView):
+class BloqueCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = BloqueForm
     template_name = "parametros/form.html"
     titulo = "Agrega Bloques"
@@ -301,7 +301,7 @@ class BloqueCreateView(ViewCreateView):
     success_url = "/bloque"
 
 
-class BloqueUpdateView(ViewUpdateView):
+class BloqueUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Bloque
     form_class = BloqueForm
     template_name = "parametros/form.html"
@@ -309,14 +309,14 @@ class BloqueUpdateView(ViewUpdateView):
     success_url = "/bloque"
 
 
-class BloqueDeleteView(ViewDeleteView):
+class BloqueDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Bloque
     template_name = "parametros/elimina.html"
     success_message = 'Bloque %(nombre)s ha sido Eliminado'
     success_url = "/bloque"
 
 
-class ProfesorView(ViewListView):
+class ProfesorView(StaffRequiredMixin, ViewListView):
     model = Profesor
     template_name = "parametros/maestro.html"
     titulo = "Profesores"
@@ -328,7 +328,7 @@ class ProfesorView(ViewListView):
         return context
 
 
-class ProfesorCreateView(ViewCreateView):
+class ProfesorCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = ProfesorForm
     template_name = "parametros/form.html"
     success_message = 'Profesor %(nombre)s ha sido creado'
@@ -336,7 +336,7 @@ class ProfesorCreateView(ViewCreateView):
     success_url = '/profesor/'
 
 
-class ProfesorUpdateView(ViewUpdateView):
+class ProfesorUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Profesor
     form_class = ProfesorForm
     template_name = "parametros/form.html"
@@ -345,13 +345,13 @@ class ProfesorUpdateView(ViewUpdateView):
 
 
 
-class ProfesorDeleteView(ViewDeleteView):
+class ProfesorDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Profesor
     template_name = "parametros/elimina.html"
     success_message = 'Profesor %(nombre)s ha sido Eliminado'
     success_url = "/profesor/"
 
-class SemestreView(ViewListView):
+class SemestreView(StaffRequiredMixin, ViewListView):
     model = Semestre
     template_name = "parametros/maestro.html"
     titulo = "Semestres"
@@ -363,7 +363,7 @@ class SemestreView(ViewListView):
         return context
 
 
-class SemestreCreateView(ViewCreateView):
+class SemestreCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = SemestreForm
     template_name = "parametros/form.html"
     success_message = 'El semestre %(nombre)s ha sido creado'
@@ -371,7 +371,7 @@ class SemestreCreateView(ViewCreateView):
     success_url = '/semestre/'
 
 
-class SemestreUpdateView(ViewUpdateView):
+class SemestreUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Semestre
     form_class = SemestreForm
     template_name = "parametros/form.html"
@@ -380,7 +380,7 @@ class SemestreUpdateView(ViewUpdateView):
 
 
 
-class SemestreDeleteView(ViewDeleteView):
+class SemestreDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Semestre
     template_name = "parametros/elimina.html"
     success_message = 'El semestre %(nombre)s ha sido Eliminado'
