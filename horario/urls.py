@@ -8,6 +8,8 @@ from .views import (PeriodoProfesorModuloListView,
                     HorarioSave,
                     HorarioListView,
                     ReservaModuloProtegidoCreateView,
+                    ReservaBloqueProtegidoUpdateView,
+                    ReservaBloqueProtegidoDeleteView,
                     )
 
 urlpatterns = [
@@ -18,6 +20,8 @@ urlpatterns = [
     url(r'^periodoprofesormodulo/(?P<pk>\d+)/delete/$', PeriodoProfesorModuloDeleteView.as_view(), name='periodoprofesormodulo-delete'),
     #Reserva Bloque Protegido
     url(r'^reservabloqueprotegido/add/$', ReservaModuloProtegidoCreateView.as_view(), name='reservabloqueprotegido-add'),
+    url(r'^periodoprofesormodulo/edit/(?P<pk>\d+)/$', ReservaBloqueProtegidoUpdateView.as_view(), name='reservabloqueprotegido-edit'),
+    url(r'^periodoprofesormodulo/(?P<pk>\d+)/delete/$', ReservaBloqueProtegidoDeleteView.as_view(), name='reservabloqueprotegido-delete'),
     #Horario
     url(r'^horario/$', HorarioListView.as_view(), name='horario'),
     url(r'^horario/edit/$', HorarioTemplateView.as_view(), name='horario-edit'),

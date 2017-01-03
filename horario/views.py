@@ -117,7 +117,7 @@ class ReservaModuloProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
 
 
 
-class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
+class ReservaBloqueProtegidoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = ReservaBloqueProtegido
     form_class = ReservaBloqueProtegido
     template_name = "horario/form.html"
@@ -130,7 +130,7 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
         return self.success_message
 
 
-class PeriodoProfesorModuloDeleteView(StaffRequiredMixin, ViewDeleteView):
+class ReservaBloqueProtegidoDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = ReservaBloqueProtegido
     template_name = "parametros/elimina.html"
     success_message = 'Se han eliminado los bloques protegidos'
