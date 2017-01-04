@@ -271,7 +271,7 @@ def HorarioSave(request):
                         modulo__plan__nombre = plan,
         )
 
-        print("QUERY PPM", query_ppm[0].modulo.semestre)
+
         query_horario = Horario.objects.all()
         query_horario_ppm = query_horario.filter(periodoprofesormodulo=query_ppm[0])
 
@@ -283,22 +283,16 @@ def HorarioSave(request):
         validar1, msj = valida_choque_horario(dia_semana, titulo_bloque,
                                             query_ppm[0].periodo,
                                             query_ppm[0].modulo.semestre,
+                                            valor,
                                             )
         if validar1 is False:
             return HttpResponse(msj)
 
-
-
-
-
-        print("valor:", valor)
-        print (msj)
         if validar and validar1:
             # if valida:
             #     if validar1:
             #         msj = msj1
             query_horario = query_horario_ppm.filter(dia_semana=dia_semana)
-            print("paso")
             if query_horario.exists():
                 print("existe")
                 query_horario=query_horario.get()

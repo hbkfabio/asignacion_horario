@@ -232,8 +232,12 @@ $(document).on("click", ".accion", function(event){
         .done(function( data ){
           console.log(data);
           if (data.slice(0, 100).length > 1){
+            if (data.length ==55){
+              cell.text("");
+            }
+            cell.css("background-color", "red");
             alert(data.slice(0, 300));
-              cell.css("background-color", "red");
+            cell.css("background-color", "");
           }else{
             cell.css("background-color", "");
           }
