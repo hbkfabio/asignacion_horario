@@ -33,6 +33,7 @@ class Modulo(models.Model):
     horas_laboratorio = models.IntegerField(u'horas de laboratorio', default=0)
     horas_taller = models.IntegerField(u'Horas de Taller', default=0)
     horas_ayudantia = models.IntegerField(u'Horas de Ayudantía', default=0)
+
     def __str__ (self):
         return ("%s del %s")%(self.nombre, self.plan.nombre)
 

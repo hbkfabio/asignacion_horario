@@ -48,6 +48,15 @@ $(document).on("click", ".edit-listado-horario", function(event){
 });
 
 
+$(document).on("click", ".confirm-delete", function(event){
+
+  var pathname = window.location.pathname.split("/")[1];
+  window.location.href = "/"+pathname+"/";
+
+});
+
+
+
 $(document).on("click", ".delete", function(event){
 
     var pathname = window.location.pathname;
