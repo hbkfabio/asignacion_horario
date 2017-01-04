@@ -205,6 +205,8 @@ $(document).on("click", ".accion", function(event){
   }else if(val == "S"){
     $(this).text("L");
   }else if( val == "L"){
+    $(this).text("T");
+  }else if(val=="T"){
     $(this).text("");
   }
 
