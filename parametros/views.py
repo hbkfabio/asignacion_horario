@@ -221,7 +221,7 @@ class DepartamentoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Departamento
     form_class = DepartamentoForm
     template_name = "parametros/form.html"
-    success_message = "El Departamento %(name)s ha sido actualizado"
+    success_message = "El Departamento %(nombre)s ha sido actualizado"
     success_url = "/departamento"
 
 
