@@ -144,10 +144,10 @@ class PeriodoProfesorModuloDeleteView(StaffRequiredMixin, ViewDeleteView):
     success_url = "/periodoprofesormodulo/"
 
 
-    def delete(self, request, *args, **kwargs):
-        obj = self.get_object()
-        messages.success(self.request, self.success_message %dict(nombre=obj,))
-        return super(ViewDeleteView, self).delete(request, *args, **kwargs)
+    # def delete(self, request, *args, **kwargs):
+    #     object = self.get_object()
+    #     messages.success(self.request, self.success_message %dict(nombre=object,))
+    #     return super(PeriodoProfesorModuloDeleteView, self).delete(request, *args, **kwargs)
 
 
 
