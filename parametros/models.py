@@ -13,6 +13,10 @@ class Plan(models.Model):
     nombre = models.CharField(max_length=10)
     carrera = models.ForeignKey(Carrera, null=True)
 
+    class Meta:
+        ordering = ["-id"]
+
+
     def __str__(self):
         return "%s" %(self.nombre)
 
