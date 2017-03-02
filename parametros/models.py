@@ -91,6 +91,10 @@ class Bloque(models.Model):
 
 class Actividad(models.Model):
     nombre = models.CharField(max_length=50)
+    identificador = models.CharField(max_length=1,
+                    help_text="<sup>Escriba una letra para identifique la actividad</sup>",
+                    default = "",
+                    )
 
     def __str__(self):
         return self.nombre

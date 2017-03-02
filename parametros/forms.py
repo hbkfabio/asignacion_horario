@@ -10,6 +10,7 @@ from .models import (
     Bloque,
     Profesor,
     Semestre,
+    Actividad,
 )
 
 
@@ -88,3 +89,12 @@ class SemestreForm(forms.ModelForm):
     class Meta:
         model = Semestre
         fields = ["nombre"]
+
+
+
+class ActividadForm(forms.ModelForm):
+
+    class Meta:
+        model = Actividad
+        fields = ["nombre",
+                "identificador",]

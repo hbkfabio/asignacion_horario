@@ -23,6 +23,7 @@ from .forms import (
     BloqueForm,
     ProfesorForm,
     SemestreForm,
+    ActividadForm,
 )
 
 from .models import (
@@ -35,6 +36,7 @@ from .models import (
     Bloque,
     Profesor,
     Semestre,
+    Actividad,
 )
 
 
@@ -390,6 +392,43 @@ class SemestreDeleteView(StaffRequiredMixin, ViewDeleteView):
     template_name = "parametros/elimina.html"
     success_message = 'El semestre %(nombre)s ha sido Eliminado'
     success_url = "/semestre/"
+
+
+class ActividadView(StaffRequiredMixin, ViewListView):
+    model = Actividad
+    template_name = "parametros/maestro.html"
+    titulo = "Actividades"
+    extra_context = {}
+
+    def get_context_data(self, **kwargs):
+        context = super(ActividadView, self).get_context_data(**kwargs)
+        context['titulo'] = self.titulo
+        return context
+
+
+class ActividadCreateView(StaffRequiredMixin, ViewCreateView):
+    form_class = ActividadForm
+    template_name = "parametros/form.html"
+    success_message = 'La actividad %(nombre)s ha sido creado'
+    titulo = 'Agregar Actividad'
+    success_url = '/actividad/'
+
+
+class ActividadUpdateView(StaffRequiredMixin, ViewUpdateView):
+    model = Actividad
+    form_class = ActividadForm
+    template_name = "parametros/form.html"
+    success_message = "La actividad %(nombre)s ha sido actualizado"
+    success_url = "/actividad/"
+
+
+
+class ActividadDeleteView(StaffRequiredMixin, ViewDeleteView):
+    model = Actividad
+    template_name = "parametros/elimina.html"
+    success_message = 'La actividad %(nombre)s ha sido Eliminado'
+    success_url = "/actividad/"
+
 
 
 class LogoutView(RedirectView):

@@ -36,6 +36,10 @@ from .views import (
     SemestreCreateView,
     SemestreUpdateView,
     SemestreDeleteView,
+    ActividadView,
+    ActividadCreateView,
+    ActividadUpdateView,
+    ActividadDeleteView,
     LogoutView,
     LoginView,
     )
@@ -86,7 +90,12 @@ urlpatterns = [
     url(r'^semestre/add/$', SemestreCreateView.as_view(), name='semestre-add'),
     url(r'^semestre/edit/(?P<pk>\d+)/$', SemestreUpdateView.as_view(), name='semestre-edit'),
     url(r'^semestre/(?P<pk>\d+)/delete/$', SemestreDeleteView.as_view(), name='semestre-delete'),
-
+    #actividad
+    url(r'^actividad/$', ActividadView.as_view(), name='actividad-list'),
+    url(r'^actividad/add/$', ActividadCreateView.as_view(), name='actividad-add'),
+    url(r'^actividad/edit/(?P<pk>\d+)/$', ActividadUpdateView.as_view(), name='actividad-edit'),
+    url(r'^actividad/(?P<pk>\d+)/delete/$', ActividadDeleteView.as_view(), name='actividad-delete'),
+    #logout
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^login/$', LoginView.as_view(), name='login'),
 
