@@ -28,9 +28,7 @@ $(document).ready(function() {
     var pathname = window.location.href.split("=")[1];
     // console.log(pathname);
     $("#periodo").val(pathname);
-
 });
-
 
 
 $(document).on("click", ".edit", function(event){
@@ -39,6 +37,7 @@ $(document).on("click", ".edit", function(event){
     var id = $(this).val();
     window.location.href = pathname+"edit/"+id;
 });
+
 
 $(document).on("click", ".edit-listado-horario", function(event){
 
@@ -52,9 +51,7 @@ $(document).on("click", ".confirm-delete", function(event){
 
   var pathname = window.location.pathname.split("/")[1];
   window.location.href = "/"+pathname+"/";
-
 });
-
 
 
 $(document).on("click", ".delete", function(event){
@@ -74,16 +71,16 @@ $(document).on("click", ".add", function(event){
 
 
 $(document).on("click", "button[type='reset']", function(){
+
     var pathname = window.location.pathname.split("/")[1];
     pathname="/"+pathname+"/";
     window.location.href =pathname;
-
 });
 
 
 $(document).on("click", ".save-addother", function(event){
 
-    alert("hola");
+    //alert("hola");
      var pathname = window.location.pathname;
     // var id = $(this).val();
     window.location.href = pathname+"add/";
@@ -91,108 +88,64 @@ $(document).on("click", ".save-addother", function(event){
 
 
 
-// function change_to_select_item(item){
+function change_to_select_item(item){
 
-//   html ='<select class="custom-select accion1">';
-//   html += '<option value=""> </option>';
-//   html += '<option value="C" selected>C</option>';
-//   html += '<option value="A">A</option>';
-//   html += '<option value="L">L</option>';
-//   html += '<option value="S">S</option>';
-//   html += '</select>';
-//   cell = item;
-  // item.attr('class', 'Nuevo');
-
-  // item.remove();
-//   cell.html(html);
+  html ='<select class="combo-option">';
+  html += '<option value=""> </option>';
+  html += '<option value="C">C</option>';
+  html += '<option value="A">A</option>';
+  html += '<option value="L">L</option>';
+  html += '<option value="S">S</option>';
+  html += '</select>';
+  return html;
+}
 
 
-// }
+$(document).on("change", ".combo-option", function(event){
 
+  var combo = $(this);
+  var valor = combo.val();
 
-// function popover_horario(cell){
+  console.log(combo);
 
+  td = $(this).parent();
+  td.html(valor);
+  td.attr('class', 'accion');
 
-//     a = $("#myModal").modal();
+  titulo_bloque = td.closest('table').find('th').eq(td.index());
+  console.log(titulo_bloque.text());
 
-//     a.on('hide.bs.modal', function(){
-//       c = $(".tipo-clase").val();
-//       console.log(c);
-// 		  cell.text(c);
-// 		  console.log(cell);
-// 		  a.remove();
-// 		  save_horario(cell);
-
-// 	});
-// };
-
-
-// function save_horario(cell){
-
-//   var val = cell.text();
-//   var row = cell.closest("tr").children('td');
-//   var dia_semana = cell.closest('table').attr('id');
-//   var dic = {};
-
-//   dic["dia_semana"] = dia_semana;
-//   row.each(function(){
-//     dic[$(this).attr("class")] = $(this).text().trim();
-//   })
-
-//   dic = JSON.stringify(dic);
-
-//   console.log(dic);
-
-//   var parametros = {"diccionario":dic,
-//                     "valor":val}
-
-
-//      $.ajax({
-//          type: "POST",
-//          url: "/horario/save/",
-//          data: parametros,
-//          async: false,
-//         })
-//         .done(function( data ){
-//           console.log(data);
-//           if (data.slice(0, 100).length > 1){
-//             alert(data.slice(0, 300));
-//               cell.css("background-color", "red");
-//               var myBackup = $('#myModal').clone();
-//               var myClone = myBackup.clone();
-//               $('body').append(myClone);
-//               popover_horario(cell);
-//           }else{
-//             cell.css("background-color", "");
-//           }
-//         });
-
-// }
-
+});
 
 
 $(document).on("click", ".accion", function(event){
 
+  var item = $(this);
+  var valor = item.text();
 
-  // popover_horario();
+  if (valor != "X"){
+    //creo el combo
+    combo = change_to_select_item(item);
+    item.attr('class', '');
+    item.html(combo);
+    //manipulo el combo creado en la celda de la tabla
+    combo = item.children();
+    combo.val(valor);
+  }
 
-  // var myBackup = $('#myModal').clone();
+
+  return false;
+
   var cell = $(this);
-  // popover_horario(cell);
-
-  // var myClone = myBackup.clone();
-  // $('body').append(myClone);
-
-  // change_to_select_item(cell);
 
   var val = $(this).text();
-  if (val == "X"){
-    return false
-  }
+  // if (val == "X"){
+  //   return false
+  // }
+
   var row = $(this).closest("tr").children('td');
   var dia_semana = $(this).closest('table').attr('id');
   var dic = {};
-
 
   var titulo_bloque = cell.closest('table').find('th').eq(cell.index());
 
@@ -243,6 +196,7 @@ $(document).on("click", ".accion", function(event){
           }else{
             cell.css("background-color", "");
           }
+
         });
 
 });
@@ -255,5 +209,3 @@ $(document).on("change", "#periodo", function(event){
     window.location.href = pathname + "?periodo="+combo;
 
 });
-
-
