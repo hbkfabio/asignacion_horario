@@ -94,6 +94,7 @@ class Actividad(models.Model):
     identificador = models.CharField(max_length=1,
                     help_text="<sup>Escriba una letra para identifique la actividad</sup>",
                     default = "",
+                    unique = True,
                     )
 
     def __str__(self):
