@@ -76,16 +76,25 @@ class MaestroForm(forms.ModelForm):
         fields = ["nombre", "descripcion"]
 
 
-
-
 class DepartamentoForm(MaestroForm):
 
-     MaestroForm.Meta.model = Departamento
+    MaestroForm.Meta.model = Departamento
+
+
+    def clean_nombre(self):
+        n = cleaned_nombre(self, Departamento)
+
+        return n
 
 
 class CarreraForm(MaestroForm):
 
     MaestroForm.Meta.model = Carrera
+
+    def clean_nombre(self):
+        n = cleaned_nombre(self, Carrera)
+
+        return n
 
 
 class PlanForm(forms.ModelForm):
@@ -93,6 +102,22 @@ class PlanForm(forms.ModelForm):
     class Meta:
         model = Plan
         fields = ["nombre", "carrera"]
+
+
+    def clean_carrera(self):
+        c = self.cleaned_data.get("carrera")
+        n = self.cleaned_data.get("nombre")
+        pk = self.instance.pk
+        query = Plan.objects.all().filter(carrera = c)
+        query = query.filter(nombre = n)
+        query = query.filter(~Q(id = pk))
+
+        if query.exists():
+            raise forms.ValidationError(
+                "El plan %s ya fue ingresado para la carrera %s"%(n,c)
+                )
+        return c
+
 
 
 class ModuloForm(forms.ModelForm):
