@@ -111,11 +111,33 @@ class ModuloForm(forms.ModelForm):
                  ]
 
 
+    def clean_plan(self):
+        n = self.cleaned_data.get("nombre")
+        s = self.cleaned_data.get("semestre")
+        p = self.cleaned_data.get("plan")
+        pk = self.instance.pk
+        query = Modulo.objects.all().filter(plan = p)
+        query = query.filter(semestre = s)
+        query = query.filter(nombre = n)
+        query = query.filter(~Q(id=pk))
+        if query.exists():
+            raise forms.ValidationError(
+                "%s ya se ha ingresado para el %s semestre del plan %s"%(n,s,p)
+                )
+        return p
+
+
 class AnioForm(forms.ModelForm):
 
     class Meta:
         model = Anio
         fields = ["nombre"]
+
+
+    def clean_nombre(self):
+        n = cleaned_nombre(self, modelo)
+
+        return n
 
 
 class PeriodoForm(forms.ModelForm):

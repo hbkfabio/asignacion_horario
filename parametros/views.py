@@ -133,7 +133,7 @@ class CarreraUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Carrera
     form_class = CarreraForm
     template_name = "parametros/form.html"
-    success_message = "La carrera %(name)s ha sido actualizado"
+    success_message = "La carrera %(nombre)s ha sido actualizado"
     success_url = "/carrera/"
 
 
@@ -163,7 +163,7 @@ class PlanUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Plan
     form_class = PlanForm
     template_name = "parametros/form.html"
-    success_message = "El Plan %(name)s ha sido actualizado"
+    success_message = "El Plan %(nombre)s ha sido actualizado"
     success_url = "/plan/"
 
 
@@ -193,7 +193,7 @@ class ModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Modulo
     form_class = ModuloForm
     template_name = "parametros/form.html"
-    success_message = "El Modulo %(name)s ha sido actualizado"
+    success_message = "El Modulo %(nombre)s ha sido actualizado"
     success_url = "/modulo/"
 
 
@@ -312,7 +312,7 @@ class BloqueUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Bloque
     form_class = BloqueForm
     template_name = "parametros/form.html"
-    success_message = "El Bloque %(name)s ha sido actualizado"
+    success_message = "El Bloque %(nombre)s ha sido actualizado"
     success_url = "/bloque"
 
 
