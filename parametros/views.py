@@ -58,6 +58,7 @@ class ViewListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ViewListView, self).get_context_data(**kwargs)
         context['titulo'] = self.titulo
+        context['save_addanother'] = False
         return context
 
 
@@ -72,6 +73,7 @@ class ViewCreateView(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(ViewCreateView, self).get_context_data(**kwargs)
         context['titulo'] = self.titulo
+        context['save_addanother'] = True
         return context
 
 
@@ -80,6 +82,14 @@ class ViewCreateView(SuccessMessageMixin, CreateView):
         return self.success_message % dict(cleaned_data,
                                        nombre=self.object.nombre)
 
+    def get_success_url(self):
+        p = self.request.META['PATH_INFO']
+        if '_addanother' in self.request.POST:
+            return (p)
+        else:
+            p = p.split("/")
+            p = p[0]
+            return (p)
 
 
 class ViewUpdateView(SuccessMessageMixin, UpdateView):

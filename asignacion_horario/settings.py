@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #aplicaciones de terceros
     'django_extensions',
+    # 'extra_views',
     # 'crispy_forms',
     'bootstrap3',
     #mis aplicaciones

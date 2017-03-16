@@ -7,23 +7,8 @@ $(document).ready(function() {
 
     });
 
-    //make status editable
-    // $(".accion").editable({
-    //     type: 'select',
-    //     title: 'Select status',
-    //     placement: 'bottom',
-    //     emptytext: '',
 
-
-    //     source: [
-    //         {value: "C", text: 'C'},
-    //         {value: "A", text: 'A'},
-    //         {value: "L", text: 'L'},
-    //         {value: "S", text: 'S'},
-    //     ]
-    //  });
-
-
+  $('.input-sm').focus();
 
     var pathname = window.location.href.split("=")[1];
     // console.log(pathname);
@@ -76,16 +61,6 @@ $(document).on("click", "button[type='reset']", function(){
     pathname="/"+pathname+"/";
     window.location.href =pathname;
 });
-
-
-$(document).on("click", ".save-addother", function(event){
-
-    //alert("hola");
-     var pathname = window.location.pathname;
-    // var id = $(this).val();
-    window.location.href = pathname+"add/";
-});
-
 
 
 function change_to_select_item(item){

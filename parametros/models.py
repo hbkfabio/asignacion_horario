@@ -27,6 +27,7 @@ class Semestre(models.Model):
     def __str__(self):
         return self.nombre
 
+
 class Modulo(models.Model):
     nombre = models.CharField(u'Modulo', max_length=100)
     semestre = models.ForeignKey(Semestre, default=0)

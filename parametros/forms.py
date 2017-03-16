@@ -160,8 +160,7 @@ class AnioForm(forms.ModelForm):
 
 
     def clean_nombre(self):
-        n = cleaned_nombre(self, modelo)
-
+        n = cleaned_nombre(self, Anio)
         return n
 
 

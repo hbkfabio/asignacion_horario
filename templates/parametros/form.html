@@ -7,24 +7,63 @@
 
 {% endblock %}
 
-
-
 {% block content %}
 
+
+  {% if messages %}
+
+  <div class="alert alert-info alert-dismissable">
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+
+  </div>
+  {% endif %}
+
 <fieldset>
-        <legend>{{ titulo }}</legend>
-    </fieldset>
+    <legend>{{ titulo }}</legend>
+</fieldset>
 <br>
-    <form id="form" role="form" class="form-horizontal" method="post">
-        {% csrf_token %}
 
-        {% bootstrap_form form layout="horizontal" %}
+<form id="form" role="form" class="form-horizontal" method="post">
+    {% csrf_token %}
 
-        {% buttons layout='horizontal'%}
-        <!-- <button type="submit" class="btn btn-primary save-addother"><span class="glyphicon glyphicon-save"></span> Guardar y añadir otro</button> -->
-        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Guardar</button>
-        <button type="reset" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
-        {% endbuttons %}
-    </form>
+    {% bootstrap_form form layout="horizontal" %}
+
+    {% buttons layout='horizontal'%}
+    <div class="submit-row">
+        <div class="btn-group btn-group-md btn-block">
+        {% if save_addanother %}
+        <button type="submit" class="btn btn-primary save-addanother" name="_addanother">
+            <span class="glyphicon glyphicon-save"></span>
+            Guardar y añadir otro
+        </button>
+        {% endif%}
+
+        <button type="submit" name="_save" class="btn btn-primary">
+            <span class="glyphicon glyphicon-saved"></span>
+            Guardar
+        </button>
+
+        <button type="reset" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove"></span>
+             Cancelar
+        </button>
+
+        </div>
+    </div>
+
+    {% endbuttons %}
+</form>
+
+{% if save_addanother %}
+
+<div class="container">
+    <div class="row">
+        <table id="save-dataform" class="table">
+        </table>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}
