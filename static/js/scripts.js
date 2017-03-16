@@ -1,4 +1,3 @@
-
 //FIXME the document ready
 $(document).ready(function() {
     $('#dataTables-example').DataTable({
@@ -7,12 +6,13 @@ $(document).ready(function() {
 
     });
 
+  $('form:not(.filter) :input:visible:enabled:first').focus()
 
   $('.input-sm').focus();
 
-    var pathname = window.location.href.split("=")[1];
-    // console.log(pathname);
-    $("#periodo").val(pathname);
+  var pathname = window.location.href.split("=")[1];
+  // console.log(pathname);
+  $("#periodo").val(pathname);
 });
 
 
