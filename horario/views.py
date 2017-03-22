@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core import serializers
+from django.http import JsonResponse
 from django.contrib import messages
 from parametros.views import (ViewListView,
                             ViewCreateView,
@@ -12,6 +14,9 @@ from .models import (PeriodoProfesorModulo,
                      )
 
 from parametros.models import (Periodo,
+                               Plan,
+                               Profesor,
+                               Modulo,
                                )
 
 from .forms import (PeriodoProfesorModuloForm,
@@ -332,4 +337,35 @@ def HorarioSave(request):
 
     else:
         return redirect("/horario/add/")
+
+
+@csrf_exempt
+def GetPlan(request):
+
+    if request.method == "POST" and request.is_ajax():
+        codigo = request.POST.get("codigo")
+        query = Plan.objects.all().filter(carrera__id=codigo)
+        query = query.order_by("-id")
+
+        return JsonResponse(serializers.serialize('json', query), safe=False)
+
+
+@csrf_exempt
+def GetPeriodo(request):
+
+    if request.method == "POST" and request.is_ajax():
+        #codigo = request.POST.get("codigo")
+        query = Periodo.objects.all().order_by("-id")
+
+        return JsonResponse(serializers.serialize('json', query), safe=False)
+
+
+@csrf_exempt
+def GetProfesor(request):
+
+    if request.method == "POST" and request.is_ajax():
+        #codigo = request.POST.get("codigo")
+        query = Profesor.objects.all().order_by("-id")
+
+        return JsonResponse(serializers.serialize('json', query), safe=False)
 

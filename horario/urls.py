@@ -3,6 +3,12 @@ from .views import (PeriodoProfesorModuloListView,
                     PeriodoProfesorModuloCreateView,
                     PeriodoProfesorModuloUpdateView,
                     PeriodoProfesorModuloDeleteView,
+
+                    #params
+                    GetPlan,
+                    GetPeriodo,
+                    GetProfesor,
+
                     # HorarioView,
                     HorarioTemplateView,
                     HorarioSave,
@@ -29,4 +35,8 @@ urlpatterns = [
     url(r'^horario/edit/$', HorarioTemplateView.as_view(), name='horario-edit'),
     url(r'^horario/save/$', HorarioSave, name='horario-save'),
 
+    #Param
+    url(r'^horario/param/get_plan/$', GetPlan, name='get-plan'),
+    url(r'^horario/param/get_periodo/$', GetPeriodo, name='get-periodo'),
+    url(r'^horario/param/get_profesor/$', GetProfesor, name='get-periodo'),
     ]
