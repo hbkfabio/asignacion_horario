@@ -88,8 +88,8 @@ class ViewCreateView(SuccessMessageMixin, CreateView):
             return (p)
         else:
             p = p.split("/")
-            p = p[0]
-            return (p)
+            p = p[1]
+            return ("/"+p+"/")
 
 
 class ViewUpdateView(SuccessMessageMixin, UpdateView):

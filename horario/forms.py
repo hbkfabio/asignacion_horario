@@ -7,8 +7,12 @@ class PeriodoProfesorModuloForm(forms.ModelForm):
 
     class Meta:
         model = PeriodoProfesorModulo
-        fields = ["periodo", "profesor", "modulo"]
-
+        fields = ["carrera",
+                "plan",
+                "periodo",
+                "profesor",
+                "modulo"
+                ]
 
 class ReservaBloqueProtegidoForm(forms.ModelForm):
 
