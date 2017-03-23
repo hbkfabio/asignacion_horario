@@ -18,48 +18,76 @@ $(document).ready(function() {
 
 $(document).on("click", ".edit", function(event){
 
-    var pathname = window.location.pathname;
-    var id = $(this).val();
-    window.location.href = pathname+"edit/"+id;
+  event.preventDefault();
+
+  var pathname = window.location.pathname;
+  var id = $(this).val();
+  window.location.href = pathname+"edit/"+id;
+
+  event.stopPropagation();
+
 });
 
 
 $(document).on("click", ".edit-listado-horario", function(event){
 
-    var pathname = window.location.pathname;
-    var id = $(this).val();
-    window.location.href = pathname+"edit/?periodo="+id;
+  event.preventDefault();
+  var pathname = window.location.pathname;
+  var id = $(this).val();
+  window.location.href = pathname+"edit/?periodo="+id;
+
+  event.stopPropagation();
+
 });
 
 
 $(document).on("click", ".confirm-delete", function(event){
 
+  event.preventDefault();
+
   var pathname = window.location.pathname.split("/")[1];
   window.location.href = "/"+pathname+"/";
+
+  event.stopPropagation();
+
 });
 
 
 $(document).on("click", ".delete", function(event){
 
-    var pathname = window.location.pathname;
-    var id = $(this).val();
-    window.location.href = pathname+id+"/delete/";
+  event.preventDefault();
+  var pathname = window.location.pathname;
+  var id = $(this).val();
+  window.location.href = pathname+id+"/delete/";
+
+  event.stopPropagation();
+
 });
 
 
 $(document).on("click", ".add", function(event){
 
-    var pathname = window.location.pathname;
-    var id = $(this).val();
-    window.location.href = pathname+"add/";
+  event.preventDefault();
+
+  var pathname = window.location.pathname;
+  var id = $(this).val();
+  window.location.href = pathname+"add/";
+
+  event.stopPropagation();
+
 });
 
 
 $(document).on("click", "button[type='reset']", function(){
 
-    var pathname = window.location.pathname.split("/")[1];
-    pathname="/"+pathname+"/";
-    window.location.href =pathname;
+  event.preventDefault();
+
+  var pathname = window.location.pathname.split("/")[1];
+  pathname="/"+pathname+"/";
+  window.location.href =pathname;
+
+  event.stopPropagation();
+
 });
 
 
@@ -78,6 +106,8 @@ function change_to_select_item(item){
 
 $(document).on("change", ".combo-option", function(event){
 
+  event.preventDefault();
+
   var combo = $(this);
   var valor = combo.val();
 
@@ -90,10 +120,14 @@ $(document).on("change", ".combo-option", function(event){
   titulo_bloque = td.closest('table').find('th').eq(td.index());
   console.log(titulo_bloque.text());
 
+  event.stopPropagation();
+
 });
 
 
 $(document).on("click", ".accion", function(event){
+
+  event.preventDefault();
 
   var item = $(this);
   var valor = item.text();
@@ -109,6 +143,7 @@ $(document).on("click", ".accion", function(event){
   }
 
 
+  event.stopPropagation();
   return false;
 
   var cell = $(this);
@@ -179,8 +214,12 @@ $(document).on("click", ".accion", function(event){
 
 $(document).on("change", "#periodo", function(event){
 
-    var combo = $(this).find('option:selected').val();
-    var pathname = window.location.pathname;
-    window.location.href = pathname + "?periodo="+combo;
+  event.preventDefault();
+
+  var combo = $(this).find('option:selected').val();
+  var pathname = window.location.pathname;
+  window.location.href = pathname + "?periodo="+combo;
+
+  event.stopPropagation();
 
 });

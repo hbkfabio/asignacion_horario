@@ -35,6 +35,8 @@ function disable_all(value){
 
 $(document).on("change", "select[name = 'carrera']", function(event){
 
+  event.preventDefault();
+
   widget = $(this);
 
   if (widget.val() != ""){
@@ -43,5 +45,6 @@ $(document).on("change", "select[name = 'carrera']", function(event){
 
   }
 
+  event.stopPropagation();
 
 })

@@ -90,6 +90,8 @@ function disable_widget(widget, value){
 
 $(document).on("change", "select[name = 'carrera']", function(event){
 
+  event.preventDefault();
+
   var carrera = $(this);
   console.log(carrera.val());
 
@@ -103,10 +105,15 @@ $(document).on("change", "select[name = 'carrera']", function(event){
 
     disable_widget(widget, value);
   }
+
+  event.stopPropagation();
+
 });
 
 
 $(document).on("change", "select[name = 'plan']", function(event){
+
+  event.preventDefault();
 
   //var widget = $("select[name = 'periodo']");
   var value = $(this).val();
@@ -117,5 +124,7 @@ $(document).on("change", "select[name = 'plan']", function(event){
 
   var widget = $("select[name = 'modulo']");
   disable_widget(widget, value);
+
+   event.stopPropagation();
 
 });
