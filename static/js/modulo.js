@@ -1,6 +1,17 @@
 $(document).ready(function(){
 
-  disable_all(true);
+  carrera = $("select[name = 'carrera']");
+
+  if (carrera.val() == ""){
+
+    disable_all(true);
+
+  } else {
+
+    carrera.attr("disabled", true);
+
+  }
+
 
 });
 
