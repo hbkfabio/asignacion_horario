@@ -78,7 +78,7 @@ $(document).on("click", ".add", function(event){
 });
 
 
-$(document).on("click", "button[type='reset']", function(){
+$(document).on("click", "button[type='reset']", function(event){
 
   event.preventDefault();
 
