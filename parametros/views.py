@@ -142,6 +142,7 @@ class CarreraCreateView(StaffRequiredMixin, ViewCreateView):
 class CarreraUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Carrera
     form_class = CarreraForm
+    titulo = "Edita Carrera"
     template_name = "parametros/form.html"
     success_message = "La carrera %(nombre)s ha sido actualizado"
     success_url = "/carrera/"
@@ -172,6 +173,7 @@ class PlanCreateView(StaffRequiredMixin, ViewCreateView):
 class PlanUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Plan
     form_class = PlanForm
+    titulo = "Edita Plan"
     template_name = "parametros/form.html"
     success_message = "El Plan %(nombre)s ha sido actualizado"
     success_url = "/plan/"
@@ -202,6 +204,7 @@ class ModuloCreateView(StaffRequiredMixin, ViewCreateView):
 class ModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Modulo
     form_class = ModuloForm
+    titulo = "Edita Modulo"
     template_name = "parametros/form_modulo.html"
     success_message = "El Modulo %(nombre)s ha sido actualizado"
     success_url = "/modulo/"
@@ -232,6 +235,7 @@ class DepartamentoCreateView(StaffRequiredMixin, ViewCreateView):
 class DepartamentoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Departamento
     form_class = DepartamentoForm
+    titulo = "Edita Departamento"
     template_name = "parametros/form.html"
     success_message = "El Departamento %(nombre)s ha sido actualizado"
     success_url = "/departamento"
@@ -261,6 +265,7 @@ class AnioCreateView(StaffRequiredMixin, ViewCreateView):
 class AnioUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Anio
     form_class = AnioForm
+    titulo = "Edita Año"
     template_name = "parametros/form.html"
     success_message = "El Año %(name)s ha sido actualizado"
     success_url = "/anio"
@@ -291,6 +296,7 @@ class PeriodoCreateView(StaffRequiredMixin, ViewCreateView):
 class PeriodoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Periodo
     form_class = PeriodoForm
+    titulo = "Edita Periodo"
     template_name = "parametros/form.html"
     success_message = "El Periodo %(nombre)s ha sido actualizado"
     success_url = "/periodo"
@@ -321,6 +327,7 @@ class BloqueCreateView(StaffRequiredMixin, ViewCreateView):
 class BloqueUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Bloque
     form_class = BloqueForm
+    titulo = "Edita Bloque"
     template_name = "parametros/form.html"
     success_message = "El Bloque %(nombre)s ha sido actualizado"
     success_url = "/bloque"
@@ -356,10 +363,10 @@ class ProfesorCreateView(StaffRequiredMixin, ViewCreateView):
 class ProfesorUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Profesor
     form_class = ProfesorForm
+    titulo = "Editar Profesor"
     template_name = "parametros/form.html"
     success_message = "Profesor %(nombre)s ha sido actualizado"
     success_url = "/profesor/"
-
 
 
 class ProfesorDeleteView(StaffRequiredMixin, ViewDeleteView):
@@ -367,6 +374,7 @@ class ProfesorDeleteView(StaffRequiredMixin, ViewDeleteView):
     template_name = "parametros/elimina.html"
     success_message = 'Profesor %(nombre)s ha sido Eliminado'
     success_url = "/profesor/"
+
 
 class SemestreView(StaffRequiredMixin, ViewListView):
     model = Semestre
@@ -391,6 +399,7 @@ class SemestreCreateView(StaffRequiredMixin, ViewCreateView):
 class SemestreUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Semestre
     form_class = SemestreForm
+    titulo = "Edita Semestre"
     template_name = "parametros/form.html"
     success_message = "El semestre %(nombre)s ha sido actualizado"
     success_url = "/semestre/"
@@ -427,6 +436,7 @@ class ActividadCreateView(StaffRequiredMixin, ViewCreateView):
 class ActividadUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Actividad
     form_class = ActividadForm
+    titulo = "Edita Actividad"
     template_name = "parametros/form.html"
     success_message = "La actividad %(nombre)s ha sido actualizado"
     success_url = "/actividad/"

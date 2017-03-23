@@ -133,6 +133,7 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     template_name = "horario/form.html"
     success_message = "El Profesor %(nombre)s ha sido actualizado"
     success_url = "/periodoprofesormodulo/"
+    titulo = "Edita Asignacion de periodo-profesor-modulo"
 
 
     def get_success_message(self, cleaned_data):
