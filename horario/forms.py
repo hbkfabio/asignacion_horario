@@ -12,9 +12,9 @@ class PeriodoProfesorModuloForm(forms.ModelForm):
         model = PeriodoProfesorModulo
         fields = ["carrera",
                 "plan",
+                "modulo",
                 "periodo",
                 "profesor",
-                "modulo"
                 ]
 
 

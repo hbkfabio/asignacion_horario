@@ -2,9 +2,17 @@ $(document).ready(function(){
 
 
   carrera = $("select[name = 'carrera']");
+
   if (carrera.val() == ""){
     disable_all();
   }
+
+  var widget = $("select[name = 'plan']");
+  plan = widget.val();
+  var value = carrera.val();
+
+  disable_widget(widget, value);
+  widget.val(plan)
 
 });
 
@@ -58,7 +66,7 @@ function get_data_model(widget, value){
          type: "POST",
          url: url,
          data: diccionario,
-         //async: false,
+         async: false,
         })
         .done(function(data){
           data = $.parseJSON(data);
@@ -99,12 +107,13 @@ $(document).on("change", "select[name = 'carrera']", function(event){
 
 
 $(document).on("change", "select[name = 'plan']", function(event){
-  var widget = $("select[name = 'periodo']");
-  var value = $(this).val();
-  disable_widget(widget, value);
 
-  var widget = $("select[name = 'profesor']");
-  disable_widget(widget, value);
+  //var widget = $("select[name = 'periodo']");
+  var value = $(this).val();
+  //disable_widget(widget, value);
+
+  //var widget = $("select[name = 'profesor']");
+  //disable_widget(widget, value);
 
   var widget = $("select[name = 'modulo']");
   disable_widget(widget, value);
