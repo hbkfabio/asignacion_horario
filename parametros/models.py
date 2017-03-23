@@ -30,7 +30,8 @@ class Semestre(models.Model):
 
 class Modulo(models.Model):
     nombre = models.CharField(u'Modulo', max_length=100)
-    semestre = models.ForeignKey(Semestre, default=0)
+    carrera = models.ForeignKey(Carrera)
+    semestre = models.ForeignKey(Semestre)
     plan = models.ForeignKey(Plan)
     creditos = models.IntegerField(u'Créditos', default=0)
     horas_clase = models.IntegerField(u'Horas de clase', default=0)

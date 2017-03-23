@@ -122,14 +122,11 @@ class PlanForm(forms.ModelForm):
 
 class ModuloForm(forms.ModelForm):
 
-    query = Carrera.objects.all()
-    empty_label = "Seleccione una carrera"
-    carrera = forms.ModelChoiceField(queryset = query,
-                        empty_label = empty_label,
-                        widget = forms.Select(
-                        attrs={'class':'get_carrera'},
-                        )
-                    )
+    # query = Carrera.objects.all()
+    # empty_label = "Seleccione una carrera"
+    # carrera = forms.ModelChoiceField(queryset = query,
+    #                     empty_label = empty_label,
+    #                 )
 
     class Meta:
         model = Modulo

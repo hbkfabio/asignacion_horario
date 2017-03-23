@@ -1,11 +1,11 @@
 $(document).ready(function(){
 
-  disable_all();
+  disable_all(true);
 
 });
 
 
-function disable_all(){
+function disable_all(value){
 
     w = [
     plan = $("select[name = 'plan']"),
@@ -20,8 +20,22 @@ function disable_all(){
     ];
 
     $.each(w, function(i){
-      w[i].attr("disabled", true);
+      w[i].attr("disabled", value);
     });
 
 
 }
+
+
+$(document).on("change", "select[name = 'carrera']", function(event){
+
+  widget = $(this);
+
+  if (widget.val() != ""){
+
+    disable_all(false);
+
+  }
+
+
+})

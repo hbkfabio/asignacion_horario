@@ -207,6 +207,12 @@ class ModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     success_url = "/modulo/"
 
 
+    def get_form(ModuloForm):
+        print ("hola")
+        # if self.request.method=='POST':
+        #     form=DocumentForm(self.request.POST, user=request.user)
+
+
 class ModuloDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Modulo
     template_name = "parametros/elimina.html"
