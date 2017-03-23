@@ -11,15 +11,17 @@ $(document).ready(function(){
 
 function disable_all(){
 
-    plan = $("select[name = 'plan']");
-    periodo = $("select[name = 'periodo']");
-    profesor = $("select[name = 'profesor']");
-    modulo = $("select[name = 'modulo']");
+    w = [
+    plan = $("select[name = 'plan']"),
+    periodo = $("select[name = 'periodo']"),
+    profesor = $("select[name = 'profesor']"),
+    modulo = $("select[name = 'modulo']"),
+    ]
 
-    plan.attr("disabled", true);
-    periodo.attr("disabled", true);
-    profesor.attr("disabled", true);
-    modulo.attr("disabled", true);
+    $.each(w, function(i){
+
+      w[i].attr("disabled", true);
+    });
 
 }
 
