@@ -2,15 +2,15 @@ $(document).ready(function(){
 
   carrera = $("select[name = 'carrera']");
 
-  if (carrera.val() == ""){
+  // if (carrera.val() == ""){
 
-    disable_all(true);
+  //   disable_all(true);
 
-  } else {
+  // } else {
 
-    carrera.attr("disabled", true);
+  //   carrera.attr("disabled", true);
 
-  }
+  // }
 
 
 });

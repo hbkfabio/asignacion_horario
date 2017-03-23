@@ -122,12 +122,6 @@ class PlanForm(forms.ModelForm):
 
 class ModuloForm(forms.ModelForm):
 
-    # query = Carrera.objects.all()
-    # empty_label = "Seleccione una carrera"
-    # carrera = forms.ModelChoiceField(queryset = query,
-    #                     empty_label = empty_label,
-    #                 )
-
     class Meta:
         model = Modulo
 
@@ -143,20 +137,25 @@ class ModuloForm(forms.ModelForm):
                  ]
 
 
-    def clean_plan(self):
+    def clean(self):
         n = self.cleaned_data.get("nombre")
-        s = self.cleaned_data.get("semestre")
+        c = self.cleaned_data.get("carrera")
         p = self.cleaned_data.get("plan")
         pk = self.instance.pk
+
         query = Modulo.objects.all().filter(plan = p)
-        query = query.filter(semestre = s)
         query = query.filter(nombre = n)
         query = query.filter(~Q(id=pk))
         if query.exists():
             raise forms.ValidationError(
-                "%s ya se ha ingresado para el %s modulo del plan %s"%(n,s,p)
+                """%(modulo)s ya se ha ingresado
+                para la carrera %(carrera)s
+                en el plan %(plan)s""",
+                params={"modulo":n,
+                        "carrera": c,
+                        "plan": p,
+                    }
                 )
-        return p
 
 
 class AnioForm(forms.ModelForm):
