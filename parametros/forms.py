@@ -122,12 +122,22 @@ class PlanForm(forms.ModelForm):
 
 class ModuloForm(forms.ModelForm):
 
+    query = Carrera.objects.all()
+    empty_label = "Seleccione una carrera"
+    carrera = forms.ModelChoiceField(queryset = query,
+                        empty_label = empty_label,
+                        widget = forms.Select(
+                        attrs={'class':'get_carrera'},
+                        )
+                    )
+
     class Meta:
         model = Modulo
 
-        fields = ["nombre",
-                    "semestre",
+        fields = ["carrera",
                     "plan",
+                    "nombre",
+                    "semestre",
                     "horas_clase",
                     "horas_seminario",
                     "horas_laboratorio",
@@ -147,7 +157,7 @@ class ModuloForm(forms.ModelForm):
         query = query.filter(~Q(id=pk))
         if query.exists():
             raise forms.ValidationError(
-                "%s ya se ha ingresado para el %s semestre del plan %s"%(n,s,p)
+                "%s ya se ha ingresado para el %s modulo del plan %s"%(n,s,p)
                 )
         return p
 

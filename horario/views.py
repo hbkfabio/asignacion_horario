@@ -369,3 +369,13 @@ def GetProfesor(request):
 
         return JsonResponse(serializers.serialize('json', query), safe=False)
 
+
+@csrf_exempt
+def GetModulo(request):
+
+    if request.method == "POST" and request.is_ajax():
+        codigo = request.POST.get("codigo")
+        query = Modulo.objects.all().filter(plan__id = codigo)
+        query = query.order_by("-id")
+
+        return JsonResponse(serializers.serialize('json', query), safe=False)

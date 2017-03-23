@@ -1,12 +1,27 @@
 $(document).ready(function(){
 
-  $(".get_plan").attr("disabled", true);
-  $(".get_periodo").attr("disabled", true);
-  $(".get_profesor").attr("disabled", true);
-  $(".get_modulo").attr("disabled", true);
+
+  carrera = $("select[name = 'carrera']");
+  if (carrera.val() == ""){
+    disable_all();
+  }
 
 });
 
+
+function disable_all(){
+
+    plan = $("select[name = 'plan']");
+    periodo = $("select[name = 'periodo']");
+    profesor = $("select[name = 'profesor']");
+    modulo = $("select[name = 'modulo']");
+
+    plan.attr("disabled", true);
+    periodo.attr("disabled", true);
+    profesor.attr("disabled", true);
+    modulo.attr("disabled", true);
+
+}
 
 function load_select_data(widget, data){
 
@@ -63,52 +78,33 @@ function disable_widget(widget, value){
 }
 
 
-$(document).on("change", ".get_carrera", function(event){
+$(document).on("change", "select[name = 'carrera']", function(event){
 
-  var widget = $(".get_plan");
-  var value = $(this).val();
+  var carrera = $(this);
+  console.log(carrera.val());
 
-  disable_widget(widget, value);
+  if (carrera.val() == ""){
 
+    disable_all();
+
+  } else {
+    var widget = $("select[name = 'plan']");
+    var value = $(this).val();
+
+    disable_widget(widget, value);
+  }
 });
 
 
-$(document).on("change", ".get_plan", function(event){
-
-  var widget = $(".get_periodo");
+$(document).on("change", "select[name = 'plan']", function(event){
+  var widget = $("select[name = 'periodo']");
   var value = $(this).val();
+  disable_widget(widget, value);
 
+  var widget = $("select[name = 'profesor']");
+  disable_widget(widget, value);
+
+  var widget = $("select[name = 'modulo']");
   disable_widget(widget, value);
 
 });
-
-
-$(document).on("change", ".get_periodo", function(event){
-
-  var widget = $(".get_profesor");
-  var value = $(this).val();
-
-  disable_widget(widget, value);
-
-});
-
-
-$(document).on("change", ".get_modulo", function(event){
-
-  var widget = $(".get_modulo");
-  var value = $(this).val();
-
-  disable_widget(widget, value);
-
-});
-
-
-$(document).on("change", ".get_modulo", function(event){
-
-  var widget = $(".get_modulo");
-  var value = $(this).val();
-
-  disable_widget(widget, value);
-
-});
-

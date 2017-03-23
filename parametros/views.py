@@ -193,7 +193,7 @@ class ModuloView(StaffRequiredMixin, ViewListView):
 
 class ModuloCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = ModuloForm
-    template_name = "parametros/form.html"
+    template_name = "parametros/form_modulo.html"
     titulo = "Agrega Modulo"
     success_message = "El Modulo %(nombre)s ha sido creado"
     success_url = "/modulo/"
@@ -202,7 +202,7 @@ class ModuloCreateView(StaffRequiredMixin, ViewCreateView):
 class ModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Modulo
     form_class = ModuloForm
-    template_name = "parametros/form.html"
+    template_name = "parametros/form_modulo.html"
     success_message = "El Modulo %(nombre)s ha sido actualizado"
     success_url = "/modulo/"
 

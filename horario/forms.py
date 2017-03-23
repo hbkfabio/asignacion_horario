@@ -8,18 +8,6 @@ from parametros.models import (Carrera,
 
 class PeriodoProfesorModuloForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super(PeriodoProfesorModuloForm, self).__init__(*args, **kwargs)
-        self.fields['carrera'].widget= forms.Select(attrs={'class':'get_carrera'})
-        self.fields['carrera'].empty_label="Seleccione una carrera"
-        self.fields['carrera'].queryset = Carrera.objects.all()
-
-        self.fields['plan'].widget= forms.Select(attrs={'class':'get_plan'})
-        self.fields['periodo'].widget= forms.Select(attrs={'class':'get_periodo'})
-        self.fields['profesor'].widget= forms.Select(attrs={'class':'get_profesor'})
-        self.fields['modulo'].widget= forms.Select(attrs={'class':'get_modulo'})
-
-
     class Meta:
         model = PeriodoProfesorModulo
         fields = ["carrera",

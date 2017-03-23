@@ -8,6 +8,7 @@ from .views import (PeriodoProfesorModuloListView,
                     GetPlan,
                     GetPeriodo,
                     GetProfesor,
+                    GetModulo,
 
                     # HorarioView,
                     HorarioTemplateView,
@@ -39,4 +40,5 @@ urlpatterns = [
     url(r'^horario/param/get_plan/$', GetPlan, name='get-plan'),
     url(r'^horario/param/get_periodo/$', GetPeriodo, name='get-periodo'),
     url(r'^horario/param/get_profesor/$', GetProfesor, name='get-periodo'),
+    url(r'^horario/param/get_modulo/$', GetModulo, name='get-modulo'),
     ]
