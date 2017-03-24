@@ -110,8 +110,6 @@ class ViewUpdateView(SuccessMessageMixin, UpdateView):
         return self.success_message % dict(cleaned_data,
                                        nombre=self.object.nombre)
 
-
-
 class ViewDeleteView(SuccessMessageMixin, DeleteView):
     model = None
     template_name = None
