@@ -77,7 +77,7 @@ class Periodo(models.Model):
     anio = models.ForeignKey(Anio, null=True)
 
     class Meta:
-        ordering = ["-id"]
+        ordering = ["-nombre"]
 
     def __str__(self):
         return "%s del año %s"%(self.nombre,

@@ -1,27 +1,23 @@
 $(document).ready(function(){
 
 
-  carrera = $("select[name = 'carrera']");
+  periodo = $("select[name = 'periodo']");
 
-  if (carrera.val() == ""){
+  if (periodo.val() == ""){
     disable_all();
   }
 
-  var widget = $("select[name = 'plan']");
-  plan = widget.val();
-  var value = carrera.val();
-
-  disable_widget(widget, value);
-  widget.val(plan)
 
 });
 
 
 function disable_all(){
+  //Se deshabilitan todos los widget menos periodo.
 
     w = [
+    carrera = $("select[name = 'carrera']"),
     plan = $("select[name = 'plan']"),
-    periodo = $("select[name = 'periodo']"),
+    //periodo = $("select[name = 'periodo']"),
     profesor = $("select[name = 'profesor']"),
     modulo = $("select[name = 'modulo']"),
     ]
@@ -29,6 +25,7 @@ function disable_all(){
     $.each(w, function(i){
 
       w[i].attr("disabled", true);
+      w[i].val("");
     });
 
 }
@@ -79,14 +76,37 @@ function get_data_model(widget, value){
 function disable_widget(widget, value){
 
   if (value != ""){
+
     widget.attr("disabled", false);
     widget.find('option').remove()
     get_data_model(widget, value)
+
   } else {
+
     widget.attr("disabled", true);
+    widget.val("")
+
   }
 }
 
+
+$(document).on("change", "select[name = 'periodo']", function(event){
+
+  event.preventDefault();
+
+  //var widget = $("select[name = 'periodo']");
+  var value = $(this).val();
+  //disable_widget(widget, value);
+
+  //var widget = $("select[name = 'profesor']");
+  //disable_widget(widget, value);
+
+  var widget = $("select[name = 'carrera']");
+  disable_widget(widget, value);
+
+   event.stopPropagation();
+
+});
 
 $(document).on("change", "select[name = 'carrera']", function(event){
 
@@ -95,15 +115,25 @@ $(document).on("change", "select[name = 'carrera']", function(event){
   var carrera = $(this);
   console.log(carrera.val());
 
-  if (carrera.val() == ""){
+  value = carrera.val()
 
-    disable_all();
+  if (value == ""){
+
+     // disable_all();
+    var widget = $("select[name = 'modulo']");
+    disable_widget(widget, value);
+
+    var widget = $("select[name = 'profesor']");
+    disable_widget(widget, value);
+
+    var widget = $("select[name = 'plan']");
+    disable_widget(widget, value);
 
   } else {
-    var widget = $("select[name = 'plan']");
-    var value = $(this).val();
 
+    var widget = $("select[name = 'plan']");
     disable_widget(widget, value);
+
   }
 
   event.stopPropagation();
@@ -115,16 +145,14 @@ $(document).on("change", "select[name = 'plan']", function(event){
 
   event.preventDefault();
 
-  //var widget = $("select[name = 'periodo']");
   var value = $(this).val();
-  //disable_widget(widget, value);
-
-  //var widget = $("select[name = 'profesor']");
-  //disable_widget(widget, value);
 
   var widget = $("select[name = 'modulo']");
   disable_widget(widget, value);
 
-   event.stopPropagation();
+  var widget = $("select[name = 'profesor']");
+  disable_widget(widget, value);
+
+  event.stopPropagation();
 
 });

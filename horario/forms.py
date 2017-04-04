@@ -10,10 +10,10 @@ class PeriodoProfesorModuloForm(forms.ModelForm):
 
     class Meta:
         model = PeriodoProfesorModulo
-        fields = ["carrera",
+        fields = ["periodo",
+                "carrera",
                 "plan",
                 "modulo",
-                "periodo",
                 "profesor",
                 ]
 

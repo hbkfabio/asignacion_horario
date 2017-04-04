@@ -17,6 +17,7 @@ from parametros.models import (Periodo,
                                Plan,
                                Profesor,
                                Modulo,
+                               Carrera,
                                )
 
 from .forms import (PeriodoProfesorModuloForm,
@@ -356,7 +357,7 @@ def GetPeriodo(request):
 
     if request.method == "POST" and request.is_ajax():
         #codigo = request.POST.get("codigo")
-        query = Periodo.objects.all().order_by("-id")
+        query = Periodo.objects.all().order_by("nombre")
 
         return JsonResponse(serializers.serialize('json', query), safe=False)
 
@@ -378,5 +379,16 @@ def GetModulo(request):
         codigo = request.POST.get("codigo")
         query = Modulo.objects.all().filter(plan__id = codigo)
         query = query.order_by("-id")
+
+        return JsonResponse(serializers.serialize('json', query), safe=False)
+
+
+@csrf_exempt
+def GetCarrera(request):
+
+    if request.method == "POST" and request.is_ajax():
+        codigo = request.POST.get("codigo")
+        query = Carrera.objects.all()
+        query = query.order_by("nombre")
 
         return JsonResponse(serializers.serialize('json', query), safe=False)
