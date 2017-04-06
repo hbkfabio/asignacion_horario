@@ -53,6 +53,52 @@ class PeriodoProfesorModuloListView(StaffRequiredMixin, ViewListView):
     extra_context = {}
 
 
+    def get_context_data(self, *args, **kwargs):
+
+        context = super(PeriodoProfesorModuloListView, self).get_context_data(*args, **kwargs)
+
+        periodo = self.request.GET.get("periodo")
+        carrera = self.request.GET.get("carrera")
+        plan = self.request.GET.get("plan")
+
+        c = Carrera.objects.all().order_by("nombre")
+        context['carrera'] = c
+
+        if carrera is None or carrera == 0:
+            queryset = None
+
+        else:
+            #habilito el select de periodo
+            p = Periodo.objects.all().order_by("-nombre")
+            context['periodo'] = p
+
+            #habilito select de plan
+            pl = Plan.objects.all().filter(carrera = carrera)
+            pl = pl.order_by("-nombre")
+            context["plan"] = pl
+
+        if carrera is not None and carrera !=0:
+            #filtro el query por carrera para ser listado
+            queryset = PeriodoProfesorModulo.objects.all()
+            queryset = queryset.filter(carrera=carrera)
+
+
+        if periodo is not None and periodo !=0:
+            # filtro el query por periodo
+            # el resultando es de carrera + periodo
+            queryset = queryset.filter(periodo=periodo)
+
+        if plan is not None and plan !=0:
+            #filtro el query por plan
+            #el resultante es filtro de carrera + plan
+            queryset = queryset.filter(plan=plan)
+
+
+        context['object_list'] = queryset
+
+        return context
+
+
 class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = PeriodoProfesorModuloForm
     template_name = "horario/form.html"

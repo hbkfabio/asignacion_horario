@@ -156,3 +156,50 @@ $(document).on("change", "select[name = 'plan']", function(event){
   event.stopPropagation();
 
 });
+
+
+//Listado periodo profesor modulo
+// $(document).on("change", "#periodo", function(event){
+
+//   var periodo = $(this).val();
+//   var url = `/periodoprofesormodulo/`;
+//   var carrera = $("#carrera").val()
+
+//   var diccionario = {"periodo": periodo,
+//                       "carrera": carrera,
+//                     };
+
+//   $.ajax({
+//          type: "GET",
+//          url: url,
+//          data: diccionario,
+         // async: false,
+//         })
+//         .done(function(data){
+          // data = $.parseJSON(data);
+          // load_select_data(widget, data)
+//         });
+// });
+
+
+// $(document).on("change", "#carrera", function(event){
+
+//   console.log("click");
+//   var carrera = $(this).val();
+//   var url = `/periodoprofesormodulo/`;
+//   var periodo = $("#periodo").val();
+//   var diccionario = {"carrera": carrera,
+//                     "periodo": periodo,
+//                     };
+
+//   $.ajax({
+//          type: "GET",
+//          url: url,
+//          data: diccionario,
+         // async: false,
+//         })
+//         .done(function(data){
+          // data = $.parseJSON(data);
+          // load_select_data(widget, data)
+//         });
+// });

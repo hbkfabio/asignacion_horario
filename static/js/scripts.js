@@ -10,9 +10,29 @@ $(document).ready(function() {
 
   $('.input-sm').focus();
 
-  var pathname = window.location.href.split("=")[1];
-  // console.log(pathname);
-  $("#periodo").val(pathname);
+  // var pathname = window.location.href.split("?");
+
+  // if (pathname.length >= 1){
+
+  //   pathname = pathname.pop();
+  //   console.log(pathname);
+
+  //   pathname = pathname.split("&");
+  //   console.log(pathname);
+
+  //   $.each(pathname, function(i, j){
+  //     temp = j.split("=");
+  //     $("#"+temp[0]).val(temp[1]);
+  //     console.log(temp[0]);
+  //     console.log(temp[1]);
+  //   });
+
+  // }
+
+
+  //$("#periodo").val(pathname);
+  //$("#carrera").val(pathname);
+
 });
 
 
@@ -208,18 +228,5 @@ $(document).on("click", ".accion", function(event){
           }
 
         });
-
-});
-
-
-$(document).on("change", "#periodo", function(event){
-
-  event.preventDefault();
-
-  var combo = $(this).find('option:selected').val();
-  var pathname = window.location.pathname;
-  window.location.href = pathname + "?periodo="+combo;
-
-  event.stopPropagation();
 
 });
