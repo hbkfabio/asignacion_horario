@@ -195,7 +195,10 @@ class BloqueForm(forms.ModelForm):
 
     class Meta:
         model = Bloque
-        fields = ["nombre"]
+        fields = ["nombre",
+                    "hora_inicio",
+                    "hora_termino",
+                ]
 
 
     def clean_nombre(self):

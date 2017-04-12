@@ -79,7 +79,7 @@ urlpatterns = [
     url(r'^bloque/$', BloqueView.as_view(), name='bloque-list'),
     url(r'^bloque/add/$', BloqueCreateView.as_view(), name='bloque-add'),
     url(r'^bloque/edit/(?P<pk>\d+)/$', BloqueUpdateView.as_view(), name='bloque-edit'),
-    url(r'^bloque/(?P<pk>\d+)/delete/$', ProfesorDeleteView.as_view(), name='bloque-delete'),
+    url(r'^bloque/(?P<pk>\d+)/delete/$', BloqueDeleteView.as_view(), name='bloque-delete'),
     #profesor
     url(r'^profesor/$', ProfesorView.as_view(), name='profesor-list'),
     url(r'^profesor/add/$', ProfesorCreateView.as_view(), name='profesor-add'),

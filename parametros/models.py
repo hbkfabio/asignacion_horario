@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -85,10 +86,17 @@ class Periodo(models.Model):
 
 
 class Bloque(models.Model):
-    nombre = models.CharField(max_length=2)
+    nombre = models.IntegerField(validators=[MaxValueValidator(15),
+                                        MinValueValidator(1)],
+                                default=0,
+                                help_text="""<sup>Indique un número entre 1 y 15
+                                        para identificar el bloque</sup>""",
+                                )
+    hora_inicio = models.TimeField(u'Hora Inicio', default="00:00")
+    hora_termino = models.TimeField(u'Hora de Termino', default="00:00")
 
     def __str__(self):
-        return self.nombre
+        return "número: %(nombre)s "%{"nombre":self.nombre}
 
 
 class Actividad(models.Model):
