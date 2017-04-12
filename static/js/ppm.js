@@ -1,10 +1,10 @@
 //FIXME the document ready
 $(document).ready(function() {
-    $('#dataTables-example').DataTable({
-          responsive: true,
-          "order": []
+    // $('#dataTables-example').DataTable({
+    //       responsive: true,
+    //       "order": []
 
-    });
+    // });
 
   $('form:not(.filter) :input:visible:enabled:first').focus()
 
