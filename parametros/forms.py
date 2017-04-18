@@ -14,6 +14,8 @@ from .models import (
     Actividad,
 )
 
+from horario.models import ReservaBloqueProtegido
+
 
 import inspect
 
@@ -206,6 +208,16 @@ class BloqueForm(forms.ModelForm):
 
         return n
 
+
+    def save(self, commit=True):
+
+        instance = super(BloqueForm, self).save()
+
+        bp, created = ReservaBloqueProtegido.objects.get_or_create(
+            bloque = instance,
+        )
+
+        return instance
 
 
 class ProfesorForm(forms.ModelForm):

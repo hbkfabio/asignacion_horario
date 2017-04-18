@@ -22,8 +22,6 @@ class ReservaBloqueProtegidoForm(forms.ModelForm):
 
     class Meta:
         model = ReservaBloqueProtegido
-        fields = ["bloque1", "bloque2", "bloque3",
-                "bloque4", "bloque5", "bloque6",
-                "bloque7", "bloque8", "bloque9",
-                "bloque10",
+        fields = ["bloque",
+                    "reservado",
                 ]

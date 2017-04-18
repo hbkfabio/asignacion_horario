@@ -18,6 +18,7 @@ from parametros.models import (Periodo,
                                Profesor,
                                Modulo,
                                Carrera,
+                               Bloque,
                                )
 
 from .forms import (PeriodoProfesorModuloForm,
@@ -209,6 +210,16 @@ class ReservaBloqueProtegidoListView(StaffRequiredMixin, ViewListView):
     template_name = "horario/base_horario.html"
     titulo = "Reserva Bloques protegidos Módulo"
     extra_context = {}
+
+
+    def get_context_data(self, *args, **kwargs):
+
+        context = super(ReservaBloqueProtegidoListView, self).get_context_data(*args, **kwargs)
+
+        bloque = Bloque.objects.all().order_by("nombre")
+        context['bloque'] = bloque
+
+        return context
 
 
 class ReservaBloqueProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
@@ -438,3 +449,35 @@ def GetCarrera(request):
         query = query.order_by("nombre")
 
         return JsonResponse(serializers.serialize('json', query), safe=False)
+
+
+@csrf_exempt
+def SaveHorarioProtegido(request):
+
+    if request.method == "POST" and request.is_ajax():
+        bloque = request.POST.get("bloque")
+        value = request.POST.get("value")
+
+        b = Bloque.objects.all()
+        b = b.filter(nombre=bloque)
+
+        r = ReservaBloqueProtegido.objects.all()
+        r = r.filter(bloque = b[0])
+
+        if value == "X":
+            value = True
+        else:
+            value = False
+
+        if not r.exists():
+            r = r(
+            bloque = b[0],
+            reservado = value,
+            )
+            r.save()
+        else:
+            r.update(
+                reservado = value
+            )
+
+    return HttpResponse("")

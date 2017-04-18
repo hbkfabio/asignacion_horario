@@ -10,6 +10,7 @@ from .views import (PeriodoProfesorModuloListView,
                     GetProfesor,
                     GetModulo,
                     GetCarrera,
+                    SaveHorarioProtegido,
 
                     # HorarioView,
                     HorarioTemplateView,
@@ -29,9 +30,10 @@ urlpatterns = [
     url(r'^periodoprofesormodulo/(?P<pk>\d+)/delete/$', PeriodoProfesorModuloDeleteView.as_view(), name='periodoprofesormodulo-delete'),
     #Reserva Bloque Protegido
     url(r'^reservabloqueprotegido/$', ReservaBloqueProtegidoListView.as_view(), name='reservabloqueprotegido'),
-    url(r'^reservabloqueprotegido/add/$', ReservaBloqueProtegidoCreateView.as_view(), name='reservabloqueprotegido-add'),
-    url(r'^reservabloqueprotegido/edit/(?P<pk>\d+)/$', ReservaBloqueProtegidoUpdateView.as_view(), name='reservabloqueprotegido-edit'),
-    url(r'^reservabloqueprotegido/(?P<pk>\d+)/delete/$', ReservaBloqueProtegidoDeleteView.as_view(), name='reservabloqueprotegido-delete'),
+    url(r'^reservabloqueprotegido/save/$', SaveHorarioProtegido, name='save-reservabloqueprotegido'),
+    # url(r'^reservabloqueprotegido/add/$', ReservaBloqueProtegidoCreateView.as_view(), name='reservabloqueprotegido-add'),
+    # url(r'^reservabloqueprotegido/edit/(?P<pk>\d+)/$', ReservaBloqueProtegidoUpdateView.as_view(), name='reservabloqueprotegido-edit'),
+    # url(r'^reservabloqueprotegido/(?P<pk>\d+)/delete/$', ReservaBloqueProtegidoDeleteView.as_view(), name='reservabloqueprotegido-delete'),
     #Horario
     url(r'^horario/$', HorarioListView.as_view(), name='horario'),
     url(r'^horario/edit/$', HorarioTemplateView.as_view(), name='horario-edit'),

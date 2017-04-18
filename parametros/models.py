@@ -80,6 +80,7 @@ class Periodo(models.Model):
     class Meta:
         ordering = ["-nombre"]
 
+
     def __str__(self):
         return "%s del año %s"%(self.nombre,
                                 self.anio.nombre)
@@ -94,6 +95,11 @@ class Bloque(models.Model):
                                 )
     hora_inicio = models.TimeField(u'Hora Inicio', default="00:00")
     hora_termino = models.TimeField(u'Hora de Termino', default="00:00")
+
+
+    class Meta:
+        ordering = ["nombre"]
+
 
     def __str__(self):
         return "número: %(nombre)s "%{"nombre":self.nombre}
