@@ -11,12 +11,57 @@
 
 {% block content %}
     <fieldset>
-        <legend>{{ titulo }}</legend>
+        <legend><h4>{{ titulo|upper }}</h4></legend>
     </fieldset>
 
     <form id="form" role="form" class="form-horizontal" method="post">
         {% csrf_token %}
         {% bootstrap_form form layout="horizontal" %}
+
+        <div id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="card">
+            <div class="card-header" role="tab" id="headingTwo">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Reserva de Horario
+                </a>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <table width="100%" class="table table-bordered table-hover">
+                    <thead class="thead-default">
+					<tr>
+					    <th></th>
+					    {% for obj in bloque_list %}
+						    <th id="{{obj.id}}">{{obj.nombre}}</th>
+					    {% endfor %}
+					</tr>
+				    </thead>
+                    <tbody>
+                        <tr>
+                            {% for key, value in dia_semana_list.items %}
+                                <tr>
+                                    <td>{{value}}</td>
+
+                                    {% for obj in horario %}
+                                        <!-- {% if key == obj.dia_semana %} -->
+                                            {% for i in bloque_max %}
+                                                <td>{{obj.bloque.nombre}}</td>
+
+                                            {% endfor %}
+                                        <!-- {% endif %} -->
+                                    {% endfor %}
+
+                                </tr>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+        <p></p>
+
         {% buttons layout='horizontal'%}
         <!-- <button type="submit" class="btn btn-primary save-addother"><span class="glyphicon glyphicon-save"></span> Guardar y añadir otro</button> -->
         {% if save_addanother %}
@@ -29,6 +74,9 @@
         <button type="reset" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
         {% endbuttons %}
     </form>
+
+
+
 
     <!-- jQuery -->
     <script src="/static/js/horario.js"></script>

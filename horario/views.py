@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core import serializers
 from django.http import JsonResponse
 from django.contrib import messages
+from django.db.models import Max
+
 from parametros.views import (ViewListView,
                             ViewCreateView,
                             ViewUpdateView,
@@ -26,7 +28,6 @@ from .forms import (PeriodoProfesorModuloForm,
                     )
 
 from django.views.generic.base import TemplateView
-
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
@@ -36,6 +37,7 @@ from .valida import (valida_cantidad_horas,
 
 import simplejson as json
 import collections
+
 # Create your views here.
 
 dic_dia_semana={"1": "Lunes",
@@ -108,6 +110,20 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
     success_url = "/periodoprofesormodulo/"
 
 
+    def get_context_data(self, **kwargs):
+        context = super(PeriodoProfesorModuloCreateView, self).get_context_data(**kwargs)
+
+        b = Bloque.objects.all().order_by("nombre")
+        context["bloque_list"] = b
+        #max de bloque
+        b = b.aggregate(Max("nombre"))
+        b = b["nombre__max"]
+        context["bloque_max"] = range(0, b)
+        dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
+        context["dia_semana_list"] = dia_semana
+        return context
+
+
     def get_success_message(self, cleaned_data):
     #cleaned_data is the cleaned data from the form which is used for string formatting
         return self.success_message % dict(cleaned_data,
@@ -115,63 +131,6 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
 
     def form_valid(self, form):
         form.save()
-        # for i in sorted(dic_dia_semana, key=dic_dia_semana.get, reverse=False):
-        #     horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
-        #                       dia_semana=dic_dia_semana[i])
-        #     horario.save()
-
-        bloque_protegido = ReservaBloqueProtegido.objects.all()
-        bloque1=""
-        bloque2=""
-        bloque3=""
-        bloque4=""
-        bloque5=""
-        bloque6=""
-        bloque7=""
-        bloque8=""
-        bloque9=""
-        bloque10=""
-        for i in bloque_protegido:
-            if i.bloque1 == True:
-                bloque1 = "X"
-            if i.bloque2 == True:
-                bloque2 = "X"
-            if i.bloque3 == True:
-                bloque3 = "X"
-            if i.bloque4 == True:
-                bloque4 = "X"
-            if i.bloque5 == True:
-                bloque5 = "X"
-            if i.bloque6 == True:
-                bloque6 = "X"
-            if i.bloque7 == True:
-                bloque7 = "X"
-            if i.bloque8 == True:
-                bloque8 = "X"
-            if i.bloque9 == True:
-                bloque9 = "X"
-            if i.bloque10 == True:
-                bloque10 = "X"
-
-        dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
-        for i in dia_semana:
-
-
-
-            horario = Horario(periodoprofesormodulo=PeriodoProfesorModulo.objects.latest('id'),
-                               dia_semana=i,
-                               bloque1=bloque1,
-                               bloque2=bloque2,
-                               bloque3=bloque3,
-                               bloque4=bloque4,
-                               bloque5=bloque5,
-                               bloque6=bloque6,
-                               bloque7=bloque7,
-                               bloque8=bloque8,
-                               bloque9=bloque9,
-                               bloque10=bloque10,
-                               )
-            horario.save()
         return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
 
@@ -182,6 +141,39 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     success_message = "El Profesor %(nombre)s ha sido actualizado"
     success_url = "/periodoprofesormodulo/"
     titulo = "Edita Asignacion de periodo-profesor-modulo"
+
+
+    def get_context_data(self, **kwargs):
+        context = super(PeriodoProfesorModuloUpdateView, self).get_context_data(**kwargs)
+
+        h = None
+        ppm = context["object"]
+
+        if (ppm is not None):
+            h = Horario.objects.all().filter(periodoprofesormodulo = ppm)
+            h = h.order_by("dia_semana", "bloque__nombre")
+
+        k={}
+        dic={}
+        dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
+        for i in dia_semana:
+            print (i)
+            h=h.filter(dia_semana=i)
+            for j in h:
+                dic[j.bloque]=j.reservado
+
+        print(dic)
+        print (k)
+        context["horario"] = k
+        b = Bloque.objects.all().order_by("nombre")
+        context["bloque_list"] = b
+        #max de bloque
+        b = b.aggregate(Max("nombre"))
+        b = b["nombre__max"]+1
+        context["bloque_max"] = range(1, b)
+
+        context["dia_semana_list"] = dia_semana
+        return context
 
 
     def get_success_message(self, cleaned_data):
