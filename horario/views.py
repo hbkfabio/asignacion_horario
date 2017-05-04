@@ -35,7 +35,7 @@ from .valida import (valida_cantidad_horas,
                      valida_choque_horario,
                      )
 
-import simplejson as json
+import json
 import collections
 
 # Create your views here.
@@ -114,6 +114,9 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
         context = super(PeriodoProfesorModuloCreateView, self).get_context_data(**kwargs)
 
         b = Bloque.objects.all().order_by("nombre")
+        bloque_dic = {}
+        for i in b:
+            print ("bloque", i.nombre)
         context["bloque_list"] = b
         #max de bloque
         b = b.aggregate(Max("nombre"))
@@ -146,6 +149,9 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     def get_context_data(self, **kwargs):
         context = super(PeriodoProfesorModuloUpdateView, self).get_context_data(**kwargs)
 
+        dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
+        context["dia_semana_list"] = dic_dia_semana
+
         h = None
         ppm = context["object"]
 
@@ -155,24 +161,41 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
 
         k={}
         dic={}
-        dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
-        for i in dia_semana:
-            print (i)
-            h=h.filter(dia_semana=i)
-            for j in h:
-                dic[j.bloque]=j.reservado
 
-        print(dic)
-        print (k)
-        context["horario"] = k
-        b = Bloque.objects.all().order_by("nombre")
+        b = Bloque.objects.all().order_by("nombre").order_by("nombre")
+
+        for i in dia_semana:
+            """
+            Creo diccionario con todos los elementos de la clase bloque.
+            Esto crea dos elementos uno de tipo string (key) y otro el tipo
+            diccionario (value), que a su vez contiene la key de bloque y value
+            por defecto como falso.
+            ejemplo, dic={key:value{xx:vv}}
+            """
+            dic_aux={}
+
+            for t in b:
+                dic_aux[t]= False
+
+            dic[i]=dic_aux
+
+        dic = collections.OrderedDict(sorted(dic.items()))
+
+        for i in h:
+            """
+            Actualizo los elementos del diccionario creado solo con los
+            elementos que se encuentran en la clase horario.
+            """
+            x=dic[i.dia_semana]
+            xx = x[i.bloque]=i.reservado
+
+        context["horario"] = dic
         context["bloque_list"] = b
         #max de bloque
         b = b.aggregate(Max("nombre"))
         b = b["nombre__max"]+1
         context["bloque_max"] = range(1, b)
 
-        context["dia_semana_list"] = dia_semana
         return context
 
 

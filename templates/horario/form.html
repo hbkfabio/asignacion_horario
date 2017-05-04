@@ -3,6 +3,8 @@
 
 {% load bootstrap3 %}
 
+{% load dia_semana %}
+
 {% block title %}
 
 {% endblock %}
@@ -30,31 +32,27 @@
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                 <table width="100%" class="table table-bordered table-hover">
                     <thead class="thead-default">
-					<tr>
-					    <th></th>
-					    {% for obj in bloque_list %}
-						    <th id="{{obj.id}}">{{obj.nombre}}</th>
-					    {% endfor %}
-					</tr>
-				    </thead>
+					            <tr>
+					            <th></th>
+					              {% for obj in bloque_list %}
+						            <th id="{{obj.id}}">{{ obj.nombre }}</th>
+					              {% endfor %}
+					            </tr>
+				            </thead>
                     <tbody>
-                        <tr>
-                            {% for key, value in dia_semana_list.items %}
-                                <tr>
-                                    <td>{{value}}</td>
-
-                                    {% for obj in horario %}
-                                        <!-- {% if key == obj.dia_semana %} -->
-                                            {% for i in bloque_max %}
-                                                <td>{{obj.bloque.nombre}}</td>
-
-                                            {% endfor %}
-                                        <!-- {% endif %} -->
-                                    {% endfor %}
-
-                                </tr>
+                      {% for k, val in horario.items %}
+                          <tr>
+                            <td>{{ dia_semana_list|get_item:k }}</td>
+                            {% for v in val.values %}
+                              <!-- <td>{{v.values}}</td> -->
+                              {% if v %}
+                                <td>X</td>
+                              {% else %}
+                                <td></td>
+                              {% endif %}
                             {% endfor %}
-                        </tr>
+                          </tr>
+                      {% endfor %}
                     </tbody>
                 </table>
             </div>
