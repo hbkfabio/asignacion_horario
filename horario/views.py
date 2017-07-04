@@ -49,6 +49,53 @@ dic_dia_semana={"1": "Lunes",
 
 from parametros.views import StaffRequiredMixin
 
+
+def create_dic_bloque():
+    """
+    Recibe como parametro un objeto de tipo Queryset->Bloque
+    Creo diccionario con todos los elementos de la clase bloque.
+    Esto crea dos elementos uno de tipo string (key) y otro el tipo
+    diccionario (value), que a su vez contiene la key de bloque y value
+    por defecto como falso.
+    ejemplo, dic={key:value{xx:vv}}
+    """
+    dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
+    b = Bloque.objects.all().order_by("nombre")
+
+    dic={}
+
+    for i in dia_semana:
+        dic_aux={}
+
+        for t in b:
+            dic_aux[t]= False
+
+        dic[i]=dic_aux
+
+    dic = collections.OrderedDict(sorted(dic.items()))
+
+    return dic
+
+
+def create_dic_bloque_title(context):
+    """
+    Recibe: Context
+    Crea los titulos y extensión de los bloques para ser dibujado en la tabla
+    que realiza la interacción con el horario
+    Retorna: Context
+    """
+
+    b = Bloque.objects.all().order_by("nombre")
+    context["bloque_list"] = b
+
+    #max de bloque
+    b = b.aggregate(Max("nombre"))
+    b = b["nombre__max"]
+    context["bloque_max"] = range(0, b)
+
+    return context
+
+
 class PeriodoProfesorModuloListView(StaffRequiredMixin, ViewListView):
     model = PeriodoProfesorModulo
     template_name = "horario/base_horario.html"
@@ -111,24 +158,24 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
 
 
     def get_context_data(self, **kwargs):
+
         context = super(PeriodoProfesorModuloCreateView, self).get_context_data(**kwargs)
 
-        b = Bloque.objects.all().order_by("nombre")
-        bloque_dic = {}
-        for i in b:
-            print ("bloque", i.nombre)
-        context["bloque_list"] = b
-        #max de bloque
-        b = b.aggregate(Max("nombre"))
-        b = b["nombre__max"]
-        context["bloque_max"] = range(0, b)
-        dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
-        context["dia_semana_list"] = dia_semana
+        dic=create_dic_bloque()
+
+        context["horario"] = dic
+        context["dia_semana_list"] = dic_dia_semana
+
+        create_dic_bloque_title(context)
+
         return context
 
 
     def get_success_message(self, cleaned_data):
-    #cleaned_data is the cleaned data from the form which is used for string formatting
+        """
+        cleaned_data is the cleaned data from the form which is used for string
+        formatting
+        """
         return self.success_message % dict(cleaned_data,
                                        nombre=self.object.profesor.nombre)
 
@@ -147,9 +194,8 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
 
 
     def get_context_data(self, **kwargs):
-        context = super(PeriodoProfesorModuloUpdateView, self).get_context_data(**kwargs)
 
-        dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
+        context = super(PeriodoProfesorModuloUpdateView, self).get_context_data(**kwargs)
         context["dia_semana_list"] = dic_dia_semana
 
         h = None
@@ -159,42 +205,19 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
             h = Horario.objects.all().filter(periodoprofesormodulo = ppm)
             h = h.order_by("dia_semana", "bloque__nombre")
 
-        k={}
-        dic={}
-
-        b = Bloque.objects.all().order_by("nombre").order_by("nombre")
-
-        for i in dia_semana:
-            """
-            Creo diccionario con todos los elementos de la clase bloque.
-            Esto crea dos elementos uno de tipo string (key) y otro el tipo
-            diccionario (value), que a su vez contiene la key de bloque y value
-            por defecto como falso.
-            ejemplo, dic={key:value{xx:vv}}
-            """
-            dic_aux={}
-
-            for t in b:
-                dic_aux[t]= False
-
-            dic[i]=dic_aux
-
-        dic = collections.OrderedDict(sorted(dic.items()))
+        dic=create_dic_bloque()
 
         for i in h:
             """
-            Actualizo los elementos del diccionario creado solo con los
-            elementos que se encuentran en la clase horario.
+            Actualizo los elementos del diccionario creado, esto es solo para
+            los elementos que se encuentran en la clase horario.
             """
             x=dic[i.dia_semana]
             xx = x[i.bloque]=i.reservado
 
         context["horario"] = dic
-        context["bloque_list"] = b
-        #max de bloque
-        b = b.aggregate(Max("nombre"))
-        b = b["nombre__max"]+1
-        context["bloque_max"] = range(1, b)
+        context = create_dic_bloque_title(context)
+        create_dic_bloque_title(context)
 
         return context
 
@@ -494,5 +517,27 @@ def SaveHorarioProtegido(request):
             r.update(
                 reservado = value
             )
+
+    return HttpResponse("")
+
+
+@csrf_exempt
+def saveHorario(request):
+    if request.method == "POST" and request.is_ajax():
+        """
+        POST trae como valores:
+        row = Fila que refiere al día de la semana.
+        col = Columna que referencia al bloque.
+        value = Valor de texto de la celda clickeada.
+        """
+        value = request.POST.get("value")
+
+        if (value.upper() == "X"):
+            value = True
+        else:
+            value = False
+
+        print(value)
+
 
     return HttpResponse("")
