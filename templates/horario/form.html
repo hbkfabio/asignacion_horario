@@ -33,22 +33,21 @@
                 <table width="100%" class="table table-bordered table-hover">
                     <thead class="thead-default">
 					            <tr>
-					            <th></th>
+					            <th>Día Semana / Bloque</th>
 					              {% for obj in bloque_list %}
-						            <th id="{{obj.id}}">{{ obj.nombre }}</th>
+						            <th id="{{obj.id}}" align="center">{{ obj.nombre }}</th>
 					              {% endfor %}
 					            </tr>
 				            </thead>
                     <tbody>
                       {% for k, val in horario.items %}
                           <tr>
-                            <td>{{ dia_semana_list|get_item:k }}</td>
+                            <td id="dia">{{ dia_semana_list|get_item:k }}</td>
                             {% for v in val.values %}
-                              <!-- <td>{{v.values}}</td> -->
                               {% if v %}
-                                <td>X</td>
+                                <td class="change" align="center">X</td>
                               {% else %}
-                                <td></td>
+                                <td class="change" align="center"> </td>
                               {% endif %}
                             {% endfor %}
                           </tr>
@@ -78,4 +77,5 @@
 
     <!-- jQuery -->
     <script src="/static/js/horario.js"></script>
+    <script src="/static/js/change-horario.js"></script>
 {% endblock %}

@@ -145,88 +145,88 @@ $(document).on("change", ".combo-option", function(event){
 });
 
 
-$(document).on("click", ".accion", function(event){
+// $(document).on("click", ".accion", function(event){
 
-  event.preventDefault();
+//   event.preventDefault();
 
-  var item = $(this);
-  var valor = item.text();
+//   var item = $(this);
+//   var valor = item.text();
 
-  if (valor != "X"){
+//   if (valor != "X"){
     //creo el combo
-    combo = change_to_select_item(item);
-    item.attr('class', '');
-    item.html(combo);
+//     combo = change_to_select_item(item);
+//     item.attr('class', '');
+//     item.html(combo);
     //manipulo el combo creado en la celda de la tabla
-    combo = item.children();
-    combo.val(valor);
-  }
+//     combo = item.children();
+//     combo.val(valor);
+//   }
 
 
-  event.stopPropagation();
-  return false;
+//   event.stopPropagation();
+//   return false;
 
-  var cell = $(this);
+//   var cell = $(this);
 
-  var val = $(this).text();
+//   var val = $(this).text();
   // if (val == "X"){
   //   return false
   // }
 
-  var row = $(this).closest("tr").children('td');
-  var dia_semana = $(this).closest('table').attr('id');
-  var dic = {};
+//   var row = $(this).closest("tr").children('td');
+//   var dia_semana = $(this).closest('table').attr('id');
+//   var dic = {};
 
-  var titulo_bloque = cell.closest('table').find('th').eq(cell.index());
+//   var titulo_bloque = cell.closest('table').find('th').eq(cell.index());
 
-  if (val == ""){
-    $(this).text("C");
-  }else if(val == "C"){
-    $(this).text("A");
-  }else if(val == "A"){
-    $(this).text("S");
-  }else if(val == "S"){
-    $(this).text("L");
-  }else if( val == "L"){
-    $(this).text("T");
-  }else if(val=="T"){
-    $(this).text("");
-  }
+//   if (val == ""){
+//     $(this).text("C");
+//   }else if(val == "C"){
+//     $(this).text("A");
+//   }else if(val == "A"){
+//     $(this).text("S");
+//   }else if(val == "S"){
+//     $(this).text("L");
+//   }else if( val == "L"){
+//     $(this).text("T");
+//   }else if(val=="T"){
+//     $(this).text("");
+//   }
 
-  val = $(this).text();
-  dic["dia_semana"] = dia_semana;
-  dic["titulo_bloque"] = titulo_bloque.text();
-  row.each(function(){
-    dic[$(this).attr("class")] = $(this).text().trim();
-  })
+//   val = $(this).text();
+//   dic["dia_semana"] = dia_semana;
+//   dic["titulo_bloque"] = titulo_bloque.text();
+//   row.each(function(){
+//     dic[$(this).attr("class")] = $(this).text().trim();
+//   })
 
-  dic = JSON.stringify(dic);
+//   dic = JSON.stringify(dic);
 
   // console.log(dic);
 
-  var parametros = {"diccionario":dic,
-                    "valor":val,
-                    }
+//   var parametros = {"diccionario":dic,
+//                     "valor":val,
+//                     }
 
-     $.ajax({
-         type: "POST",
-         url: "/horario/save/",
-         data: parametros,
-         async: false,
-        })
-        .done(function( data ){
-          console.log(data);
-          if (data.slice(0, 100).length > 1){
-            if (data.length ==55){
-              cell.text("");
-            }
-            cell.css("background-color", "red");
-            alert(data.slice(0, 300));
-            cell.css("background-color", "");
-          }else{
-            cell.css("background-color", "");
-          }
+//      $.ajax({
+//          type: "POST",
+//          url: "/horario/save/",
+//          data: parametros,
+//          async: false,
+//         })
+//         .done(function( data ){
+//           console.log(data);
+//           if (data.slice(0, 100).length > 1){
+//             if (data.length ==55){
+//               cell.text("");
+//             }
+//             cell.css("background-color", "red");
+//             alert(data.slice(0, 300));
+//             cell.css("background-color", "");
+//           }else{
+//             cell.css("background-color", "");
+//           }
 
-        });
+//         });
 
-});
+// });

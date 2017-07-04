@@ -15,6 +15,7 @@ from .views import (PeriodoProfesorModuloListView,
                     # HorarioView,
                     HorarioTemplateView,
                     HorarioSave,
+                    saveHorario,
                     HorarioListView,
                     ReservaBloqueProtegidoListView,
                     ReservaBloqueProtegidoCreateView,
@@ -37,7 +38,8 @@ urlpatterns = [
     #Horario
     url(r'^horario/$', HorarioListView.as_view(), name='horario'),
     url(r'^horario/edit/$', HorarioTemplateView.as_view(), name='horario-edit'),
-    url(r'^horario/save/$', HorarioSave, name='horario-save'),
+    #url(r'^horario/save/$', HorarioSave, name='horario-save'),
+    url(r'^horario/save/$', saveHorario, name='horario-save'),
 
     #Param
     url(r'^horario/param/get_plan/$', GetPlan, name='get-plan'),
