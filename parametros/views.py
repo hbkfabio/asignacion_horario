@@ -193,7 +193,7 @@ class ModuloView(StaffRequiredMixin, ViewListView):
 
 class ModuloCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = ModuloForm
-    template_name = "parametros/form_modulo.html"
+    template_name = "parametros/form.html"
     titulo = "Agrega Modulo"
     success_message = "El Modulo %(nombre)s ha sido creado"
     success_url = "/modulo/"
