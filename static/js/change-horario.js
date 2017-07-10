@@ -19,6 +19,7 @@ $(document).on("click", ".change", function(event){
 
   }
 
+
   valor = celda.text();
 
   // var dia_semana = $(this).find('td:first');
