@@ -21,6 +21,7 @@ from parametros.models import (Periodo,
                                Modulo,
                                Carrera,
                                Bloque,
+                               Actividad,
                                )
 
 from .forms import (PeriodoProfesorModuloForm,
@@ -484,6 +485,16 @@ def GetCarrera(request):
     if request.method == "POST" and request.is_ajax():
         codigo = request.POST.get("codigo")
         query = Carrera.objects.all()
+        query = query.order_by("nombre")
+
+        return JsonResponse(serializers.serialize('json', query), safe=False)
+
+@csrf_exempt
+def GetActividad(request):
+
+    if request.method == "POST" and request.is_ajax():
+        codigo = request.POST.get("codigo")
+        query = Actividad.objects.all()
         query = query.order_by("nombre")
 
         return JsonResponse(serializers.serialize('json', query), safe=False)

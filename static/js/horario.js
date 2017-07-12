@@ -33,7 +33,7 @@ function disable_all(){
 function load_select_data(widget, data){
 
   var name = widget.attr("name");
-  var txt = `Seleccione un(a)  ${name}`;
+  var txt = 'Seleccione un(a)  ${name}';
 
   $(widget).append(
       $('<option></option>').val("").html(txt)
@@ -56,7 +56,7 @@ function get_data_model(widget, value){
   var diccionario = {'codigo' : value}
 
   var name = widget.attr("name");
-  var url = `/horario/param/get_${name}/`;
+  var url = '/horario/param/get_${name}/';
 
 
   $.ajax({
