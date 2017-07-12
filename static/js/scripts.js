@@ -98,7 +98,7 @@ $(document).on("click", ".add", function(event){
 });
 
 
-$(document).on("click", "button[type='reset']", function(event){
+$(document).toggle("click", "button[type='reset']", function(event){
 
   event.preventDefault();
 
@@ -124,25 +124,7 @@ function change_to_select_item(item){
 }
 
 
-$(document).on("change", ".combo-option", function(event){
 
-  event.preventDefault();
-
-  var combo = $(this);
-  var valor = combo.val();
-
-  console.log(combo);
-
-  td = $(this).parent();
-  td.html(valor);
-  td.attr('class', 'accion');
-
-  titulo_bloque = td.closest('table').find('th').eq(td.index());
-  console.log(titulo_bloque.text());
-
-  event.stopPropagation();
-
-});
 
 
 // $(document).on("click", ".accion", function(event){

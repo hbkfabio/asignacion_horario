@@ -10,6 +10,7 @@ from .views import (PeriodoProfesorModuloListView,
                     GetProfesor,
                     GetModulo,
                     GetCarrera,
+                    GetActividad,
                     SaveHorarioProtegido,
 
                     # HorarioView,
@@ -47,4 +48,5 @@ urlpatterns = [
     url(r'^horario/param/get_profesor/$', GetProfesor, name='get-periodo'),
     url(r'^horario/param/get_modulo/$', GetModulo, name='get-modulo'),
     url(r'^horario/param/get_carrera/$', GetCarrera, name='get-carrera'),
+    url(r'^horario/param/get_actividad/$', GetActividad, name='get-actividad'),
     ]
