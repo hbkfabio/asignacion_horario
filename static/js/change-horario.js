@@ -7,24 +7,12 @@ $(document).on("click", ".change", function(event){
 
   var celda = $(this);
   var valor = celda.text();
+  var col = $(this).parent().children().index($(this));
+  var row = $(this).parent().parent().children().index($(this).parent());
 
+    valor = celda.text();
   create_combo_selected(celda);
   celda.attr("class","");
-  
-
- // if(valor == " "){
-
-//    celda.text("X");
-
-//  }else{
-
- //   celda.text(" ");
-
- // }
-
-
-  valor = celda.text();
-
   // var dia_semana = $(this).find('td:first');
   // var dia_semana = $(table).find('td:first').text() //
   // console.log(dia_semana);
@@ -38,37 +26,26 @@ $(document).on("click", ".change", function(event){
   // console.log(dia_semana);
 
   //indice de columnas
-  var col = $(this).parent().children().index($(this));
-  var row = $(this).parent().parent().children().index($(this).parent());
-  console.log('Row: ' + row + ', Column: ' + col);
+  
+  console.log('Row: ' + row + ', Column: ' + col + ' Valor: '+ valor);
 
-  var param = {"colum": col,
-              "row": row,
-              "value": valor,
-
-              }
-
-  $.ajax({
-     type: "POST",
-     url: "/horario/save/",
-     data: param,
-     //async: false,
-  })
-    .done(function( data ){
-      console.log(data);
-  });
+  
 
 
 });
 
+function save_combo_selected(celda, row, colum){
+}
+
 function create_combo_selected(celda){
   var valor = celda.text();
   celda.text("");
-console.log(valor);
+
+  //console.log('dato: '+valor);
 
   var url = '/horario/param/get_actividad/';
   var diccionario = {};
- console.log("HOLA1");
+
 
    $.ajax({
          type: "POST",
@@ -80,18 +57,6 @@ console.log(valor);
           data = $.parseJSON(data);
           load_select_actividad(celda, data, valor)
         });
-
-//html ='<select class="combo-option">';
- // html += '<option value=""> </option>';
- // html += '<option value="C" selected>C</option>';
- // html += '<option value="A">A</option>';
- // html += '<option value="L">L</option>';
- // html += '<option value="S">S</option>';
- // html += '</select>';
-  
- // celda.append(html);
-  
-
 }
 
 function load_select_actividad(widget, data, valor){
@@ -100,17 +65,10 @@ function load_select_actividad(widget, data, valor){
   var txt = 'Seleccione un(a)  ${name}';
   var html = "";
 
-  console.log("HOLA");
-
-  //$(widget).append(
-  //    $('<option></option>').val("").html(txt)
- //   );
     html +='<select class="combo-option">';
     html+= ('<option value=" "></option>');
 
   $.each(data, function(i, val){
-    //console.log(val);
-    //pk = val["pk"]
     txt = val["fields"]["identificador"]
 
    if(valor == txt){
@@ -119,15 +77,15 @@ function load_select_actividad(widget, data, valor){
 
    }
     else{
-    html+= ('<option value='+txt+'>'+txt+'</option>');
-    }
+
+      html+= ('<option value='+txt+'>'+txt+'</option>');
+    
+     }
     
     });
   html += '</select>';
 
   widget.append(html);
-
-
 }
 
 $(document).on("change", ".combo-option", function(event){
@@ -144,7 +102,50 @@ $(document).on("change", ".combo-option", function(event){
   td.attr('class', 'change');
 
   titulo_bloque = td.closest('table').find('th').eq(td.index());
-  console.log(titulo_bloque.text());
+
+  var col = $(td).parent().children().index($(td));
+  var row = $(td).parent().parent().children().index($(td).parent());
+
+  var periodo = $("#id_periodo").val();
+  var carrera = $("#id_carrera").val();
+  var plan = $("#id_plan").val();
+  var modulo = $("#id_modulo").val();
+  var profesor = $("#id_profesor").val();
+
+  console.log("per: "+ periodo);
+  console.log("car: "+ carrera);
+  console.log("plan: "+ plan);
+  console.log("mod: "+ modulo);
+  console.log("prof: "+ profesor);
+
+  var param = {"colum": col,
+              "row": row,
+              "value": valor,
+              "periodo": periodo,
+              "carrera": carrera,
+              "plan": plan,
+              "modulo": modulo,
+              "profesor": profesor,
+              }
+
+  console.log('datos: '+param);
+  console.log('enviando datos');
+
+
+    $.ajax({
+     type: "POST",
+     url: "/horario/save/",
+     data: param,
+
+     
+  })
+    .done(function(data){
+      //console.log(data);
+  });
+  //console.log(titulo_bloque.text());
+
+
+console.log('datos enviados');
 
   event.stopPropagation();
 

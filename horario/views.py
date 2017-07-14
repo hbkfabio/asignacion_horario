@@ -499,6 +499,24 @@ def GetActividad(request):
 
         return JsonResponse(serializers.serialize('json', query), safe=False)
 
+# para salvar actividad en cierto bloque
+@csrf_exempt
+def SaveActividadBloque(request):
+
+    if request.method == "POST" and request.is_ajax():
+        codigo = request.POST.get("codigo")
+        s = Horario.objects.all()
+        # query = query.order_by("nombre")
+
+        s = s.filter(dia = dia_semana)
+        s = s.filter(bloque = bloque)
+        s = s.filter(ppm = periodoprofesormodulo)
+
+        s.save()
+        s.update()
+
+
+    return HttpResponse("")
 
 @csrf_exempt
 def SaveHorarioProtegido(request):
@@ -509,6 +527,7 @@ def SaveHorarioProtegido(request):
 
         b = Bloque.objects.all()
         b = b.filter(nombre=bloque)
+
 
         r = ReservaBloqueProtegido.objects.all()
         r = r.filter(bloque = b[0])
@@ -541,14 +560,53 @@ def saveHorario(request):
         col = Columna que referencia al bloque.
         value = Valor de texto de la celda clickeada.
         """
-        value = request.POST.get("value")
 
+        actividad = request.POST.get("value")
+        dia = request.POST.get("row")
+        bloque = request.POST.get("colum")
+
+        valor = Actividad.objects.all()
+        block = Bloque.objects.all()
+
+        print(actividad)
+        print(valor)
+        print('bloque: '+bloque)
+        print('dia: '+dia)
+
+        valor = valor.filter(identificador = actividad)
+        block = block.filter(nombre = bloque)
+
+        #datos de periodo prof modulo
+        periodo = request.POST.get("periodo")
+        carrera = request.POST.get("carrera")
+        plan = request.POST.get("plan")
+        modulo = request.POST.get("modulo")
+        profesor = request.POST.get("profesor")
+
+        query = PeriodoProfesorModulo.objects.all()
+        query = query.filter(periodo__id = periodo)
+        query = query.filter(carrera__id= carrera)
+        query = query.filter(plan__id= plan)
+        query = query.filter(modulo__id= modulo)
+        query = query.filter(profesor__id= profesor)
+        
+        a = Horario(periodoprofesormodulo = query[0], 
+            dia_semana = dia,
+            reservado = True,
+            bloque = block[0],
+            actividad = valor[0],
+            )
+
+        a.save()
+
+        """
         if (value.upper() == "X"):
             value = True
         else:
             value = False
-
-        print(value)
+        """
+        print(query)
+        
 
 
     return HttpResponse("")

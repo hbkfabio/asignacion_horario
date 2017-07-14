@@ -11,6 +11,7 @@ from .views import (PeriodoProfesorModuloListView,
                     GetModulo,
                     GetCarrera,
                     GetActividad,
+                    SaveActividadBloque,
                     SaveHorarioProtegido,
 
                     # HorarioView,
@@ -41,6 +42,8 @@ urlpatterns = [
     url(r'^horario/edit/$', HorarioTemplateView.as_view(), name='horario-edit'),
     #url(r'^horario/save/$', HorarioSave, name='horario-save'),
     url(r'^horario/save/$', saveHorario, name='horario-save'),
+    #url(r'^horario/saveActividadBloque/$', SaveActividadBloque, name='actividadbloque-save'),
+
 
     #Param
     url(r'^horario/param/get_plan/$', GetPlan, name='get-plan'),

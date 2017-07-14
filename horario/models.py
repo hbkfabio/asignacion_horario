@@ -5,6 +5,7 @@ from parametros.models import (Periodo,
                              Bloque,
                              Carrera,
                              Plan,
+                             Actividad,
                               )
 # Create your models here.
 
@@ -24,6 +25,7 @@ class Horario(models.Model):
     dia_semana = models.CharField(max_length=20, default="")
     reservado = models.BooleanField(default=False)
     bloque = models.ForeignKey(Bloque, default=None)
+    actividad= models.ForeignKey(Actividad, default=None)
 
 
 class ReservaBloqueProtegido(models.Model):
