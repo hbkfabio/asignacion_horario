@@ -216,6 +216,7 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
             x=dic[i.dia_semana]
             xx = x[i.bloque]=i.reservado
 
+        #print(_a)
         context["horario"] = dic
         context = create_dic_bloque_title(context)
         create_dic_bloque_title(context)
@@ -563,18 +564,24 @@ def saveHorario(request):
 
         actividad = request.POST.get("value")
         dia = request.POST.get("row")
-        bloque = request.POST.get("colum")
+        bloque = request.POST.get("bloque")
+
+        print('BLOQUE: '+bloque)
+        print(dia)
 
         valor = Actividad.objects.all()
         block = Bloque.objects.all()
 
-        print(actividad)
-        print(valor)
-        print('bloque: '+bloque)
-        print('dia: '+dia)
+       
+
 
         valor = valor.filter(identificador = actividad)
+        #num = block.filter(id = bloque)
         block = block.filter(nombre = bloque)
+        
+       
+        print("NOMBRE")
+        print(block[0].nombre)
 
         #datos de periodo prof modulo
         periodo = request.POST.get("periodo")
@@ -605,7 +612,7 @@ def saveHorario(request):
         else:
             value = False
         """
-        print(query)
+        print(a)
         
 
 

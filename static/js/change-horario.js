@@ -17,9 +17,7 @@ $(document).on("click", ".change", function(event){
   // var dia_semana = $(table).find('td:first').text() //
   // console.log(dia_semana);
 
-  // var titulo_bloque = celda.closest('table').find('th').eq(celda.index());
-  // titulo_bloque = titulo_bloque.text();
-  // console.log(titulo_bloque);
+  
 
   // var dia_semana = $(this).parents('tr:first').find('td:first').text();
 
@@ -106,17 +104,25 @@ $(document).on("change", ".combo-option", function(event){
   var col = $(td).parent().children().index($(td));
   var row = $(td).parent().parent().children().index($(td).parent());
 
+  console.log("row: "+(row+1));
+
+  //se coloca +1 porque los dias de la semana empiezan de 0
+  row = (row+1)
+
+
   var periodo = $("#id_periodo").val();
   var carrera = $("#id_carrera").val();
   var plan = $("#id_plan").val();
   var modulo = $("#id_modulo").val();
   var profesor = $("#id_profesor").val();
+  titulo_bloque = titulo_bloque.text();
 
   console.log("per: "+ periodo);
   console.log("car: "+ carrera);
   console.log("plan: "+ plan);
   console.log("mod: "+ modulo);
   console.log("prof: "+ profesor);
+  console.log("bloque: "+titulo_bloque)
 
   var param = {"colum": col,
               "row": row,
@@ -126,6 +132,7 @@ $(document).on("change", ".combo-option", function(event){
               "plan": plan,
               "modulo": modulo,
               "profesor": profesor,
+              "bloque": titulo_bloque,
               }
 
   console.log('datos: '+param);
