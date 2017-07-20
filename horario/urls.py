@@ -12,6 +12,7 @@ from .views import (PeriodoProfesorModuloListView,
                     GetCarrera,
                     GetActividad,
                     SaveActividadBloque,
+
                     SaveHorarioProtegido,
 
                     # HorarioView,

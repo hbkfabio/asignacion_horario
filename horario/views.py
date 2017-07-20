@@ -500,6 +500,7 @@ def GetActividad(request):
 
         return JsonResponse(serializers.serialize('json', query), safe=False)
 
+
 # para salvar actividad en cierto bloque
 @csrf_exempt
 def SaveActividadBloque(request):
@@ -518,6 +519,7 @@ def SaveActividadBloque(request):
 
 
     return HttpResponse("")
+
 
 @csrf_exempt
 def SaveHorarioProtegido(request):
