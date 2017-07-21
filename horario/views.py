@@ -214,7 +214,12 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
             los elementos que se encuentran en la clase horario.
             """
             x=dic[i.dia_semana]
-            xx = x[i.bloque]=i.reservado
+            """
+            con i.actividad.identificador , se almacenan los identificadores de las 
+            actividades seleccionadas en cierto bloque y día. Así para despues 
+            mostralas en pantalla.
+            """
+            xx = x[i.bloque]=i.actividad.identificador
 
         #print(_a)
         context["horario"] = dic
@@ -606,14 +611,22 @@ def saveHorario(request):
             actividad = valor[0],
             )
 
-        a.save()
+        """
+        verifico si existe una actividad en el mismo dia y bloque para 
+        poder reemplazar con actividad nueva.
+        """
+        query_verifica = Horario.objects.all()
+        query_verifica = query_verifica.filter(dia_semana= dia, bloque=block[0])
+        if query_verifica.exists():
+            print("EXISTE")
+            query_verifica = query_verifica.get()
+            query_verifica.actividad_id = valor[0]
+            print(query_verifica.id)
+            query_verifica.save()
 
-        """
-        if (value.upper() == "X"):
-            value = True
         else:
-            value = False
-        """
+            a.save()
+
         print(a)
         
 
