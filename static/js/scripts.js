@@ -98,15 +98,15 @@ $(document).on("click", ".add", function(event){
 });
 
 
-$(document).toggle("click", "button[type='reset']", function(event){
+$(document).on("click", ".reset", function(event){
 
-  event.preventDefault();
+   event.preventDefault();
 
-  var pathname = window.location.pathname.split("/")[1];
-  pathname="/"+pathname+"/";
-  window.location.href =pathname;
+   var pathname = window.location.pathname.split("/")[1];
+   pathname="/"+pathname+"/";
+   window.location.href =pathname;
 
-  event.stopPropagation();
+   event.stopPropagation();
 
 });
 
