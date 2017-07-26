@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from django.db import models
 from parametros.models import (Periodo,
                              Profesor,
@@ -34,3 +35,7 @@ class ReservaBloqueProtegido(models.Model):
 
     class Meta:
         ordering = ["bloque"]
+
+
+class HorarioTemp(models.Model):
+    pass

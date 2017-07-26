@@ -91,8 +91,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'asignacion_horario',
-        'USER': 'carlos',
-        'PASSWORD': '12345',
+        'USER': 'fabio',
+        'PASSWORD': '123',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

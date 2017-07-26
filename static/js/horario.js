@@ -1,19 +1,16 @@
 $(document).ready(function(){
 
-
   periodo = $("select[name = 'periodo']");
 
   if (periodo.val() == ""){
     disable_all();
   }
 
-
 });
 
 
 function disable_all(){
   //Se deshabilitan todos los widget menos periodo.
-
     w = [
     carrera = $("select[name = 'carrera']"),
     plan = $("select[name = 'plan']"),
@@ -33,7 +30,7 @@ function disable_all(){
 function load_select_data(widget, data){
 
   var name = widget.attr("name");
-  var txt = 'Seleccione un(a)  ${name}';
+  var txt = `Seleccione un(a) ${name}`;
 
   $(widget).append(
       $('<option></option>').val("").html(txt)
@@ -56,7 +53,7 @@ function get_data_model(widget, value){
   var diccionario = {'codigo' : value}
 
   var name = widget.attr("name");
-  var url = '/horario/param/get_${name}/';
+  var url = `/horario/param/get_${name}/`;
 
 
   $.ajax({
@@ -157,49 +154,3 @@ $(document).on("change", "select[name = 'plan']", function(event){
 
 });
 
-
-//Listado periodo profesor modulo
-// $(document).on("change", "#periodo", function(event){
-
-//   var periodo = $(this).val();
-//   var url = `/periodoprofesormodulo/`;
-//   var carrera = $("#carrera").val()
-
-//   var diccionario = {"periodo": periodo,
-//                       "carrera": carrera,
-//                     };
-
-//   $.ajax({
-//          type: "GET",
-//          url: url,
-//          data: diccionario,
-         // async: false,
-//         })
-//         .done(function(data){
-          // data = $.parseJSON(data);
-          // load_select_data(widget, data)
-//         });
-// });
-
-
-// $(document).on("change", "#carrera", function(event){
-
-//   console.log("click");
-//   var carrera = $(this).val();
-//   var url = `/periodoprofesormodulo/`;
-//   var periodo = $("#periodo").val();
-//   var diccionario = {"carrera": carrera,
-//                     "periodo": periodo,
-//                     };
-
-//   $.ajax({
-//          type: "GET",
-//          url: url,
-//          data: diccionario,
-         // async: false,
-//         })
-//         .done(function(data){
-          // data = $.parseJSON(data);
-          // load_select_data(widget, data)
-//         });
-// });

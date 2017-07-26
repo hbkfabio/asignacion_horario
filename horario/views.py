@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core import serializers
 from django.http import JsonResponse
@@ -182,6 +184,7 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
 
     def form_valid(self, form):
         form.save()
+        print(_a)
         return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
 
@@ -568,22 +571,12 @@ def saveHorario(request):
         dia = request.POST.get("row")
         bloque = request.POST.get("bloque")
 
-        print('BLOQUE: '+bloque)
-        print(dia)
-
         valor = Actividad.objects.all()
         block = Bloque.objects.all()
-
-       
-
 
         valor = valor.filter(identificador = actividad)
         #num = block.filter(id = bloque)
         block = block.filter(nombre = bloque)
-        
-       
-        print("NOMBRE")
-        print(block[0].nombre)
 
         #datos de periodo prof modulo
         periodo = request.POST.get("periodo")
