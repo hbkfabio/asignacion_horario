@@ -3,8 +3,6 @@ $(document).on("click", ".change", function(event){
   event.preventDefault();
   event.stopPropagation();
 
-  console.log("click")
-
   var celda = $(this);
   var valor = celda.text();
   var col = $(this).parent().children().index($(this));
@@ -80,8 +78,6 @@ $(document).on("change", ".combo-option", function(event){
   var col = $(td).parent().children().index($(td));
   var row = $(td).parent().parent().children().index($(td).parent());
 
-  console.log("row: "+(row+1));
-
   //se coloca +1 porque los dias de la semana empiezan de 0
   row = (row+1)
 
@@ -92,13 +88,6 @@ $(document).on("change", ".combo-option", function(event){
   var modulo = $("#id_modulo").val();
   var profesor = $("#id_profesor").val();
   titulo_bloque = titulo_bloque.text();
-
-  console.log("per: "+ periodo);
-  console.log("car: "+ carrera);
-  console.log("plan: "+ plan);
-  console.log("mod: "+ modulo);
-  console.log("prof: "+ profesor);
-  console.log("bloque: "+titulo_bloque)
 
   var param = {"colum": col,
               "row": row,
@@ -111,10 +100,6 @@ $(document).on("change", ".combo-option", function(event){
               "bloque": titulo_bloque,
               }
 
-  console.log('datos: '+param);
-  console.log('enviando datos');
-
-
     $.ajax({
      type: "POST",
      url: "/horario/save/",
@@ -125,10 +110,6 @@ $(document).on("change", ".combo-option", function(event){
     .done(function(data){
       //console.log(data);
   });
-  //console.log(titulo_bloque.text());
-
-
-console.log('datos enviados');
 
   event.stopPropagation();
 
@@ -145,11 +126,8 @@ function load_select_actividad(widget, data, valor){
   html+= ('<option value=""></option>');
 
   $.each(data, function(i, val){
-    //console.log(val);
-    //pk = val["pk"]
+
     txt = val["fields"]["identificador"]
-    console.log("txt: " + txt)
-    console.log("valor: " + valor)
 
    if(valor == txt){
 

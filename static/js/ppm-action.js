@@ -147,6 +147,17 @@ $(document).on("change", "select[name = 'plan']", function(event){
   var widget = $("select[name = 'modulo']");
   disable_widget(widget, value);
 
+  event.stopPropagation();
+
+});
+
+
+$(document).on("change", "select[name = 'modulo']", function(event){
+
+  event.preventDefault();
+
+  var value = $(this).val();
+
   var widget = $("select[name = 'profesor']");
   disable_widget(widget, value);
 

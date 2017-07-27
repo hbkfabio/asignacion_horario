@@ -184,7 +184,7 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
 
     def form_valid(self, form):
         form.save()
-
+        #Aca se debe guardar el temporal
         return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
 
