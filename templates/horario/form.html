@@ -45,9 +45,9 @@
                             <td id="dia">{{ dia_semana_list|get_item:k }}</td>
                             {% for v in val.values %}
                               {% if v %}
-                                <td class="change" align="center">X</td>
+                                <td class="change" align="center">{{v}}</td>
                               {% else %}
-                                <td class="change" align="center"> </td>
+                                <td class="change" align="center"></td>
                               {% endif %}
                             {% endfor %}
                           </tr>

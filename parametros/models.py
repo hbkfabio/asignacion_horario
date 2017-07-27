@@ -102,7 +102,7 @@ class Bloque(models.Model):
 
 
     def __str__(self):
-        return "númerito: %(nombre)s "%{"nombre":self.nombre}
+        return "número: %(nombre)s "%{"nombre":self.nombre}
 
 
 class Actividad(models.Model):

@@ -138,11 +138,11 @@ console.log('datos enviados');
 function load_select_actividad(widget, data, valor){
 
   var name = widget.attr("name");
-  var txt = 'Seleccione un(a)  ${name}';
+  //var txt = 'Seleccione un(a)  ${name}';
   var html = "";
 
   html +='<select class="combo-option">';
-  html+= ('<option value=" "></option>');
+  html+= ('<option value=""></option>');
 
   $.each(data, function(i, val){
     //console.log(val);
@@ -155,12 +155,13 @@ function load_select_actividad(widget, data, valor){
 
       html+= ('<option value='+txt+' selected>'+txt+'</option>');
 
-   }
-    else{
-    html+= ('<option value='+txt+'>'+txt+'</option>');
-    }
+   }else{
 
-    });
+    html+= ('<option value='+txt+'>'+txt+'</option>');
+
+    }
+  });
+
   html += '</select>';
 
   widget.append(html);

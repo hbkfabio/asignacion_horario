@@ -184,7 +184,7 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
 
     def form_valid(self, form):
         form.save()
-        print(_a)
+
         return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
 
@@ -217,13 +217,22 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
             los elementos que se encuentran en la clase horario.
             """
             x=dic[i.dia_semana]
-            xx = x[i.bloque]=i.reservado
+            """
+            Chequea si el modulo esta disponible o no
+            Si reservado es Falso, la actividad es None o Null,
+            Si reservado es Verdadero, la actividad tiene un objeto de tipo
+            Actividad, y en este caso se asocia al identificador para poder
+            mostrar en la tabla de horario de PPM
+            """
+            if (i.reservado is True):
+                xx = x[i.bloque]=i.actividad.identificador
 
-        #print(_a)
+
+
+
         context["horario"] = dic
         context = create_dic_bloque_title(context)
         create_dic_bloque_title(context)
-
         return context
 
 
@@ -559,24 +568,22 @@ def SaveHorarioProtegido(request):
 
 @csrf_exempt
 def saveHorario(request):
+    """
+    POST trae como valores:
+    row = Fila que refiere al día de la semana.
+    col = Columna que referencia al bloque.
+    value = Valor de texto de la celda clickeada.
+    periodo = Valor del combo periodo
+    carrera = Valor del combo carrera
+    plan = Valor del combo plan
+    modulo = Valor del combo modulo
+    profesor = Valor del combo de profesor
+    """
     if request.method == "POST" and request.is_ajax():
-        """
-        POST trae como valores:
-        row = Fila que refiere al día de la semana.
-        col = Columna que referencia al bloque.
-        value = Valor de texto de la celda clickeada.
-        """
 
         actividad = request.POST.get("value")
         dia = request.POST.get("row")
         bloque = request.POST.get("bloque")
-
-        valor = Actividad.objects.all()
-        block = Bloque.objects.all()
-
-        valor = valor.filter(identificador = actividad)
-        #num = block.filter(id = bloque)
-        block = block.filter(nombre = bloque)
 
         #datos de periodo prof modulo
         periodo = request.POST.get("periodo")
@@ -585,29 +592,52 @@ def saveHorario(request):
         modulo = request.POST.get("modulo")
         profesor = request.POST.get("profesor")
 
+        if actividad != "":
+            actividad_query = Actividad.objects.all()
+            actividad_query = actividad_query.filter(identificador = actividad)
+            actividad=actividad_query[0]
+        else:
+            actividad = None
+
+        block = Bloque.objects.all()
+        #num = block.filter(id = bloque)
+        block = block.filter(nombre = bloque)
+
+        #query de PPM a fin de actualizar horario, se obtiene un solo resultado
         query = PeriodoProfesorModulo.objects.all()
         query = query.filter(periodo__id = periodo)
-        query = query.filter(carrera__id= carrera)
-        query = query.filter(plan__id= plan)
-        query = query.filter(modulo__id= modulo)
-        query = query.filter(profesor__id= profesor)
+        query = query.filter(carrera__id = carrera)
+        query = query.filter(plan__id = plan)
+        query = query.filter(modulo__id = modulo)
+        query = query.filter(profesor__id = profesor)
 
+        #Si el query existe, quiere decir que esta actualizando un dato
 
+        if query.exists():
+            #Chequea si en horario ya está reservado el bloque
+            a = Horario.objects.all()
+            a = a.filter(periodoprofesormodulo = query[0])
+            a = a.filter(dia_semana = dia)
+            a = a.filter(bloque = block[0])
 
-        # a = Horario(periodoprofesormodulo = query[0],
-        #     dia_semana = dia,
-        #     reservado = True,
-        #     bloque = block[0],
-        #     actividad = valor[0],
-        #     )
+            #Se actualiza un bloque de horario ya establecido
+            if a.exists():
+                a = a.get()
+                #Si la actividad es texto blanco se cambia a reservado False
+                if actividad is None:
+                    a.reservado = False
+                else:
+                    a.reservado = True
 
-        # a.save()
-
-        """
-        if (value.upper() == "X"):
-            value = True
-        else:
-            value = False
-        """
+                a.actividad = actividad
+                a.save()
+            else:
+                a = Horario(periodoprofesormodulo = query[0],
+                    dia_semana = dia,
+                    reservado = True,
+                    bloque = block[0],
+                    actividad = actividad,
+                    )
+                a.save()
 
     return HttpResponse("")

@@ -26,7 +26,7 @@ class Horario(models.Model):
     dia_semana = models.CharField(max_length=20, default="")
     reservado = models.BooleanField(default=False)
     bloque = models.ForeignKey(Bloque, default=None)
-    actividad= models.ForeignKey(Actividad, default=None)
+    actividad= models.ForeignKey(Actividad, default=None, null=True, blank=True)
 
 
 class ReservaBloqueProtegido(models.Model):
@@ -38,4 +38,14 @@ class ReservaBloqueProtegido(models.Model):
 
 
 class HorarioTemp(models.Model):
-    pass
+    """
+    Clase utilitaria para almacenar atributos temporales que pudiesen
+    servir para implementar clases que dependen de acciones posteriores
+    a fin de efectuarse de buena manera
+    Clase pivot
+    """
+    dia_semana = models.CharField(max_length=20, default="")
+    reservado = models.BooleanField(default=False)
+    bloque = models.ForeignKey(Bloque, default=None)
+    actividad= models.ForeignKey(Actividad, default=None)
+
