@@ -14,6 +14,7 @@ from parametros.views import (ViewListView,
 
 from .models import (PeriodoProfesorModulo,
                      Horario,
+                     HorarioTemp,
                      ReservaBloqueProtegido,
                      )
 
@@ -639,5 +640,32 @@ def saveHorario(request):
                     actividad = actividad,
                     )
                 a.save()
+        else:
+            #no existe está creando
+            print ("creando")
+            c = Carrera.objects.all()
+            c = c.filter(id = carrera)
+
+            p = Profesor.objects.all()
+            p = p.filter(id = profesor)
+
+            m = Modulo.objects.all()
+            m = m.filter(id = modulo)
+
+            a = HorarioTemp.objects.all()
+            a = a.filter(carrera = c[0])
+            a = a.filter(profesor = p[0])
+            a = a.filter(modulo = m[0])
+
+            a = HorarioTemp(
+                    dia_semana = dia,
+                    reservado = True,
+                    bloque = block[0],
+                    actividad = actividad,
+                    carrera = c[0],
+                    profesor = p[0],
+                    modulo = m[0],
+                )
+            a.save()
 
     return HttpResponse("")

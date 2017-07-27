@@ -44,8 +44,12 @@ class HorarioTemp(models.Model):
     a fin de efectuarse de buena manera
     Clase pivot
     """
-    dia_semana = models.CharField(max_length=20, default="")
+    dia_semana = models.CharField(max_length=20, default="", null=True)
     reservado = models.BooleanField(default=False)
-    bloque = models.ForeignKey(Bloque, default=None)
-    actividad= models.ForeignKey(Actividad, default=None)
+    bloque = models.ForeignKey(Bloque, default=None, null=True)
+    actividad= models.ForeignKey(Actividad, default=None, null=True)
+    carrera = models.ForeignKey(Carrera, default=None, null=True)
+    modulo = models.ForeignKey(Modulo, default=None, null=True)
+    profesor = models.ForeignKey(Profesor, default=None, null=True)
+
 
