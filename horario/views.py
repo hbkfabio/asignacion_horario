@@ -591,15 +591,17 @@ def saveHorario(request):
         query = query.filter(plan__id= plan)
         query = query.filter(modulo__id= modulo)
         query = query.filter(profesor__id= profesor)
-        
-        a = Horario(periodoprofesormodulo = query[0], 
-            dia_semana = dia,
-            reservado = True,
-            bloque = block[0],
-            actividad = valor[0],
-            )
 
-        a.save()
+
+
+        # a = Horario(periodoprofesormodulo = query[0],
+        #     dia_semana = dia,
+        #     reservado = True,
+        #     bloque = block[0],
+        #     actividad = valor[0],
+        #     )
+
+        # a.save()
 
         """
         if (value.upper() == "X"):
@@ -607,8 +609,5 @@ def saveHorario(request):
         else:
             value = False
         """
-        print(a)
-        
-
 
     return HttpResponse("")
