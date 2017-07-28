@@ -184,18 +184,17 @@ function valida_existe_ppm(){
 
   $.ajax({
      type: "POST",
+     dataType: "json",
      url: url,
      data: param,
   })
     .done(function(data){
-      //FIXME
-      if (data != ""){
-        alert(data);
-        profesor.val("");
+      if (!data.success){
+         alert(data.msj);
+         profesor.val("");
       }
 
-  });
-
+    });
 
 }
 

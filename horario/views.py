@@ -568,9 +568,15 @@ def GetValidaPpm(request):
                       "carrera": query[0].carrera.nombre,
                       "periodo": query[0].periodo.nombre
                       }
+            dic={"success": False,
+                "msj":msj}
         else:
-            msj = ""
-        return HttpResponse(msj)
+            dic={"success": True,
+                "msj":""}
+
+        dic = json.dumps(dic).encode('utf_8')
+
+        return HttpResponse(dic)
 
 
 # para salvar actividad en cierto bloque
