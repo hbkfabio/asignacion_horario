@@ -229,12 +229,6 @@ $(document).on("click", ".reset-horario", function(event){
      data: param,
   })
     .done(function(data){
-      // if (!data.success){
-      //    alert(data.msj);
-      //    profesor.val("");
-      // }
-      alert("paso");
-
 
     });
 
