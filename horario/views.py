@@ -653,11 +653,27 @@ def saveHorario(request):
             m = m.filter(id = modulo)
 
             a = HorarioTemp.objects.all()
-            a = a.filter(carrera = c[0])
-            a = a.filter(profesor = p[0])
-            a = a.filter(modulo = m[0])
+            a = a.filter(carrera = c[0],
+                         profesor = p[0],
+                         modulo = m[0],
+                         dia_semana = dia,
+                         #actividad = actividad,
+                         bloque = block[0],
+                         )
 
-            a = HorarioTemp(
+            if a.exists():
+                print("actividad: ", actividad)
+                #Si la actividad es None, se debe eliminar el registro temporal
+                if actividad is None:
+                    print("delete")
+                    a.delete()
+                else:
+                    print("update")
+                    a = a.get()
+                    a.actividad = actividad
+                    a.save()
+            else:
+                a = HorarioTemp(
                     dia_semana = dia,
                     reservado = True,
                     bloque = block[0],
@@ -666,6 +682,6 @@ def saveHorario(request):
                     profesor = p[0],
                     modulo = m[0],
                 )
-            a.save()
+                a.save()
 
     return HttpResponse("")
