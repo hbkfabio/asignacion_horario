@@ -185,7 +185,23 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
 
     def form_valid(self, form):
         form.save()
+        ppm = form.instance
         #Aca se debe guardar el temporal
+        a = HorarioTemp.objects.all()
+        a = a.filter(modulo = ppm.modulo,
+                     carrera = ppm.carrera,
+                     profesor = ppm.profesor,
+                     )
+        for i in a:
+            h = Horario(periodoprofesormodulo = ppm,
+                        dia_semana = i.dia_semana,
+                        bloque = i.bloque,
+                        actividad = i.actividad,
+                        reservado = True,
+                        )
+            h.save()
+            i.delete()
+
         return super(PeriodoProfesorModuloCreateView, self).form_valid(form)
 
 
@@ -642,7 +658,6 @@ def saveHorario(request):
                 a.save()
         else:
             #no existe está creando
-            print ("creando")
             c = Carrera.objects.all()
             c = c.filter(id = carrera)
 
@@ -662,13 +677,10 @@ def saveHorario(request):
                          )
 
             if a.exists():
-                print("actividad: ", actividad)
                 #Si la actividad es None, se debe eliminar el registro temporal
                 if actividad is None:
-                    print("delete")
                     a.delete()
                 else:
-                    print("update")
                     a = a.get()
                     a.actividad = actividad
                     a.save()
