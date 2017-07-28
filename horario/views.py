@@ -749,9 +749,6 @@ def saveHorario(request):
                 if actividad is None:
                     a.delete()
                 else:
-                    print("a validar")
-                    valida_cantidad_horas(actividad, query=h)
-
                     a = a.get()
                     a.actividad = actividad
                     a.save()
@@ -766,5 +763,31 @@ def saveHorario(request):
                     modulo = m[0],
                 )
                 a.save()
+
+    return HttpResponse(None)
+
+
+@csrf_exempt
+def deleteHorarioTemp(request):
+    """
+    Utilitario para eliminar objetos temporales de la clase HorarioTemp
+
+    POST Trae valores:
+        * carrera
+        * modulo
+        * profesor
+    """
+    if request.method == "POST" and request.is_ajax():
+        #datos del formulario PPM
+        carrera = request.POST.get("carrera")
+        modulo = request.POST.get("modulo")
+        profesor = request.POST.get("profesor")
+
+        h = HorarioTemp.objects.all()
+        h = h.filter(carrera__id = carrera,
+                     modulo__id = modulo,
+                     profesor__id = profesor,
+                     )
+        h.delete()
 
     return HttpResponse(None)

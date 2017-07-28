@@ -15,6 +15,7 @@ from .views import (PeriodoProfesorModuloListView,
                     GetValidaPpm,
 
                     SaveHorarioProtegido,
+                    deleteHorarioTemp,
 
                     # HorarioView,
                     HorarioTemplateView,
@@ -57,4 +58,7 @@ urlpatterns = [
 
     #validaciones
     url(r'^horario/horario/get_valida_ppm/$', GetValidaPpm, name='get-valida-ppm'),
+
+    #delete Temp
+    url(r'^horario/horario/delete_horario_temp/$', deleteHorarioTemp, name='delete-horariotemp'),
     ]

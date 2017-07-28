@@ -207,3 +207,36 @@ $(document).on("change", "select[name = 'profesor']", function(event){
   event.stopPropagation();
 
 });
+
+
+$(document).on("click", ".reset-horario", function(event){
+
+  var carrera = $("select[name = 'carrera']");
+  var modulo = $("select[name = 'modulo']");
+  var profesor = $("select[name = 'profesor']");
+
+  var param = {"carrera": carrera.val(),
+              "modulo": modulo.val(),
+              "profesor": profesor.val(),
+              }
+
+  var url = `/horario/horario/delete_horario_temp/`;
+
+  $.ajax({
+     type: "POST",
+     dataType: "json",
+     url: url,
+     data: param,
+  })
+    .done(function(data){
+      // if (!data.success){
+      //    alert(data.msj);
+      //    profesor.val("");
+      // }
+      alert("paso");
+
+
+    });
+
+
+});

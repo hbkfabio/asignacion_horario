@@ -66,10 +66,11 @@ def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
         * actividad: Que es el atributo identificador de la Clase
         ActividadCreateView.
         * query: Trae el query (Horario u HorarioTemp).
+        * modulo_id: Trae el id de la clase modulo.
         * temp: Utilizado para indicar si la Clase a Consultar es Horario (edita
         objeto) u HorarioTemp (nuevo objeto).
         * nuevo: Boolean que referencia si es un nuevo objeto PPM o si es una
-        edición.
+        edición,True para Nuevo, False para editar.
 
         Retorna:
             True: Cuando puede agregar actividad al Horario
@@ -79,6 +80,9 @@ def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
     a = query.filter(actividad=actividad)
     a = len(a)+1
     modulo = Modulo.objects.all().filter(id = modulo_id)
+
+    if actividad is None:
+        return True, None
 
     if(actividad.identificador == 'C'):
         if (a>modulo[0].horas_clase):
@@ -91,6 +95,7 @@ def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
             return True, None
 
 
+    return True, None
     # if valor == "":
     #     return True, ""
     # print (query)
