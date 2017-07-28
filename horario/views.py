@@ -680,9 +680,19 @@ def saveHorario(request):
         #Si el query existe, quiere decir que esta actualizando un dato
 
         if query.exists():
-            #Chequea si en horario ya está reservado el bloque
+
             a = Horario.objects.all()
             a = a.filter(periodoprofesormodulo = query[0])
+
+            #valido la cantidad de horas para la actividad
+            v,msj = valida_cantidad_horas(actividad, query=a,
+                                        modulo_id=modulo,nuevo=False)
+            if (not v):
+                dic = {"sucess": v, "msj": msj}
+                dic = json.dumps(dic).encode('utf_8')
+                return HttpResponse(dic)
+
+            #Filtro para chequear si en horario ya está reservado el bloque
             a = a.filter(dia_semana = dia)
             a = a.filter(bloque = block[0])
 
@@ -716,13 +726,22 @@ def saveHorario(request):
             m = Modulo.objects.all()
             m = m.filter(id = modulo)
 
-            a = HorarioTemp.objects.all()
-            a = a.filter(carrera = c[0],
+            h = HorarioTemp.objects.all()
+            h = h.filter(carrera = c[0],
                          profesor = p[0],
                          modulo = m[0],
-                         dia_semana = dia,
-                         #actividad = actividad,
-                         bloque = block[0],
+                         )
+
+            #valido la cantidad de horas para la actividad
+            v,msj = valida_cantidad_horas(actividad, query=h,
+                                        modulo_id=modulo,nuevo=False)
+            if (not v):
+                dic = {"sucess": v, "msj": msj}
+                dic = json.dumps(dic).encode('utf_8')
+                return HttpResponse(dic)
+
+            a = h.filter(dia_semana = dia,
+                         bloque = block[0]
                          )
 
             if a.exists():
@@ -730,6 +749,9 @@ def saveHorario(request):
                 if actividad is None:
                     a.delete()
                 else:
+                    print("a validar")
+                    valida_cantidad_horas(actividad, query=h)
+
                     a = a.get()
                     a.actividad = actividad
                     a.save()
@@ -745,4 +767,4 @@ def saveHorario(request):
                 )
                 a.save()
 
-    return HttpResponse("")
+    return HttpResponse(None)

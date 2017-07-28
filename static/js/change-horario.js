@@ -101,14 +101,17 @@ $(document).on("change", ".combo-option", function(event){
               }
 
     $.ajax({
-     type: "POST",
-     url: "/horario/save/",
-     data: param,
+      type: "POST",
+      dataType: "json",
+      url: "/horario/save/",
+      data: param,
+    })
+      .done(function(data){
+        if (!data.success){
+           alert(data.msj);
+           td.text("");
+        }
 
-
-  })
-    .done(function(data){
-      //console.log(data);
   });
 
   event.stopPropagation();
