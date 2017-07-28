@@ -110,7 +110,6 @@ $(document).on("change", "select[name = 'carrera']", function(event){
   event.preventDefault();
 
   var carrera = $(this);
-  console.log(carrera.val());
 
   value = carrera.val()
 
@@ -165,3 +164,47 @@ $(document).on("change", "select[name = 'modulo']", function(event){
 
 });
 
+
+function valida_existe_ppm(){
+
+  var periodo = $("select[name = 'periodo']");
+  var carrera = $("select[name = 'carrera']");
+  var plan = $("select[name = 'plan']");
+  var modulo = $("select[name = 'modulo']");
+  var profesor = $("select[name = 'profesor']");
+
+  var param = {"periodo": periodo.val(),
+              "carrera": carrera.val(),
+              "plan": plan.val(),
+              "modulo": modulo.val(),
+              "profesor": profesor.val(),
+              }
+
+  var url = `/horario/horario/get_valida_ppm/`;
+
+  $.ajax({
+     type: "POST",
+     url: url,
+     data: param,
+  })
+    .done(function(data){
+      //FIXME
+      if (data != ""){
+        alert(data);
+        profesor.val("");
+      }
+
+  });
+
+
+}
+
+$(document).on("change", "select[name = 'profesor']", function(event){
+
+  event.preventDefault();
+
+  valida_existe_ppm();
+
+  event.stopPropagation();
+
+});

@@ -530,6 +530,49 @@ def GetActividad(request):
         return JsonResponse(serializers.serialize('json', query), safe=False)
 
 
+
+@csrf_exempt
+def GetValidaPpm(request):
+    """
+    Método que ejecuta un query con los datos de PeriodoProfesorModulo y retorna
+    si existe o no el nuevo objecto en la clase
+    Requiere los campos:
+        * Periodo
+        * Carrera
+        * Plan
+        * Modulo
+        * Profesor
+    """
+
+    if request.method == "POST" and request.is_ajax():
+        periodo = request.POST.get("periodo")
+        carrera = request.POST.get("carrera")
+        plan = request.POST.get("plan")
+        modulo = request.POST.get("modulo")
+        profesor = request.POST.get("profesor")
+
+        query = PeriodoProfesorModulo.objects.all()
+        query = query.filter(
+            periodo__id = periodo,
+            carrera__id = carrera,
+            plan__id = plan,
+            modulo__id = modulo,
+            profesor__id = profesor,
+        )
+
+        if query.exists():
+            msj = "El profesor %(profesor)s ya fue agendado con el modulo "
+            msj +="%(modulo)s en la carrera %(carrera)s para el periodo %(periodo)s"
+            msj = msj %{"profesor":query[0].profesor.nombre,
+                      "modulo": query[0].modulo.nombre,
+                      "carrera": query[0].carrera.nombre,
+                      "periodo": query[0].periodo.nombre
+                      }
+        else:
+            msj = ""
+        return HttpResponse(msj)
+
+
 # para salvar actividad en cierto bloque
 @csrf_exempt
 def SaveActividadBloque(request):

@@ -12,6 +12,7 @@ from .views import (PeriodoProfesorModuloListView,
                     GetCarrera,
                     GetActividad,
                     SaveActividadBloque,
+                    GetValidaPpm,
 
                     SaveHorarioProtegido,
 
@@ -53,4 +54,7 @@ urlpatterns = [
     url(r'^horario/param/get_modulo/$', GetModulo, name='get-modulo'),
     url(r'^horario/param/get_carrera/$', GetCarrera, name='get-carrera'),
     url(r'^horario/param/get_actividad/$', GetActividad, name='get-actividad'),
+
+    #validaciones
+    url(r'^horario/horario/get_valida_ppm/$', GetValidaPpm, name='get-valida-ppm'),
     ]
