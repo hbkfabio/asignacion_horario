@@ -36,9 +36,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
 from .valida import (valida_cantidad_horas,
-                     valida_choque_horario,
-                     )
-
+                     valida_choque_horario_profesor,
+                     # valida_ppm_horario,                    )
+                    )
 import json
 import collections
 
@@ -658,6 +658,7 @@ def saveHorario(request):
         modulo = request.POST.get("modulo")
         profesor = request.POST.get("profesor")
 
+
         if actividad != "":
             actividad_query = Actividad.objects.all()
             actividad_query = actividad_query.filter(identificador = actividad)
@@ -668,6 +669,21 @@ def saveHorario(request):
         block = Bloque.objects.all()
         #num = block.filter(id = bloque)
         block = block.filter(nombre = bloque)
+
+
+        #valida si existe el bloque seleccionado en otro horario
+        v, msj = valida_choque_horario_profesor(periodo,
+                                                modulo,
+                                                profesor,
+                                                dia,
+                                                bloque,
+                                                carrera,
+                                                )
+        if (not v):
+            # dic = {"sucess": v, "msj": msj}
+            #     dic = json.dumps(dic).encode('utf_8')
+            return HttpResponse(msj)
+
 
         #query de PPM a fin de actualizar horario, se obtiene un solo resultado
         query = PeriodoProfesorModulo.objects.all()
@@ -681,20 +697,17 @@ def saveHorario(request):
 
         if query.exists():
 
-            a = Horario.objects.all()
-            a = a.filter(periodoprofesormodulo = query[0])
+            h = Horario.objects.all()
+            h = h.filter(periodoprofesormodulo = query[0])
 
-            #valido la cantidad de horas para la actividad
-            v,msj = valida_cantidad_horas(actividad, query=a,
-                                        modulo_id=modulo,nuevo=False)
+
+            v,msj = valida_cantidad_horas(actividad, query=h,
+                                         modulo_id=modulo, nuevo=False)
             if (not v):
-                dic = {"sucess": v, "msj": msj}
-                dic = json.dumps(dic).encode('utf_8')
-                return HttpResponse(dic)
+                 return HttpResponse(msj)
 
             #Filtro para chequear si en horario ya está reservado el bloque
-            a = a.filter(dia_semana = dia)
-            a = a.filter(bloque = block[0])
+            a = h.filter(dia_semana = dia, bloque = block[0])
 
             #Se actualiza un bloque de horario ya establecido
             if a.exists():
@@ -734,11 +747,11 @@ def saveHorario(request):
 
             #valido la cantidad de horas para la actividad
             v,msj = valida_cantidad_horas(actividad, query=h,
-                                        modulo_id=modulo,nuevo=False)
+                                          modulo_id=modulo,nuevo=False)
+            # v, msj = valida_ppm_horario(actividad, horario=h, ppm=query,
+                                # modulo_id=modulo, nuevo=False)
             if (not v):
-                dic = {"sucess": v, "msj": msj}
-                dic = json.dumps(dic).encode('utf_8')
-                return HttpResponse(dic)
+                return HttpResponse(msj)
 
             a = h.filter(dia_semana = dia,
                          bloque = block[0]

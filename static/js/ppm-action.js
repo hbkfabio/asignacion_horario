@@ -202,14 +202,18 @@ $(document).on("change", "select[name = 'profesor']", function(event){
 
   event.preventDefault();
 
+  deleteHorarioTemp();
   valida_existe_ppm();
+
+  //$(".reset-horario").trigger("click");
 
   event.stopPropagation();
 
 });
 
 
-$(document).on("click", ".reset-horario", function(event){
+
+function deleteHorarioTemp(){
 
   var carrera = $("select[name = 'carrera']");
   var modulo = $("select[name = 'modulo']");
@@ -231,6 +235,15 @@ $(document).on("click", ".reset-horario", function(event){
     .done(function(data){
 
     });
+
+}
+
+
+
+$(document).on("click", ".reset-horario", function(event){
+
+
+  deleteHorarioTemp();
 
 
 });
