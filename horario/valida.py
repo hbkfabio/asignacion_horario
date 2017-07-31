@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from django.http import JsonResponse
 from django.db.models import Q
 
@@ -57,6 +58,33 @@ def valida_choque_horario(dia_semana, bloque, periodo, semestre, valor):
         return False, msj
 
 
+def cuenta_cantidad_horas(nombre, actividad, actual, total):
+    """
+    Método para contar la cantidad de horas asociadas a un módulo.
+    Depende del método valida_cantidad_horas.
+
+    Recibe tres parámetros:
+        * nombre = nombre del módulo de la clase Modulo.
+        * actual = es la cantidad de bloques agendados en clase Horario u
+        HorarioTemp.
+        * total = cantidad de horas total asociadas al módulo (clase Modulo).
+
+    Retorna dos parámetros:
+        * Bool,
+            * True, cuando la actual < total
+            * False, cuando actual > total
+        * String,
+            * msj, cuando actual > total, y el bool es False
+    """
+
+    if (actual>total):
+        msj = "%(nombre)s ya tiene agendada los "%{"nombre": nombre}
+        msj += "%(identificador)s bloques de "%{"identificador":total}
+        msj += "%(actividad)s"%{"actividad":actividad.nombre}
+        return False, msj
+    else:
+        return True, None
+
 def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
     """
     Metodo que valida la cantidad de horas definidas para una actividad
@@ -72,10 +100,17 @@ def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
         * nuevo: Boolean que referencia si es un nuevo objeto PPM o si es una
         edición,True para Nuevo, False para editar.
 
-        Retorna:
-            True: Cuando puede agregar actividad al Horario
-            False: No puede agregar una actividad al Horario
+        Retorna dos elementos:
+            bool:
+                True: Cuando puede agregar actividad al Horario
+                False: No puede agregar una actividad al Horario
+            string:
+                msj: cuando existe un error en la validación
     """
+
+    #Variables por defecto
+    c = True
+    msj = ""
 
     a = query.filter(actividad=actividad)
     a = len(a)+1
@@ -85,60 +120,31 @@ def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
         return True, None
 
     if(actividad.identificador == 'C'):
-        if (a>modulo[0].horas_clase):
-            msj = "%(nombre)s ya tiene agendada los %(clases)s bloques"%{
-                "nombre": modulo[0].nombre,
-                "clases": modulo[0].horas_clase,
-                }
-            return False, msj
-        else:
-            return True, None
-
-
-    return True, None
-    # if valor == "":
-    #     return True, ""
-    # print (query)
-
-    #query = query.order_by("dia_semana") #temporal
-
-    # query_values = query.values("bloque1",
-    #                     "bloque2",
-    #                     "bloque3",
-    #                     "bloque4",
-    #                     "bloque5",
-    #                     "bloque6",
-    #                     "bloque7",
-    #                     "bloque8",
-    #                     "bloque9",
-    #                     "bloque10",
-    #                     )
-
-    # cuenta=0
-    # for i in query_values:
-    #     t=Counter(i.values())
-    #     print("t: ", t)
-    #     cuenta+=t[valor]
-
-
-    # if (valor == "C"):
-    #     q = query[0].periodoprofesormodulo.modulo.horas_clase
-    # elif (valor == "L"):
-    #     q = query[0].periodoprofesormodulo.modulo.horas_laboratorio
-    # elif(valor == "S"):
-    #     q = query[0].periodoprofesormodulo.modulo.horas_seminario
-    # elif(valor == "T"):
-    #     q = query[0].periodoprofesormodulo.modulo.horas_taller
-    # elif(valor == "A"):
-    #     q = query[0].periodoprofesormodulo.modulo.horas_ayudantia
-
-    # if q > cuenta:
-    #     return True, " "
-    # else:
-    #     msj = exceso_horas(query[0], valor)
-    #     return False, msj
-
-
+        c, msj = cuenta_cantidad_horas(modulo[0].nombre,
+                                       actividad,
+                                        a,
+                                modulo[0].horas_clase)
+    elif(actividad.identificador == 'L'):
+        c, msj = cuenta_cantidad_horas(modulo[0].nombre,
+                                       actividad,
+                                        a,
+                                        modulo[0].horas_laboratorio)
+    elif(actividad.identificador == 'S'):
+        c, msj = cuenta_cantidad_horas(modulo[0].nombre,
+                                        actividad,
+                                        a,
+                                        modulo[0].horas_seminario)
+    elif(actividad.identificador == 'T'):
+        c, msj = cuenta_cantidad_horas(modulo[0].nombre,
+                                       actividad,
+                                       a,
+                                       modulo[0].horas_taller)
+    elif(actividad.identificador == 'A'):
+        c, msj = cuenta_cantidad_horas(modulo[0].nombre,
+                                       actividad,
+                                       a,
+                                       modulo[0].horas_ayudantia)
+    return c, msj
 
 
     
