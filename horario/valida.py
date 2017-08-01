@@ -177,7 +177,7 @@ def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
 
     a = query.filter(actividad=actividad)
     a = len(a)+1
-    modulo = Modulo.objects.all().filter(id = modulo_id)
+    modulo = Modulo.objects.all().filter(id=modulo_id)
 
     if actividad is None:
         return True, None
@@ -210,7 +210,7 @@ def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
     return c, msj
 
 
-def valida_choque_horario_modulo_semestre(bloque, dia, plan):
+def valida_choque_horario_modulo_semestre(bloque, dia, plan, profesor):
     """
     Método que permite establecer que no pueda existir un choque de horario
     con módulo del mismo nivel en un semestre determinado.
@@ -218,6 +218,7 @@ def valida_choque_horario_modulo_semestre(bloque, dia, plan):
         * bloque: Objecto Bloque
         * dia: numero del día de la semana, comenzando con 1 para lunes.
         * plan: id de la clase Plan.
+        * profesor: id de la clase Profesor
     Retorna dos elementos:
         bool:
             True: Cuando puede agregar actividad al Horario
@@ -228,22 +229,27 @@ def valida_choque_horario_modulo_semestre(bloque, dia, plan):
 
     h = Horario.objects.all()
     h = h.filter(bloque=bloque,
-                dia_semana = dia,
-                periodoprofesormodulo__modulo__plan__id=plan
+                dia_semana=dia,
+                periodoprofesormodulo__modulo__plan__id=plan,
+                reservado=True,
                 )
+    h = h.exclude(periodoprofesormodulo__profesor__id=profesor)
 
     msj = ""
 
     if h.exists():
-        plan = h[0].periodoprofesormodulo.modulo.plan.nombre
-        modulo = h[0].periodoprofesormodulo.modulo.nombre
-        nivel = h[0].periodoprofesormodulo.modulo.semestre.nombre
+        ppm = h[0].periodoprofesormodulo
+        plan = ppm.modulo.plan.nombre
+        modulo = ppm.modulo.nombre
+        nivel = ppm.modulo.semestre.nombre
+        profesor = ppm.profesor
 
         msj = "El bloque seleccionado no se puede agendar: \n"
         msj += "El módulo %(modulo)s del %(plan)s, "%{"modulo": modulo,
                                                     "plan": plan,
                                                     }
         msj += "%(nivel)s semestre ya lo tiene reservado"%{"nivel":nivel}
+        msj += " con el profesor %(profesor)s "%{"profesor":profesor}
 
         msj = {"sucess": False, "msj": msj}
         msj = json.dumps(msj).encode('utf_8')

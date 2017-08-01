@@ -663,37 +663,38 @@ def saveHorario(request):
         modulo = request.POST.get("modulo")
         profesor = request.POST.get("profesor")
 
+        block = Bloque.objects.all()
+        #num = block.filter(id = bloque)
+        block = block.filter(nombre = bloque)
 
         if actividad != "":
             actividad_query = Actividad.objects.all()
             actividad_query = actividad_query.filter(identificador = actividad)
             actividad=actividad_query[0]
+
+            #valida si existe el mismo profesor en bloque seleccionado
+            #para otro modulo
+            v, msj = valida_choque_horario_profesor(periodo,
+                                                    modulo,
+                                                    profesor,
+                                                    dia,
+                                                    bloque,
+                                                    carrera,
+                                                    )
+            if (not v):
+                return HttpResponse(msj)
+
+            v, msj = valida_choque_horario_modulo_semestre(block[0],
+                                                           dia,
+                                                           plan,
+                                                           profesor,
+                                                           )
+            if (not v):
+                return HttpResponse(msj)
+
         else:
             actividad = None
 
-        block = Bloque.objects.all()
-        #num = block.filter(id = bloque)
-        block = block.filter(nombre = bloque)
-
-
-        #valida si existe el mismo profesor en bloque seleccionado
-        #para otro modulo
-        v, msj = valida_choque_horario_profesor(periodo,
-                                                modulo,
-                                                profesor,
-                                                dia,
-                                                bloque,
-                                                carrera,
-                                                )
-        if (not v):
-            return HttpResponse(msj)
-
-        v, msj = valida_choque_horario_modulo_semestre(block[0],
-                                                       dia,
-                                                       plan,
-                                                       )
-        if (not v):
-            return HttpResponse(msj)
 
         #query de PPM a fin de actualizar horario, se obtiene un solo resultado
         query = PeriodoProfesorModulo.objects.all()
