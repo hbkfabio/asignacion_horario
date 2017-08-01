@@ -234,12 +234,10 @@ def valida_choque_horario_modulo_semestre(bloque, dia, plan):
 
     msj = ""
 
-
     if h.exists():
         plan = h[0].periodoprofesormodulo.modulo.plan.nombre
         modulo = h[0].periodoprofesormodulo.modulo.nombre
         nivel = h[0].periodoprofesormodulo.modulo.semestre.nombre
-
 
         msj = "El bloque seleccionado no se puede agendar: \n"
         msj += "El módulo %(modulo)s del %(plan)s, "%{"modulo": modulo,
