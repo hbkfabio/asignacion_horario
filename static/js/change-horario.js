@@ -5,6 +5,11 @@ $(document).on("click", ".change", function(event){
 
   var celda = $(this);
   var valor = celda.text();
+
+  if (valor == "X"){
+    return false;
+  }
+
   var col = $(this).parent().children().index($(this));
   var row = $(this).parent().parent().children().index($(this).parent());
 
@@ -68,6 +73,7 @@ $(document).on("change", ".combo-option", function(event){
 
   var combo = $(this);
   var valor = combo.val();
+
 
   td = combo.parent();
   td.html(valor);

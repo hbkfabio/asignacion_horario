@@ -57,15 +57,18 @@ from parametros.views import StaffRequiredMixin
 
 def create_dic_bloque():
     """
-    Recibe como parametro un objeto de tipo Queryset->Bloque
-    Creo diccionario con todos los elementos de la clase bloque.
+    Crea diccionario con todos los elementos de la clase bloque.
     Esto crea dos elementos uno de tipo string (key) y otro el tipo
     diccionario (value), que a su vez contiene la key de bloque y value
     por defecto como falso.
     ejemplo, dic={key:value{xx:vv}}
+
+    Retorna:
+        * Dic: Diccionario de datos
     """
     dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
     b = Bloque.objects.all().order_by("nombre")
+    p = ReservaBloqueProtegido.objects.all()
 
     dic={}
 
@@ -75,6 +78,8 @@ def create_dic_bloque():
         for t in b:
             dic_aux[t]= False
 
+        for t in p:
+            dic_aux[t.bloque]="X"
         dic[i]=dic_aux
 
     dic = collections.OrderedDict(sorted(dic.items()))
@@ -84,10 +89,12 @@ def create_dic_bloque():
 
 def create_dic_bloque_title(context):
     """
-    Recibe: Context
     Crea los titulos y extensión de los bloques para ser dibujado en la tabla
-    que realiza la interacción con el horario
-    Retorna: Context
+    que realiza la interacción con el horario.
+    Recibe:
+        Objeto de tipo context (diccionario)
+    Retorna:
+        Objeto de tipo context (diccionario)
     """
 
     b = Bloque.objects.all().order_by("nombre")
@@ -244,9 +251,6 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
             """
             if (i.reservado is True):
                 xx = x[i.bloque]=i.actividad.identificador
-
-
-
 
         context["horario"] = dic
         context = create_dic_bloque_title(context)
@@ -689,7 +693,6 @@ def saveHorario(request):
                                                        plan,
                                                        )
         if (not v):
-            print("false")
             return HttpResponse(msj)
 
         #query de PPM a fin de actualizar horario, se obtiene un solo resultado
