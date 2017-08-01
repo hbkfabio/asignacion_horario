@@ -35,7 +35,7 @@
 					            <tr>
 					            <th>Día Semana / Bloque</th>
 					              {% for obj in bloque_list %}
-						            <th id="{{obj.id}}" align="center">{{ obj.nombre }}</th>
+						            <th id="{{obj.id}}"><center>{{ obj.nombre }}</center></th>
 					              {% endfor %}
 					            </tr>
 				            </thead>
@@ -45,7 +45,13 @@
                             <td id="dia">{{ dia_semana_list|get_item:k }}</td>
                             {% for v in val.values %}
                               {% if v %}
-                                <td class="change" align="center">{{v}}</td>
+                                {% if v == "X" %}
+                                  <td bgcolor="#d9534f" align="center">
+                                    <bold>{{v}}</bold>
+                                  </td>
+                                {% else %}
+                                  <td class="change" align="center">{{v}}</td>
+                                {% endif %}
                               {% else %}
                                 <td class="change" align="center"></td>
                               {% endif %}
