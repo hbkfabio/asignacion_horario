@@ -233,9 +233,19 @@ def valida_choque_horario_modulo_semestre(bloque, dia, plan):
                 )
 
     msj = ""
-    print (h)
+
+
     if h.exists():
-        msj = "Existe otro módulo"
+        plan = h[0].periodoprofesormodulo.modulo.plan.nombre
+        modulo = h[0].periodoprofesormodulo.modulo.nombre
+        nivel = h[0].periodoprofesormodulo.modulo.semestre.nombre
+
+
+        msj = "El bloque seleccionado no se puede agendar: \n"
+        msj += "El módulo %(modulo)s del %(plan)s, "%{"modulo": modulo,
+                                                    "plan": plan,
+                                                    }
+        msj += "%(nivel)s semestre ya lo tiene reservado"%{"nivel":nivel}
 
         msj = {"sucess": False, "msj": msj}
         msj = json.dumps(msj).encode('utf_8')
