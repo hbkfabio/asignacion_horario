@@ -210,6 +210,39 @@ def valida_cantidad_horas(actividad, query, modulo_id, nuevo):
     return c, msj
 
 
+def valida_choque_horario_modulo_semestre(bloque, dia, plan):
+    """
+    Método que permite establecer que no pueda existir un choque de horario
+    con módulo del mismo nivel en un semestre determinado.
+    Recibe:
+        * bloque: Objecto Bloque
+        * dia: numero del día de la semana, comenzando con 1 para lunes.
+        * plan: id de la clase Plan.
+    Retorna dos elementos:
+        bool:
+            True: Cuando puede agregar actividad al Horario
+            False: No puede agregar una actividad al Horario
+        string:
+            msj: cuando existe un error en la validación
+    """
+
+    h = Horario.objects.all()
+    h = h.filter(bloque=bloque,
+                dia_semana = dia,
+                periodoprofesormodulo__modulo__plan__id=plan
+                )
+
+    msj = ""
+    print (h)
+    if h.exists():
+        msj = "Existe otro módulo"
+
+        msj = {"sucess": False, "msj": msj}
+        msj = json.dumps(msj).encode('utf_8')
+        return False, msj
+
+    return True, msj
+
 # def valida_ppm_horario(actividad, horario, ppm, modulo_id, nuevo):
     """
     Método utilizado para inicializar una serie de validaciones al momento de

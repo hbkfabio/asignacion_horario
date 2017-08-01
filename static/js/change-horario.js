@@ -107,6 +107,8 @@ $(document).on("change", ".combo-option", function(event){
       data: param,
     })
       .done(function(data){
+
+        console.log(data);
         if (!data.success){
            alert(data.msj);
            td.text("");

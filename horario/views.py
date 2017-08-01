@@ -37,7 +37,8 @@ from django.http import HttpResponse
 
 from .valida import (valida_cantidad_horas,
                      valida_choque_horario_profesor,
-                     # valida_ppm_horario,                    )
+                     valida_choque_horario_modulo_semestre,
+                     # valida_ppm_horario,
                     )
 import json
 import collections
@@ -671,7 +672,8 @@ def saveHorario(request):
         block = block.filter(nombre = bloque)
 
 
-        #valida si existe el bloque seleccionado en otro horario
+        #valida si existe el mismo profesor en bloque seleccionado
+        #para otro modulo
         v, msj = valida_choque_horario_profesor(periodo,
                                                 modulo,
                                                 profesor,
@@ -680,10 +682,15 @@ def saveHorario(request):
                                                 carrera,
                                                 )
         if (not v):
-            # dic = {"sucess": v, "msj": msj}
-            #     dic = json.dumps(dic).encode('utf_8')
             return HttpResponse(msj)
 
+        v, msj = valida_choque_horario_modulo_semestre(block[0],
+                                                       dia,
+                                                       plan,
+                                                       )
+        if (not v):
+            print("false")
+            return HttpResponse(msj)
 
         #query de PPM a fin de actualizar horario, se obtiene un solo resultado
         query = PeriodoProfesorModulo.objects.all()
@@ -694,15 +701,15 @@ def saveHorario(request):
         query = query.filter(profesor__id = profesor)
 
         #Si el query existe, quiere decir que esta actualizando un dato
-
         if query.exists():
 
             h = Horario.objects.all()
             h = h.filter(periodoprofesormodulo = query[0])
 
-
+            #valido la cantidad de horas para la actividad
             v,msj = valida_cantidad_horas(actividad, query=h,
                                          modulo_id=modulo, nuevo=False)
+
             if (not v):
                  return HttpResponse(msj)
 
@@ -748,8 +755,7 @@ def saveHorario(request):
             #valido la cantidad de horas para la actividad
             v,msj = valida_cantidad_horas(actividad, query=h,
                                           modulo_id=modulo,nuevo=False)
-            # v, msj = valida_ppm_horario(actividad, horario=h, ppm=query,
-                                # modulo_id=modulo, nuevo=False)
+
             if (not v):
                 return HttpResponse(msj)
 
