@@ -163,7 +163,7 @@ class PeriodoProfesorModuloListView(StaffRequiredMixin, ViewListView):
 
 class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = PeriodoProfesorModuloForm
-    template_name = "horario/form.html"
+    template_name = "horario/form_ppm.html"
     titulo = "Agrega Asignacion de periodo-profesor-modulo"
     success_message = "La Asignacion %(nombre)s ha sido creado"
     success_url = "/periodoprofesormodulo/"
@@ -216,7 +216,7 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
 class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = PeriodoProfesorModulo
     form_class = PeriodoProfesorModuloForm
-    template_name = "horario/form.html"
+    template_name = "horario/form_ppm.html"
     success_message = "El Profesor %(nombre)s ha sido actualizado"
     success_url = "/periodoprofesormodulo/"
     titulo = "Edita Asignacion de periodo-profesor-modulo"
