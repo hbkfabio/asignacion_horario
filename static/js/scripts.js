@@ -49,18 +49,6 @@ $(document).on("click", ".edit", function(event){
 });
 
 
-$(document).on("click", ".edit-listado-horario", function(event){
-
-  event.preventDefault();
-  var pathname = window.location.pathname;
-  var id = $(this).val();
-  window.location.href = pathname+"edit/?periodo="+id;
-
-  event.stopPropagation();
-
-});
-
-
 $(document).on("click", ".confirm-delete", function(event){
 
   event.preventDefault();

@@ -1,93 +1,77 @@
-
 {% block content %}
 
 <div class="row">
 
-    <div class="col-lg-12" id="_appendHere">
+  <div class="col-lg-12" id="_appendHere">
 		<div class="header">
-			<h1>{{ titulo }}</h1>
-		    <div class="col-lg-12">
-		        <select class="form-control" id="periodo">
-                  <option selected value="0">Seleccione un periodo</option>
-		            {% for obj in queryset_periodo %}
-                        <option value="{{ obj.id }}">{{obj.anio}} {{ obj.nombre }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
+		  <p></p>
+		  <h1>{{ titulo }}</h1>
+		  <div class="col-lg-12">
+		    <p></p>
+		    <select class="form-control" id="periodo">
+          <option selected value="0">Seleccione un periodo</option>
+		      {% for obj in queryset_periodo %}
+            <option value="{{ obj.id }}">{{obj.anio}} {{ obj.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
 		</div>
-        <!--
-		<div class="col-lg-2">
-		    <button class="btn btn-success add">Añadir Nuevo</button>
-		    <br></br>
-		</div>
-        -->
-        <br></br>
 	</div>
+  <!-- /.col-lg-12 -->
 
 
-{% for key, value in dia_semana.items %}
-        <div class="col-lg-12">
-    C=Clases, A=Ayudantía, S=Seminario, L=Laboratorio, T=Taller
+  {% for key, value in dia_semana.items %}
+    <div class="col-lg-12">
+      <p></p>
+      C=Clases, A=Ayudantía, S=Seminario, L=Laboratorio, T=Taller
     </div>
-	<div class="col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-
-            	    {{ value }}
-            </div>
-        	<!-- /.panel-heading -->
-            <div class="panel-body">
-		    	<table width="100%" class="table table-striped table-bordered table-hover" id= "{{ key }}">
-                    <thead class="thead-default">
-						<tr>
+	  <div class="col-lg-12">
+		  <div class="panel panel-default">
+			  <div class="panel-heading">
+			    {{ value }}
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+		      <table width="100%" class="table table-striped table-bordered table-hover" id= "{{ key }}">
+            <thead class="thead-default">
+						  <tr>
 						    <th id="nombre">Nombre</th>
-		      				<th id="modulo">Modulo</th>
+		        	  <th id="modulo">Modulo</th>
 						    <th id="plan">Plan</th>
 						    <th id="plan">Semestre</th>
-
-						    <th id="bloque1" width=33px>1</th>
-						    <th id="bloque2" width=33px>2</th>
-						    <th id="bloque3" width=33px>3</th>
-						    <th id="bloque4" width=33px>4</th>
-						    <th id="bloque5" width=33px>5</th>
-						    <th id="bloque6" width=33px>6</th>
-						    <th id="bloque7" width=33px>7</th>
-						    <th id="bloque8" width=33px>8</th>
-						    <th id="bloque9" width=33px>9</th>
-						    <th id="bloque10" width=33px>10</th>
-        				</tr>
-        			</thead>
-					<tbody>
-					{% for obj in queryset_profesor_modulo %}
-                        {% if key == obj.dia_semana %}
-						<tr>
-						    <td class="profesor">{{ obj.periodoprofesormodulo.profesor.nombre }}</td>
-							<td class="modulo">{{ obj.periodoprofesormodulo.modulo.nombre }}</td>
-						    <td class="plan">{{ obj.periodoprofesormodulo.modulo.plan.nombre }}</td>
-						    <td class="semestre">{{ obj.periodoprofesormodulo.modulo.semestre.nombre }}</td>
-						        <td class="accion bloque1">{{ obj.bloque1 }}</td>
-						        <td class="accion bloque2">{{ obj.bloque2 }}</td>
-						        <td class="accion bloque3">{{ obj.bloque3 }}</td>
-						        <td class="accion bloque4">{{ obj.bloque4 }}</td>
-						        <td class="accion bloque5">{{ obj.bloque5 }}</td>
-						        <td class="accion bloque6">{{ obj.bloque6 }}</td>
-						        <td class="accion bloque7">{{ obj.bloque7 }}</td>
-						        <td class="accion bloque8">{{ obj.bloque8 }}</td>
-						        <td class="accion bloque9">{{ obj.bloque9 }}</td>
-						        <td class="accion bloque10">{{ obj.bloque10 }}</td>
-						</tr>
-					    {% endif %}
-					{% endfor %}
-					</tbody>
-                </table>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.panel-body -->
-
+						    {% for obj in bloque_list %}
+						      <th width=33px> <center>{{obj.nombre}}</center></th>
+						    {% endfor %}
+          		</tr>
+          	</thead>
+			      <tbody>
+					    {% for x, y in horario.items %}
+					      <tr>
+					        <td>{{x.profesor.nombre}}</td>
+					        <td>{{x.modulo.nombre}}</td>
+					        <td>{{x.modulo.plan.nombre}}</td>
+					        <td>{{x.modulo.semestre.nombre}}</td>
+					        {% for z, a in y.items %}
+					          {% if z == key %}
+					            {% for b in a.values %}
+					              {% if b %}
+					                <td>{{ b }} </td>
+					              {% else %}
+					                <td> </td>
+					              {% endif %}
+					            {% endfor %}
+					          {% endif %}
+					        {% endfor %}
+					      </tr>
+					    {% endfor %}
+					  </tbody>
+          </table>
+          <!-- /.table-responsive -->
         </div>
-        <!-- /.panel panel-default -->
+        <!-- /.panel-body -->
     </div>
+        <!-- /.panel panel-default -->
+  </div>
     <!-- /.col-lg-12 -->
 {% endfor %}
 </div>

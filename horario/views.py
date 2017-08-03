@@ -342,12 +342,6 @@ class HorarioListView(StaffRequiredMixin, ViewListView):
 
     template_name = "horario/base_horario.html"
     titulo = "Listado de Horarios"
-    # extra_context = {}
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(HorarioListView, self).get_context_data(**kwargs)
-    #     context["titulo"] = "Listado de Horarios"
-    #     return context
 
     def get_queryset(self):
         return Periodo.objects.all().order_by("-id")
@@ -366,14 +360,41 @@ class HorarioTemplateView(StaffRequiredMixin, TemplateView):
         dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
         context["dia_semana"] = dia_semana
 
-        queryset = Horario.objects.all()
+        query = PeriodoProfesorModulo.objects.all()
+        query = query.filter(periodo__id=periodo)
+        query = query.order_by("modulo__semestre__nombre")
 
-        if periodo is not None or periodo !="0":
-            queryset =queryset.filter(periodoprofesormodulo__periodo=periodo)
-            if not queryset:
-                queryset = PeriodoProfesorModulo.objects.all().filter(periodo=periodo)
-            context["queryset_profesor_modulo"] = queryset
-        context["queryset_periodo"] = Periodo.objects.all().order_by('-id')
+        dic_ppm = {}
+        for ppm in query:
+
+            dic=create_dic_bloque()
+            dic_temp = dic
+
+            h = Horario.objects.all()
+            h = h.filter(periodoprofesormodulo=ppm, reservado=True)
+            h = h.order_by("dia_semana",
+                            "periodoprofesormodulo__modulo__semestre__nombre",
+                            "periodoprofesormodulo__profesor__nombre",
+                        )
+
+            for x in h:
+                temp = dic_temp[x.dia_semana]
+                xx = temp[x.bloque] = x.actividad.identificador
+
+            #actualizo diccionario,
+            #agrego como key a ppm para los valores de dic
+            dic_ppm[ppm] = dic
+            """
+            Estructura del nuevo diccionario
+            {ppm:
+                {'1':
+                    {bloque:identificador}
+                }
+            }
+            """
+        context["horario"] = dic_ppm
+
+        context = create_dic_bloque_title(context)
         return context
 
 
