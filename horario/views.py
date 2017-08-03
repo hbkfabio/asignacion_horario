@@ -353,9 +353,12 @@ class HorarioTemplateView(StaffRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
 
-        periodo = self.request.GET.get("periodo")
         context = super(HorarioTemplateView, self).get_context_data(**kwargs)
         context["titulo"] = "Horario"
+
+        periodo = self.request.GET.get("periodo")
+        queryset_periodo = Periodo.objects.all().order_by("nombre")
+        context["queryset_periodo"] = queryset_periodo
 
         dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
         context["dia_semana"] = dia_semana

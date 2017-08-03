@@ -8,11 +8,7 @@
 		  <h1>{{ titulo }}</h1>
 		  <div class="col-lg-12">
 		    <p></p>
-		    <select class="form-control" id="periodo">
-          <option selected value="0">Seleccione un periodo</option>
-		      {% for obj in queryset_periodo %}
-            <option value="{{ obj.id }}">{{obj.anio}} {{ obj.nombre }}</option>
-          {% endfor %}
+		    <select class="form-control" id="periodo" name="periodo">
         </select>
       </div>
 		</div>
@@ -55,9 +51,9 @@
 					          {% if z == key %}
 					            {% for b in a.values %}
 					              {% if b %}
-					                <td>{{ b }} </td>
+					                <td class="change" align="center">{{ b }} </td>
 					              {% else %}
-					                <td> </td>
+					                <td class="change" align="center"> </td>
 					              {% endif %}
 					            {% endfor %}
 					          {% endif %}
@@ -78,5 +74,6 @@
 <!-- jQuery -->
 
     <script src="/static/js/horario.js"></script>
+    <script src="/static/js/change-horario.js"></script>
 
 {% endblock %}

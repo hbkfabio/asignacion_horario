@@ -24,22 +24,30 @@ $(document).on("click", ".change", function(event){
   /*
     Siempre el primer valor de un select (combo) es un texto en blanco ""
     Definido en la load_select_data de horario.js
-  */
-  if (periodo == ""){
-    alert("Seleccione un campo de Periodo");
-  }else if (carrera == ""){
-    alert("Seleccione una Carrera");
-  }else if (plan == ""){
-    alert("Seleccione un Plan de Estudio");
-  }else if (modulo == ""){
-    alert("Seleccione un Módulo");
-  }else if(profesor == ""){
-    alert ("Seleccione un Profesor");
-  }else{
-    create_combo_selected(celda);
-    celda.attr("class","");
-  }
 
+    Si es nulo es que el cambio se realiza desde el módulo de Horario.
+  */
+  if (periodo == null){
+
+
+
+  }else{
+
+    if (periodo == ""){
+      alert("Seleccione un campo de Periodo");
+    }else if (carrera == ""){
+      alert("Seleccione una Carrera");
+    }else if (plan == ""){
+      alert("Seleccione un Plan de Estudio");
+    }else if (modulo == ""){
+      alert("Seleccione un Módulo");
+    }else if(profesor == ""){
+      alert ("Seleccione un Profesor");
+    }else{
+      create_combo_selected(celda);
+      celda.attr("class","");
+    }
+  }
 
 
 });
