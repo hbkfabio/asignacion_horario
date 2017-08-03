@@ -32,13 +32,13 @@
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
-		      <table width="100%" class="table table-striped table-bordered table-hover" id= "{{ key }}">
+		      <table width="100%" class="table table-striped table-bordered table-hover table-horario" id= "{{ key }}">
             <thead class="thead-default">
 						  <tr>
-						    <th id="nombre">Nombre</th>
-		        	  <th id="modulo">Modulo</th>
-						    <th id="plan">Plan</th>
-						    <th id="plan">Semestre</th>
+						    <th class="profesor-header" id="nombre">Nombre</th>
+		        	  <th class="modulo-header-{{key}}" id="modulo">Modulo</th>
+						    <th class="plan-header-{{key}}" id="plan">Plan</th>
+						    <th class="semestre-header-{{key}}" id="semestre">Semestre</th>
 						    {% for obj in bloque_list %}
 						      <th width=33px> <center>{{obj.nombre}}</center></th>
 						    {% endfor %}
@@ -75,5 +75,8 @@
     <!-- /.col-lg-12 -->
 {% endfor %}
 </div>
+<!-- jQuery -->
+
+    <script src="/static/js/horario.js"></script>
 
 {% endblock %}
