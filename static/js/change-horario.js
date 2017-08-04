@@ -52,6 +52,17 @@ $(document).on("click", ".change", function(event){
 
 });
 
+$(document).on("click", ".change-horario", function(event){
+
+  event.preventDefault();
+
+  var celda = $(this);
+
+  create_combo_selected(celda);
+
+  event.stopPropagation();
+
+});
 
 function create_combo_selected(celda){
   var valor = celda.text();
@@ -73,6 +84,32 @@ function create_combo_selected(celda){
           load_select_actividad(celda, data, valor)
         });
 }
+
+
+function save_horario(param){
+
+  $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "/horario/save/",
+        data: param,
+      })
+        .done(function(data){
+          if (!data.success){
+             alert(data.msj);
+             td.text("");
+          }
+
+    });
+
+}
+
+
+$(document).on("change", ".combo-option-horario", function(event){
+
+  console.log("change");
+
+});
 
 
 $(document).on("change", ".combo-option", function(event){
@@ -114,19 +151,8 @@ $(document).on("change", ".combo-option", function(event){
               "bloque": titulo_bloque,
               }
 
-    $.ajax({
-      type: "POST",
-      dataType: "json",
-      url: "/horario/save/",
-      data: param,
-    })
-      .done(function(data){
-        if (!data.success){
-           alert(data.msj);
-           td.text("");
-        }
 
-  });
+  save_horario(param);
 
   event.stopPropagation();
 
@@ -138,8 +164,19 @@ function load_select_actividad(widget, data, valor){
   var name = widget.attr("name");
   //var txt = 'Seleccione un(a)  ${name}';
   var html = "";
+  var url = window.location.pathname;
+  url = url.split("/")[1];
 
-  html +='<select class="combo-option">';
+  if (url == "periodoprofesormodulo"){
+
+    html +='<select class="combo-option">';
+
+  }else if(url == "horario"){
+
+    html +='<select class="combo-option-horario">';
+
+  }
+
   html+= ('<option value=""></option>');
 
   $.each(data, function(i, val){

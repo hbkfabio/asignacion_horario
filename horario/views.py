@@ -357,14 +357,19 @@ class HorarioTemplateView(StaffRequiredMixin, TemplateView):
         context["titulo"] = "Horario"
 
         periodo = self.request.GET.get("periodo")
-        queryset_periodo = Periodo.objects.all().order_by("nombre")
-        context["queryset_periodo"] = queryset_periodo
+        query = Periodo.objects.all().order_by("nombre")
+        context["queryset_periodo"] = query
+
+        carrera = self.request.GET.get("carrera")
+        query = Carrera.objects.all().filter()
+        context["queryset_carrera"] = query
 
         dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
         context["dia_semana"] = dia_semana
 
         query = PeriodoProfesorModulo.objects.all()
         query = query.filter(periodo__id=periodo)
+        query = query.filter(carrera__id=carrera)
         query = query.order_by("modulo__semestre__nombre")
 
         dic_ppm = {}
