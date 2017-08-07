@@ -344,7 +344,10 @@ class HorarioListView(StaffRequiredMixin, ViewListView):
     titulo = "Listado de Horarios"
 
     def get_queryset(self):
-        return Periodo.objects.all().order_by("-id")
+        # return Periodo.objects.all().order_by("-id")
+        query = PeriodoProfesorModulo.objects.all()
+        query = query.distinct('carrera', 'periodo', 'plan')
+        return query
 
 
 class HorarioTemplateView(StaffRequiredMixin, TemplateView):
