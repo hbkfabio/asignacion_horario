@@ -7,7 +7,9 @@ $(document).on("click", ".change", function(event){
   var valor = celda.text();
 
   if (valor == "X"){
+
     return false;
+
   }
 
   var col = $(this).parent().children().index($(this));
@@ -57,8 +59,16 @@ $(document).on("click", ".change-horario", function(event){
   event.preventDefault();
 
   var celda = $(this);
+  var valor = celda.text();
+
+  if (valor == "X"){
+
+    return false;
+
+  }
 
   create_combo_selected(celda);
+  celda.attr("class","");
 
   event.stopPropagation();
 
@@ -86,28 +96,75 @@ function create_combo_selected(celda){
 }
 
 
-function save_horario(param){
+function save_horario(param, td){
 
   $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: "/horario/save/",
-        data: param,
-      })
-        .done(function(data){
-          if (!data.success){
-             alert(data.msj);
-             td.text("");
-          }
+      type: "POST",
+      dataType: "json",
+      url: "/horario/save/",
+      data: param,
+    })
+    .done(function(data){
+      if (!data.success){
+         alert(data.msj);
+         td.text("");
+      }
 
-    });
+  });
 
 }
 
 
 $(document).on("change", ".combo-option-horario", function(event){
 
-  console.log("change");
+  event.preventDefault();
+
+  var combo = $(this);
+  var valor = combo.val();
+
+
+  var td = combo.parent();
+
+  titulo_bloque = td.closest('table').find('th').eq(td.index());
+  titulo_bloque = titulo_bloque.text();
+
+  table = td.parent().parent().parent();
+  dia_semana = table.attr("id");
+
+  file = td.parents("tr");
+  profesor = file.find("td:eq(0)");
+  profesor = profesor.attr("name");
+
+  modulo = file.find("td:eq(1)");
+  modulo = modulo.attr("name");
+
+  plan = file.find("td:eq(0)");
+  plan = plan.attr("name");
+
+  carrera = $("#carrera").val();
+  periodo = $("#periodo").val();
+
+  // var col = "";
+  td.html(valor);
+  td.attr('class', 'change-horario');
+
+
+  var param = {
+              "row": dia_semana,
+              "value": valor,
+              "periodo": periodo,
+              "carrera": carrera,
+              "plan": plan,
+              "modulo": modulo,
+              "profesor": profesor,
+              "bloque": titulo_bloque,
+              }
+
+  save_horario(param, td);
+
+
+
+  event.stopPropagation();
 
 });
 
@@ -118,8 +175,6 @@ $(document).on("change", ".combo-option", function(event){
 
   var combo = $(this);
   var valor = combo.val();
-
-
   td = combo.parent();
   td.html(valor);
   td.attr('class', 'change');
@@ -131,7 +186,6 @@ $(document).on("change", ".combo-option", function(event){
 
   //se coloca +1 porque los dias de la semana empiezan de 0
   row = (row+1)
-
 
   var periodo = $("#id_periodo").val();
   var carrera = $("#id_carrera").val();
@@ -152,7 +206,7 @@ $(document).on("change", ".combo-option", function(event){
               }
 
 
-  save_horario(param);
+  save_horario(param, td);
 
   event.stopPropagation();
 

@@ -10,11 +10,7 @@
 		    <p></p>
 		    <select class="form-control" id="periodo" name="periodo"></select>
 		    <p></p>
-		    <select class="form-control" id="carrera" name="periodo">
-		      {% for obj in queryset_carrera %}
-		        <option value={{obj.id}}> {{obj.nombre}} </option>
-		      {% endfor %}
-		    </select>
+		    <select class="form-control" id="carrera" name="carrera"></select>
       </div>
 		</div>
 	</div>
@@ -36,7 +32,7 @@
 		      <table width="100%" class="table table-striped table-bordered table-hover table-horario" id= "{{ key }}">
             <thead class="thead-default">
 						  <tr>
-						    <th class="profesor-header" id="nombre">Nombre</th>
+						    <th class="profesor-header" id="nombre">Profesor</th>
 		        	  <th class="modulo-header-{{key}}" id="modulo">Modulo</th>
 						    <th class="plan-header-{{key}}" id="plan">Plan</th>
 						    <th class="semestre-header-{{key}}" id="semestre">Semestre</th>
@@ -48,17 +44,17 @@
 			      <tbody>
 					    {% for x, y in horario.items %}
 					      <tr>
-					        <td>{{x.profesor.nombre}}</td>
-					        <td>{{x.modulo.nombre}}</td>
-					        <td>{{x.modulo.plan.nombre}}</td>
+					        <td name={{x.profesor.id}}>{{x.profesor.nombre}}</td>
+					        <td name ={{x.modulo.id}}>{{x.modulo.nombre}}</td>
+					        <td name={{x.modulo.plan.id}}>{{x.modulo.plan.nombre}}</td>
 					        <td>{{x.modulo.semestre.nombre}}</td>
 					        {% for z, a in y.items %}
 					          {% if z == key %}
 					            {% for b in a.values %}
 					              {% if b %}
-					                <td class="change-horario" align="center">{{ b }} </td>
+					                <td class="change-horario" align="center">{{b}}</td>
 					              {% else %}
-					                <td class="change-horario" align="center"> </td>
+					                <td class="change-horario" align="center"></td>
 					              {% endif %}
 					            {% endfor %}
 					          {% endif %}

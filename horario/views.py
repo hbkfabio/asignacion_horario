@@ -368,8 +368,10 @@ class HorarioTemplateView(StaffRequiredMixin, TemplateView):
         context["dia_semana"] = dia_semana
 
         query = PeriodoProfesorModulo.objects.all()
-        query = query.filter(periodo__id=periodo)
-        query = query.filter(carrera__id=carrera)
+        if periodo is not None:
+            query = query.filter(periodo__id=periodo)
+        if carrera is not None:
+            query = query.filter(carrera__id=carrera)
         query = query.order_by("modulo__semestre__nombre")
 
         dic_ppm = {}
@@ -681,6 +683,7 @@ def saveHorario(request):
     """
     if request.method == "POST" and request.is_ajax():
 
+        #FIXME
         actividad = request.POST.get("value")
         dia = request.POST.get("row")
         bloque = request.POST.get("bloque")
