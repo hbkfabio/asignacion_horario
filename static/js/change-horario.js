@@ -138,7 +138,7 @@ $(document).on("change", ".combo-option-horario", function(event){
   modulo = file.find("td:eq(1)");
   modulo = modulo.attr("name");
 
-  plan = file.find("td:eq(0)");
+  plan = file.find("td:eq(2)");
   plan = plan.attr("name");
 
   carrera = $("#carrera").val();

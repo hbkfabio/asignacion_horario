@@ -739,6 +739,13 @@ def saveHorario(request):
         query = query.filter(modulo__id = modulo)
         query = query.filter(profesor__id = profesor)
 
+        print("periodo: ", periodo)
+        print("carrera: ", carrera)
+        print("plan: ", plan)
+        print("modulo: ", modulo)
+        print("profesor ", profesor)
+        print(query)
+
         #Si el query existe, quiere decir que esta actualizando un dato
         if query.exists():
 
