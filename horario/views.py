@@ -16,6 +16,7 @@ from .models import (PeriodoProfesorModulo,
                      Horario,
                      HorarioTemp,
                      ReservaBloqueProtegido,
+                     ModuloCompartido,
                      )
 
 from parametros.models import (Periodo,
@@ -335,6 +336,66 @@ class ReservaBloqueProtegidoDeleteView(StaffRequiredMixin, ViewDeleteView):
         messages.success(self.request, self.success_message %dict(nombre=obj,))
         return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
+
+
+class ModuloCompartidoListView(StaffRequiredMixin, ViewListView):
+    model = ReservaBloqueProtegido
+    template_name = "horario/base_horario.html"
+    titulo = "Módulos Compartidos"
+    extra_context = {}
+
+
+    def get_context_data(self, *args, **kwargs):
+
+        context = super(ModuloCompartidoListView, self).get_context_data(*args, **kwargs)
+
+        carrera = Carrera.objects.all()
+        context["carrera"]  = carrera
+
+        periodo = Periodo.objects.all()
+        context["periodo"] = periodo
+
+        return context
+
+
+class ModuloCompartidoCreateView(StaffRequiredMixin, ViewCreateView):
+    form_class = ModuloCompartido
+    template_name = "horario/form.html"
+    titulo = "Agrega Reserva de Bloque Protegido"
+    success_message = "Se han reservado los bloques"
+    success_url = "/reservabloqueprotegido/"
+
+
+    def get_success_message(self, cleaned_data):
+    #cleaned_data is the cleaned data from the form which is used for string formatting
+        return self.success_message
+
+
+
+class ModuloCompartidoUpdateView(StaffRequiredMixin, ViewUpdateView):
+    model = ModuloCompartido
+    form_class = ModuloCompartido
+    template_name = "horario/form.html"
+    success_message = "Se han Actualizado los bloques"
+    success_url = "/reservabloqueprotegido/"
+
+
+    def get_success_message(self, cleaned_data):
+    #cleaned_data is the cleaned data from the form which is used for string formatting
+        return self.success_message
+
+
+class ModuloCompartidoDeleteView(StaffRequiredMixin, ViewDeleteView):
+    model = ModuloCompartido
+    template_name = "parametros/elimina.html"
+    success_message = 'Se han eliminado los modulos compartidos'
+    success_url = "/reservabloqueprotegido/"
+
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message %dict(nombre=obj,))
+        return super(ViewDeleteView, self).delete(request, *args, **kwargs)
 
 
 class HorarioListView(StaffRequiredMixin, ViewListView):

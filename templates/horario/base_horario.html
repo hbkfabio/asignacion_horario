@@ -42,15 +42,19 @@
     {% endif %}
 
     {% if titulo == 'Horario' %}
-        {% include "horario/horario.html" %}
+      {% include "horario/horario.html" %}
     {% endif %}
 
     {% if titulo == 'Listado de Horarios' %}
-        {% include "horario/listado_horario.html" %}
+      {% include "horario/listado_horario.html" %}
     {% endif %}
 
     {% if titulo == 'Reserva Bloques protegidos Módulo' %}
-        {% include "horario/bloqueprotegido.html" %}
+      {% include "horario/bloqueprotegido.html" %}
+    {% endif %}
+
+    {% if titulo == 'Módulos Compartidos' %}
+      {% include "horario/modulocompartido.html" %}
     {% endif %}
 
 

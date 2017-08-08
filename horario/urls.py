@@ -26,6 +26,12 @@ from .views import (PeriodoProfesorModuloListView,
                     ReservaBloqueProtegidoCreateView,
                     ReservaBloqueProtegidoUpdateView,
                     ReservaBloqueProtegidoDeleteView,
+
+                    #ModuloCompartido
+                    ModuloCompartidoListView,
+                    ModuloCompartidoCreateView,
+                    ModuloCompartidoUpdateView,
+                    ModuloCompartidoDeleteView,
                     )
 
 urlpatterns = [
@@ -46,7 +52,11 @@ urlpatterns = [
     #url(r'^horario/save/$', HorarioSave, name='horario-save'),
     url(r'^horario/save/$', saveHorario, name='horario-save'),
     #url(r'^horario/saveActividadBloque/$', SaveActividadBloque, name='actividadbloque-save'),
-
+    #ModuloCompartido
+    url(r'^modulocompartido/$', ModuloCompartidoListView.as_view(), name='modulocompartido'),
+    url(r'^modulocompartido/add/$', ModuloCompartidoCreateView.as_view(), name='modulocompartido-add'),
+    url(r'^modulocompartido/edit/(?P<pk>\d+)/$', ModuloCompartidoUpdateView.as_view(), name='modulocompartido-edit'),
+    url(r'^modulocompartido/(?P<pk>\d+)/delete/$', ModuloCompartidoDeleteView.as_view(), name='modulocompartido-delete'),
 
     #Param
     url(r'^horario/param/get_plan/$', GetPlan, name='get-plan'),

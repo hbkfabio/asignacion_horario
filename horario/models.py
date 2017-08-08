@@ -36,6 +36,15 @@ class ReservaBloqueProtegido(models.Model):
     class Meta:
         ordering = ["bloque"]
 
+class ModuloCompartido(models.Model):
+    carrera = models.ForeignKey(Carrera, default=None)
+    periodo = models.ForeignKey(Periodo, default=None)
+    modulo = models.ForeignKey(Modulo, default=None)
+    compartido = models.ForeignKey(Modulo, related_name="compartido")
+
+    def __str__(self):
+        return self.modulo
+
 
 class HorarioTemp(models.Model):
     """

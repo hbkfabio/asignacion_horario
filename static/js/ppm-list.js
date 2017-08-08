@@ -88,7 +88,7 @@ $(document).on("change", "#periodo", function(event){
 
     path = "?carrera="+carrera+"&periodo="+periodo;
 
-    if(plan !=0){
+    if(plan !=0 && plan != null){
 
       path += "&plan="+plan;
 
