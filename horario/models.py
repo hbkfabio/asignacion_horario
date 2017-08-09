@@ -16,6 +16,9 @@ class PeriodoProfesorModulo(models.Model):
     periodo = models.ForeignKey(Periodo, default=None)
     modulo = models.ForeignKey(Modulo, default=None)
     profesor = models.ForeignKey(Profesor, default=None)
+    compartido = models.BooleanField(u'Cursos Grupos', default=False,
+        help_text="<small>Check si el módulo será un curso compartido</small>",
+        );
 
     def __str__(self):
         return ('%s %s %s')%(self.periodo, self.profesor, self.modulo)
@@ -36,11 +39,9 @@ class ReservaBloqueProtegido(models.Model):
     class Meta:
         ordering = ["bloque"]
 
-class ModuloCompartido(models.Model):
-    carrera = models.ForeignKey(Carrera, default=None)
-    periodo = models.ForeignKey(Periodo, default=None)
+class CursosGrupo(models.Model):
+    periodoprofesormodulo = models.ForeignKey(PeriodoProfesorModulo, default=None)
     modulo = models.ForeignKey(Modulo, default=None)
-    compartido = models.ForeignKey(Modulo, related_name="compartido")
 
     def __str__(self):
         return self.modulo

@@ -238,12 +238,17 @@ function deleteHorarioTemp(){
 
 }
 
-
-
 $(document).on("click", ".reset-horario", function(event){
 
 
   deleteHorarioTemp();
 
+
+});
+
+
+$(document).on("change", "#id_compartido", function(event){
+
+  console.log("click");
 
 });

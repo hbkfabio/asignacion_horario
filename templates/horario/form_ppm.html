@@ -12,78 +12,35 @@
 
 
 {% block content %}
-    <fieldset>
-        <legend><h4>{{ titulo|upper }}</h4></legend>
-    </fieldset>
+<fieldset>
+  <legend><h4>{{ titulo|upper }}</h4></legend>
+</fieldset>
 
-    <form id="form" role="form" class="form-horizontal" method="post">
-        {% csrf_token %}
-        {% bootstrap_form form layout="horizontal" %}
+<form id="form" role="form" class="form-horizontal" method="post">
+  {% csrf_token %}
+  {% bootstrap_form form layout="horizontal" %}
 
-        <div id="accordion" role="tablist" aria-multiselectable="true">
-          <div class="card">
-            <div class="card-header" role="tab" id="headingTwo">
-              <h5 class="mb-0">
-                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Reserva de Horario
-                </a>
-              </h5>
-            </div>
+  {% include "horario/cursos_grupo_table.html" %}
+  
+  {% include "horario/form_ppm_horario.html" %}
 
-            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-              C=Clases, A=Ayudantía, S=Seminario, L=Laboratorio, T=Taller, X=Bloque Protegido
-                <table width="100%" class="table table-bordered table-hover">
-                    <thead class="thead-default">
-					            <tr>
-					            <th>Día Semana / Bloque</th>
-					              {% for obj in bloque_list %}
-						            <th id="{{obj.id}}"><center>{{ obj.nombre }}</center></th>
-					              {% endfor %}
-					            </tr>
-				            </thead>
-                    <tbody>
-                      {% for k, val in horario.items %}
-                          <tr>
-                            <td id="dia">{{ dia_semana_list|get_item:k }}</td>
-                            {% for v in val.values %}
-                              {% if v %}
-                                {% if v == "X" %}
-                                  <td bgcolor="#d9534f" align="center">
-                                    <bold>{{v}}</bold>
-                                  </td>
-                                {% else %}
-                                  <td class="change" align="center">{{v}}</td>
-                                {% endif %}
-                              {% else %}
-                                <td class="change" align="center"></td>
-                              {% endif %}
-                            {% endfor %}
-                          </tr>
-                      {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-          </div>
-        </div>
-        <p></p>
+  <p></p>
 
-        {% buttons layout='horizontal'%}
-        <!-- <button type="submit" class="btn btn-primary save-addother"><span class="glyphicon glyphicon-save"></span> Guardar y añadir otro</button> -->
-        {% if save_addanother %}
-        <button type="submit" class="btn btn-primary save-addanother" name="_addanother">
-            <span class="glyphicon glyphicon-save"></span>
-            Guardar y añadir otro
-        </button>
-        {% endif%}
-        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Guardar</button>
-        <button type="reset" class="btn btn-danger reset reset-horario"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
-        {% endbuttons %}
-    </form>
+  {% buttons layout='horizontal'%}
+    {% if save_addanother %}
+      <button type="submit" class="btn btn-primary save-addanother" name="_addanother">
+        <span class="glyphicon glyphicon-save"></span>
+        Guardar y añadir otro
+      </button>
+    {% endif%}
+    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Guardar</button>
+    <button type="reset" class="btn btn-danger reset reset-horario"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+  {% endbuttons %}
+</form>
 
 
-
-
-    <!-- jQuery -->
-    <script src="/static/js/ppm-action.js"></script>
-    <script src="/static/js/change-horario.js"></script>
+<!-- jQuery -->
+<script src="/static/js/ppm-action.js"></script>
+<script src="/static/js/change-horario.js"></script>
+<script src="/static/js/cursos-grupo.js"></script>
 {% endblock %}

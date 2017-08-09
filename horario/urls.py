@@ -27,11 +27,11 @@ from .views import (PeriodoProfesorModuloListView,
                     ReservaBloqueProtegidoUpdateView,
                     ReservaBloqueProtegidoDeleteView,
 
-                    #ModuloCompartido
-                    ModuloCompartidoListView,
-                    ModuloCompartidoCreateView,
-                    ModuloCompartidoUpdateView,
-                    ModuloCompartidoDeleteView,
+                    #CursosGrupo
+                    CursosGrupoListView,
+                    CursosGrupoCreateView,
+                    CursosGrupoUpdateView,
+                    CursosGrupoDeleteView,
                     )
 
 urlpatterns = [
@@ -52,11 +52,11 @@ urlpatterns = [
     #url(r'^horario/save/$', HorarioSave, name='horario-save'),
     url(r'^horario/save/$', saveHorario, name='horario-save'),
     #url(r'^horario/saveActividadBloque/$', SaveActividadBloque, name='actividadbloque-save'),
-    #ModuloCompartido
-    url(r'^modulocompartido/$', ModuloCompartidoListView.as_view(), name='modulocompartido'),
-    url(r'^modulocompartido/add/$', ModuloCompartidoCreateView.as_view(), name='modulocompartido-add'),
-    url(r'^modulocompartido/edit/(?P<pk>\d+)/$', ModuloCompartidoUpdateView.as_view(), name='modulocompartido-edit'),
-    url(r'^modulocompartido/(?P<pk>\d+)/delete/$', ModuloCompartidoDeleteView.as_view(), name='modulocompartido-delete'),
+    #CursosGrupo
+    url(r'^cursosgrupo/$', CursosGrupoListView.as_view(), name='cursosgrupo'),
+    url(r'^cursosgrupo/add/$', CursosGrupoCreateView.as_view(), name='cursosgrupo-add'),
+    url(r'^cursosgrupo/edit/(?P<pk>\d+)/$', CursosGrupoUpdateView.as_view(), name='cursosgrupo-edit'),
+    url(r'^cursosgrupo/(?P<pk>\d+)/delete/$', CursosGrupoDeleteView.as_view(), name='cursosgrupo-delete'),
 
     #Param
     url(r'^horario/param/get_plan/$', GetPlan, name='get-plan'),

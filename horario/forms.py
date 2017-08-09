@@ -1,10 +1,8 @@
 from django import forms
 from .models import (PeriodoProfesorModulo,
                      ReservaBloqueProtegido,
+                     CursosGrupo,
                      )
-from parametros.models import (Carrera,
-                               Plan,
-                               )
 
 class PeriodoProfesorModuloForm(forms.ModelForm):
 
@@ -24,4 +22,13 @@ class ReservaBloqueProtegidoForm(forms.ModelForm):
         model = ReservaBloqueProtegido
         fields = ["bloque",
                     "reservado",
+                ]
+
+
+class CursosGrupoForm(forms.ModelForm):
+
+    class Meta:
+        model = CursosGrupo
+        fields = ["periodoprofesormodulo",
+                    "modulo",
                 ]

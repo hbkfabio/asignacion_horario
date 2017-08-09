@@ -16,7 +16,7 @@ from .models import (PeriodoProfesorModulo,
                      Horario,
                      HorarioTemp,
                      ReservaBloqueProtegido,
-                     ModuloCompartido,
+                     CursosGrupo,
                      )
 
 from parametros.models import (Periodo,
@@ -30,6 +30,7 @@ from parametros.models import (Periodo,
 
 from .forms import (PeriodoProfesorModuloForm,
                     ReservaBloqueProtegidoForm,
+                    CursosGrupoForm,
                     )
 
 from django.views.generic.base import TemplateView
@@ -299,7 +300,7 @@ class ReservaBloqueProtegidoListView(StaffRequiredMixin, ViewListView):
 
 class ReservaBloqueProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = ReservaBloqueProtegidoForm
-    template_name = "horario/form.html"
+    template_name = "parametros/form.html"
     titulo = "Agrega Reserva de Bloque Protegido"
     success_message = "Se han reservado los bloques"
     success_url = "/reservabloqueprotegido/"
@@ -314,7 +315,7 @@ class ReservaBloqueProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
 class ReservaBloqueProtegidoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = ReservaBloqueProtegido
     form_class = ReservaBloqueProtegido
-    template_name = "horario/form.html"
+    template_name = "parametros/form.html"
     success_message = "Se han Actualizado los bloques"
     success_url = "/reservabloqueprotegido/"
 
@@ -338,16 +339,16 @@ class ReservaBloqueProtegidoDeleteView(StaffRequiredMixin, ViewDeleteView):
 
 
 
-class ModuloCompartidoListView(StaffRequiredMixin, ViewListView):
-    model = ReservaBloqueProtegido
+class CursosGrupoListView(StaffRequiredMixin, ViewListView):
+    model = CursosGrupo
     template_name = "horario/base_horario.html"
-    titulo = "Módulos Compartidos"
+    titulo = "Cursos Grupo"
     extra_context = {}
 
 
     def get_context_data(self, *args, **kwargs):
 
-        context = super(ModuloCompartidoListView, self).get_context_data(*args, **kwargs)
+        context = super(CursosGrupoListView, self).get_context_data(*args, **kwargs)
 
         carrera = Carrera.objects.all()
         context["carrera"]  = carrera
@@ -358,11 +359,11 @@ class ModuloCompartidoListView(StaffRequiredMixin, ViewListView):
         return context
 
 
-class ModuloCompartidoCreateView(StaffRequiredMixin, ViewCreateView):
-    form_class = ModuloCompartido
-    template_name = "horario/form.html"
-    titulo = "Agrega Reserva de Bloque Protegido"
-    success_message = "Se han reservado los bloques"
+class CursosGrupoCreateView(StaffRequiredMixin, ViewCreateView):
+    form_class = CursosGrupoForm
+    template_name = "horario/form_CursosGrupo.html"
+    titulo = "Agrega Modulos Compartidos"
+    success_message = "Se agregado los módulos compartidos"
     success_url = "/reservabloqueprotegido/"
 
 
@@ -372,11 +373,11 @@ class ModuloCompartidoCreateView(StaffRequiredMixin, ViewCreateView):
 
 
 
-class ModuloCompartidoUpdateView(StaffRequiredMixin, ViewUpdateView):
-    model = ModuloCompartido
-    form_class = ModuloCompartido
-    template_name = "horario/form.html"
-    success_message = "Se han Actualizado los bloques"
+class CursosGrupoUpdateView(StaffRequiredMixin, ViewUpdateView):
+    model = CursosGrupo
+    form_class = CursosGrupo
+    template_name = "horario/form_CursosGrupo.html"
+    success_message = "Se han Actualizado los modulos compartidos"
     success_url = "/reservabloqueprotegido/"
 
 
@@ -385,8 +386,8 @@ class ModuloCompartidoUpdateView(StaffRequiredMixin, ViewUpdateView):
         return self.success_message
 
 
-class ModuloCompartidoDeleteView(StaffRequiredMixin, ViewDeleteView):
-    model = ModuloCompartido
+class CursosGrupoDeleteView(StaffRequiredMixin, ViewDeleteView):
+    model = CursosGrupo
     template_name = "parametros/elimina.html"
     success_message = 'Se han eliminado los modulos compartidos'
     success_url = "/reservabloqueprotegido/"
@@ -613,7 +614,7 @@ def GetModulo(request):
 def GetCarrera(request):
 
     if request.method == "POST" and request.is_ajax():
-        codigo = request.POST.get("codigo")
+        #codigo = request.POST.get("codigo")
         query = Carrera.objects.all()
         query = query.order_by("nombre")
 

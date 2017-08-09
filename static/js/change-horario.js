@@ -253,3 +253,9 @@ function load_select_actividad(widget, data, valor){
   widget.append(html);
 
 }
+
+$(document).on("click", ".expand-horario", function(event){
+
+  $(this).find('span').toggleClass('glyphicon-collapse-up').toggleClass('glyphicon-collapse-down');  
+
+});

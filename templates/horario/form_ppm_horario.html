@@ -1,0 +1,46 @@
+<div id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="card">
+    <div class="card-header" role="tab" id="headingTwo">
+      <h5 class="mb-0">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          <button type="button" class="btn btn-primary expand-horario"> <span class="glyphicon glyphicon-collapse-down"> </span>
+            Reserva de Horario
+          </button>
+        </a>
+      </h5>
+    </div>
+  </div>
+  <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+    C=Clases, A=Ayudantía, S=Seminario, L=Laboratorio, T=Taller, X=Bloque Protegido
+    <table width="100%" class="table table-bordered table-hover">
+      <thead class="thead-default">
+		    <tr>
+			    <th>Día Semana / Bloque</th>
+				  {% for obj in bloque_list %}
+		        <th id="{{obj.id}}"><center>{{ obj.nombre }}</center></th>
+			    {% endfor %}
+			  </tr>
+			</thead>
+      <tbody>
+        {% for k, val in horario.items %}
+          <tr>
+            <td id="dia">{{ dia_semana_list|get_item:k }}</td>
+            {% for v in val.values %}
+             {% if v %}
+               {% if v == "X" %}
+                 <td bgcolor="#d9534f" align="center">
+                   <bold>{{v}}</bold>
+                 </td>
+               {% else %}
+                 <td class="change" align="center">{{v}}</td>
+               {% endif %}
+             {% else %}
+               <td class="change" align="center"></td>
+             {% endif %}
+           {% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
