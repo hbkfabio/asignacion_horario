@@ -66,6 +66,11 @@ urlpatterns = [
     url(r'^horario/param/get_carrera/$', GetCarrera, name='get-carrera'),
     url(r'^horario/param/get_actividad/$', GetActividad, name='get-actividad'),
 
+    #CursosGrupo
+    url(r'^horario/param/get_carrera-cg/$', GetCarrera, name='get-carrera-cg'),
+    url(r'^horario/param/get_plan-cg/$', GetPlan, name='get-plan-cg'),
+    url(r'^horario/param/get_modulo-cg/$', GetModulo, name='get-modulo-cg'),
+
     #validaciones
     url(r'^horario/horario/get_valida_ppm/$', GetValidaPpm, name='get-valida-ppm'),
 

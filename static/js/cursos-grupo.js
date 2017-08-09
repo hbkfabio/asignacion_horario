@@ -1,3 +1,10 @@
+$(document).ready(function(){
+
+  carrera = $("select[name = 'carrera-cg']");
+  get_data_model(carrera, null);
+
+});
+
 $(document).on("click", ".expand-cursos-grupo", function(event){
 
   $(this).find('span').toggleClass('glyphicon-collapse-up').toggleClass('glyphicon-collapse-down');
