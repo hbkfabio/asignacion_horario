@@ -35,7 +35,10 @@ $(document).on("click", ".add-cursos-grupo", function(event){
 
 function add_row(){
 
+ var rowCount = $('#table-cursos-grupo tr').length;
+
  var row=$("<tr>"+
+        `<td name=id hidden>${rowCount}</td>`+
         "<td width=30%><select class='form-control' name='carrera-cg'></select></td>"+
         "<td width=30%><select class='form-control' name='plan-cg'></select></td>"+
         "<td width=30%><select class='form-control' name='modulo-cg'></td>"+
@@ -69,8 +72,6 @@ $(document).on("change", "select[name=carrera-cg]", function(event){
   var plan = carrera.parent().parent().find("select[name=plan-cg]");
   disable_widget(plan, value);
 
-  event.stopPropagation();
-
 });
 
 
@@ -87,6 +88,46 @@ $(document).on("change", "select[name=plan-cg]", function(event){
   event.stopPropagation();
 
 })
+
+$(document).on("change", "select[name=modulo-cg]", function(event){
+
+  event.preventDefault();
+
+  var cursosgrupo = $(this).val();
+  var codigo = $(this).parent().parent().find("td[name=id]");
+
+  var periodo = $("#id_periodo").val();
+  var carrera = $("#id_carrera").val();
+  var plan = $("#id_plan").val();
+  var modulo = $("#id_modulo").val();
+  var profesor = $("#id_profesor").val();
+
+  var param = {
+      "periodo":periodo,
+      "carrera":carrera,
+      "plan":plan,
+      "modulo":modulo,
+      "profesor":profesor,
+      "cursosgrupo": cursosgrupo,
+  };
+  var url = "/horario/cg/save/";
+
+  $.ajax({
+         type: "POST",
+         dataType: "json",
+         url: url,
+         data: param,
+         async: false,
+        })
+        .done(function(data){
+          if (!data.success){
+            alert(data.msj);
+          }
+        });
+
+  event.stopPropagation();
+
+});
 
 $(document).on("click", ".delete-cursos-grupo", function(event){
 

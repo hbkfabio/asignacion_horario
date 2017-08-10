@@ -61,5 +61,8 @@ class HorarioTemp(models.Model):
     carrera = models.ForeignKey(Carrera, default=None, null=True)
     modulo = models.ForeignKey(Modulo, default=None, null=True)
     profesor = models.ForeignKey(Profesor, default=None, null=True)
+    cursogrupo = models.ForeignKey(Modulo, related_name="+",
+                        default=None, null=True)
+    cursogrupoline = models.IntegerField(null=True, default=None)
 
 

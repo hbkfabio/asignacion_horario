@@ -41,6 +41,7 @@ from .valida import (valida_cantidad_horas,
                      valida_choque_horario_profesor,
                      valida_choque_horario_modulo_semestre,
                      # valida_ppm_horario,
+                     valida_existe_grupos_cursos,
                     )
 import json
 import collections
@@ -236,6 +237,10 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
             h = Horario.objects.all().filter(periodoprofesormodulo = ppm)
             h = h.order_by("dia_semana", "bloque__nombre")
 
+            cg = CursosGrupo.objects.all()
+            cg = cg.filter(periodoprofesormodulo = ppm)
+            context["cursosgrupo"] = cg
+
         dic=create_dic_bloque()
 
         for i in h:
@@ -257,6 +262,7 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
         context["horario"] = dic
         context = create_dic_bloque_title(context)
         create_dic_bloque_title(context)
+
         return context
 
 
@@ -916,5 +922,41 @@ def deleteHorarioTemp(request):
                      profesor__id = profesor,
                      )
         h.delete()
+
+    return HttpResponse(None)
+
+@csrf_exempt
+def saveCursosGrupo(request):
+
+    if request.method == "POST" and request.is_ajax():
+        #cursosgrupo
+        cursosgrupo = request.POST.get("cursosgrupo")
+        if cursosgrupo == "":
+            return HttpResponse(None)
+
+        #Datos de PPM
+        periodo = request.POST.get("periodo")
+        carrera = request.POST.get("carrera")
+        plan = request.POST.get("plan")
+        modulo = request.POST.get("modulo")
+        profesor = request.POST.get("profesor")
+
+        ppm = PeriodoProfesorModulo.objects.all()
+        ppm = ppm.filter(periodo__id = periodo,
+                    carrera__id = carrera,
+                    plan__id = plan,
+                    modulo__id = modulo,
+                    profesor__id = profesor
+                    )
+
+        cg = Modulo.objects.all().filter(id=cursosgrupo)
+
+        if ppm.exists():
+            v, msj = valida_existe_grupos_cursos(cg[0], ppm[0])
+            if not v:
+                return HttpResponse(msj)
+            cg = CursosGrupo(periodoprofesormodulo = ppm[0],
+                      modulo=cg[0])
+            cg.save()
 
     return HttpResponse(None)

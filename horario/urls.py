@@ -32,6 +32,7 @@ from .views import (PeriodoProfesorModuloListView,
                     CursosGrupoCreateView,
                     CursosGrupoUpdateView,
                     CursosGrupoDeleteView,
+                    saveCursosGrupo,
                     )
 
 urlpatterns = [
@@ -70,6 +71,7 @@ urlpatterns = [
     url(r'^horario/param/get_carrera-cg/$', GetCarrera, name='get-carrera-cg'),
     url(r'^horario/param/get_plan-cg/$', GetPlan, name='get-plan-cg'),
     url(r'^horario/param/get_modulo-cg/$', GetModulo, name='get-modulo-cg'),
+    url(r'^horario/cg/save/$', saveCursosGrupo, name='cursos-grupo-save'),
 
     #validaciones
     url(r'^horario/horario/get_valida_ppm/$', GetValidaPpm, name='get-valida-ppm'),

@@ -6,6 +6,7 @@ from .models import (PeriodoProfesorModulo,
                      Horario,
                      Actividad,
                      HorarioTemp,
+                     CursosGrupo,
                      )
 
 from parametros.models import(Modulo,
@@ -288,4 +289,40 @@ def valida_choque_horario_modulo_semestre(bloque, dia, plan, profesor):
     # if not v:
     #     return v, msj
 
+
+def valida_existe_grupos_cursos(modulo, ppm):
+    """
+    Valida si existe un CursosGrupo asociado al mismo PPM
+
+    Recibe:
+      * modulo: Objecto Modulo
+      * ppm: Objecto de PPM
+    Retorna dos elementos:
+        bool:
+            True: Cuando puede agregar el objecto
+            False: No puede agregar un objecto
+        string:
+            msj: cuando existe un error en la validación
+    """
+
+    query = CursosGrupo.objects.all()
+    query = query.filter(modulo=modulo,
+          periodoprofesormodulo=ppm,
+          )
+
+    msj = ""
+    if query.exists():
+        cg = query[0]
+        ppm = cg.periodoprofesormodulo
+
+        msj = "Ya se asoció %(modulo)s "%{"modulo":cg.modulo.nombre}
+        msj += "al módulo %(modulo)s "%{"modulo":ppm.modulo.nombre}
+        msj += "%s "%ppm.plan.nombre
+        msj += "de la carrera %s "%ppm.carrera.nombre
+        msj += "con el profesor %(profesor)s"%{"profesor":ppm.profesor.nombre}
+        msj = {"sucess": False, "msj": msj}
+        msj = json.dumps(msj).encode('utf_8')
+        return False, msj
+
+    return True, msj
 
