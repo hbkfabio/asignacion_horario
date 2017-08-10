@@ -19,50 +19,6 @@ from .errores import *
 import json
 
 
-# def valida_choque_horario(dia_semana, bloque, periodo, semestre, valor):
-#      pass
-
-#     if valor == "":
-#         return True, ""
-
-#     horario = Horario.objects.all()
-#     horario = horario.filter(dia_semana = dia_semana)
-#     print (horario)
-#     horario = horario.filter(periodoprofesormodulo__periodo=periodo)
-#     print (horario)
-#     horario = horario.filter(periodoprofesormodulo__modulo__semestre__nombre = semestre)
-#     print (horario)
-
-
-#     if bloque == "1":
-#         horario = horario.filter(~Q(bloque1 = ""))
-#     elif bloque == "2":
-#         horario = horario.filter(~Q(bloque2 = ""))
-#     elif bloque == "3":
-#         horario = horario.filter(~Q(bloque3 = ""))
-#     elif bloque == "4":
-#         horario = horario.filter(~Q(bloque4 = ""))
-#     elif bloque == "5":
-#         horario = horario.filter(~Q(bloque5 = ""))
-#     elif bloque == "6":
-#         horario = horario.filter(~Q(bloque6 = ""))
-#     elif bloque == "7":
-#         horario = horario.filter(~Q(bloque7 = ""))
-#     elif bloque == "8":
-#         horario = horario.filter(~Q(bloque8 = ""))
-#     elif bloque == "9":
-#         horario = horario.filter(~Q(bloque9 = ""))
-#     elif bloque == "10":
-#         horario = horario.filter(~Q(bloque10 = ""))
-
-
-#     if len(horario) == 0:
-#         return True, ""
-#     else:
-#         msj = choque_horario()
-#         return False, msj
-
-
 def valida_choque_horario_profesor(periodo,
                                     modulo,
                                     profesor,
@@ -257,37 +213,6 @@ def valida_choque_horario_modulo_semestre(bloque, dia, plan, profesor):
         return False, msj
 
     return True, msj
-
-# def valida_ppm_horario(actividad, horario, ppm, modulo_id, nuevo):
-    """
-    Método utilizado para inicializar una serie de validaciones al momento de
-    agendar un horario para un profesor, modulo, periodo determinado.
-
-    Recibe los parametros:
-        * actividad: Que es el atributo identificador de la Clase
-        ActividadCreateView.
-        * query: Trae el query (Horario u HorarioTemp).
-        * modulo_id: Trae el id de la clase modulo.
-        * temp: Utilizado para indicar si la Clase a Consultar es Horario (edita
-        objeto) u HorarioTemp (nuevo objeto).
-        * nuevo: Boolean que referencia si es un nuevo objeto PPM o si es una
-        edición,True para Nuevo, False para editar.
-
-    Retorna dos elementos:
-        bool:
-            True: Cuando puede agregar actividad al Horario
-            False: No puede agregar una actividad al Horario
-        string:
-            msj: cuando existe un error en la validación
-    """
-
-
-#    v, msj = valida_cantidad_horas(actividad, horario, modulo_id, nuevo)
-    # v, msj = chequea_choque_horario_profesor(horario)
-
-    # return v, msj
-    # if not v:
-    #     return v, msj
 
 
 def valida_existe_grupos_cursos(modulo, ppm):
