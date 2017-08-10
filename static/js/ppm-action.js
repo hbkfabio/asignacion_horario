@@ -30,6 +30,7 @@ function disable_all(){
 function load_select_data(widget, data){
 
   var name = widget.attr("name");
+  name = name.split("-")[0];
   var txt = `Seleccione un(a) ${name}`;
 
   $(widget).append(
