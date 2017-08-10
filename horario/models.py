@@ -40,11 +40,13 @@ class ReservaBloqueProtegido(models.Model):
         ordering = ["bloque"]
 
 class CursosGrupo(models.Model):
-    periodoprofesormodulo = models.ForeignKey(PeriodoProfesorModulo, default=None)
+    # periodoprofesormodulo = models.ForeignKey(PeriodoProfesorModulo, default=None)
+    periodo = models.ForeignKey(Periodo, default=None)
     modulo = models.ForeignKey(Modulo, default=None)
+    curso_grupo = models.ForeignKey(Modulo, related_name='+', default=None)
 
     def __str__(self):
-        return self.modulo
+        return self.modulo.nombre
 
 
 class HorarioTemp(models.Model):

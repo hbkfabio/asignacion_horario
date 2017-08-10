@@ -29,6 +29,6 @@ class CursosGrupoForm(forms.ModelForm):
 
     class Meta:
         model = CursosGrupo
-        fields = ["periodoprofesormodulo",
+        fields = [#"periodoprofesormodulo",
                     "modulo",
                 ]
