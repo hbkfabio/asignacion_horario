@@ -51,7 +51,11 @@ function load_select_data(widget, data){
 
 function get_data_model(widget, value){
 
-  var diccionario = {'codigo' : value}
+  //Se agrega var periodo necesaria para GetModulo
+  var periodo = $("select[name = 'periodo']").val();
+  var diccionario = {"codigo" : value,
+                      "periodo":periodo,
+                      }
 
   var name = widget.attr("name");
   var url = `/horario/param/get_${name}/`;

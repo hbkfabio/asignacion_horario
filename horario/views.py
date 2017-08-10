@@ -238,7 +238,8 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
             h = h.order_by("dia_semana", "bloque__nombre")
 
             cg = CursosGrupo.objects.all()
-            cg = cg.filter(periodoprofesormodulo = ppm)
+            cg = cg.filter(periodo = ppm.periodo,
+                            modulo = ppm.modulo)
             context["cursosgrupo"] = cg
 
         dic=create_dic_bloque()
@@ -610,7 +611,11 @@ def GetModulo(request):
 
     if request.method == "POST" and request.is_ajax():
         codigo = request.POST.get("codigo")
+        p = request.POST.get("periodo")
+        cg = CursosGrupo.objects.values_list("curso_grupo").filter(periodo_id=p)
+
         query = Modulo.objects.all().filter(plan__id = codigo)
+        query = query.exclude(id__in=cg)
         query = query.order_by("-id")
 
         return JsonResponse(serializers.serialize('json', query), safe=False)
