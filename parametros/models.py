@@ -115,3 +115,15 @@ class Actividad(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+class ModuloEspejo(models.Model):
+    modulo = models.ForeignKey(Modulo)
+    espejo = models.ForeignKey(Modulo, related_name='+')
+
+    def __str__(self):
+        msj = "El modulo %(modulo)s es espejo de %(espejo)s"%{
+                                    "modulo":self.modulo,
+                                    "espejo":self.espejo,
+                                    }
+        return msj

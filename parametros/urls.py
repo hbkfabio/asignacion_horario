@@ -40,6 +40,10 @@ from .views import (
     ActividadCreateView,
     ActividadUpdateView,
     ActividadDeleteView,
+    ModuloEspejoView,
+    ModuloEspejoCreateView,
+    ModuloEspejoUpdateView,
+    ModuloEspejoDeleteView,
     LogoutView,
     LoginView,
     )
@@ -95,6 +99,11 @@ urlpatterns = [
     url(r'^actividad/add/$', ActividadCreateView.as_view(), name='actividad-add'),
     url(r'^actividad/edit/(?P<pk>\d+)/$', ActividadUpdateView.as_view(), name='actividad-edit'),
     url(r'^actividad/(?P<pk>\d+)/delete/$', ActividadDeleteView.as_view(), name='actividad-delete'),
+    #moduloespejo
+    url(r'^moduloespejo/$', ModuloEspejoView.as_view(), name='moduloespejo-list'),
+    url(r'^moduloespejo/add/$', ModuloEspejoCreateView.as_view(), name='moduloespejo-add'),
+    url(r'^moduloespejo/edit/(?P<pk>\d+)/$', ModuloEspejoUpdateView.as_view(), name='moduloespejo-edit'),
+    url(r'^moduloespejo/(?P<pk>\d+)/delete/$', ModuloEspejoDeleteView.as_view(), name='moduloespejo-delete'),
     #logout
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^login/$', LoginView.as_view(), name='login'),

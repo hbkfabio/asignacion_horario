@@ -24,6 +24,7 @@ from .forms import (
     ProfesorForm,
     SemestreForm,
     ActividadForm,
+    ModuloEspejoForm,
 )
 
 from .models import (
@@ -37,6 +38,7 @@ from .models import (
     Profesor,
     Semestre,
     Actividad,
+    ModuloEspejo,
 )
 
 
@@ -446,6 +448,44 @@ class ActividadDeleteView(StaffRequiredMixin, ViewDeleteView):
     template_name = "parametros/elimina.html"
     success_message = 'La actividad %(nombre)s ha sido Eliminado'
     success_url = "/actividad/"
+
+
+
+class ModuloEspejoView(StaffRequiredMixin, ViewListView):
+    model = ModuloEspejo
+    template_name = "parametros/maestro.html"
+    titulo = "Módulo Espejo"
+    extra_context = {}
+
+    def get_context_data(self, **kwargs):
+        context = super(ModuloEspejoView, self).get_context_data(**kwargs)
+        context['titulo'] = self.titulo
+        return context
+
+
+class ModuloEspejoCreateView(StaffRequiredMixin, CreateView):
+    form_class = ModuloEspejoForm
+    template_name = "parametros/form.html"
+    success_message = 'El modulo espejo ha sido creado'
+    titulo = 'Agrega Módulo Espejo'
+    success_url = '/moduloespejo/'
+
+
+class ModuloEspejoUpdateView(StaffRequiredMixin, UpdateView):
+    model = ModuloEspejo
+    form_class = ModuloEspejoForm
+    titulo = "Edita Modulo Espejo"
+    template_name = "parametros/form.html"
+    success_message = "La actividad  ha sido actualizado"
+    success_url = "/moduloespejo/"
+
+
+
+class ModuloEspejoDeleteView(StaffRequiredMixin, DeleteView):
+    model = ModuloEspejo
+    template_name = "parametros/elimina.html"
+    success_message = 'El Modulo Espejo ha sido Eliminado'
+    success_url = "/moduloespejo/"
 
 
 

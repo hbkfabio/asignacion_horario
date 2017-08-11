@@ -12,6 +12,7 @@ from .models import (
     Profesor,
     Semestre,
     Actividad,
+    ModuloEspejo,
 )
 
 from horario.models import ReservaBloqueProtegido
@@ -262,3 +263,11 @@ class ActividadForm(forms.ModelForm):
         n = cleaned_nombre(self, Actividad)
 
         return n
+
+class ModuloEspejoForm(forms.ModelForm):
+
+    class Meta:
+        model = ModuloEspejo
+        fields = ["modulo",
+                "espejo",
+                ]
