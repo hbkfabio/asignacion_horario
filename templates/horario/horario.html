@@ -45,7 +45,11 @@
 					    {% for x, y in horario.items %}
 					      <tr>
 					        <td name={{x.profesor.id}}>{{x.profesor.nombre}}</td>
-					        <td name ={{x.modulo.id}}>{{x.modulo.nombre}}</td>
+					        {% if x.compartido %}
+					          <td name ={{x.modulo.id}}>{{cursos_grupo|get_cursos_grupo:x.modulo.id}}</td>
+					        {% else %}
+					          <td name ={{x.modulo.id}}>{{x.modulo.nombre}}</td>
+					        {% endif %}
 					        <td name={{x.modulo.plan.id}}>{{x.modulo.plan.nombre}}</td>
 					        <td>{{x.modulo.semestre.nombre}}</td>
 					        {% for z, a in y.items %}

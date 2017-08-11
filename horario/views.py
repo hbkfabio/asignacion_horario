@@ -111,6 +111,38 @@ def create_dic_bloque_title(context):
     return context
 
 
+def create_dic_cursos_grupo(periodo):
+    """
+    Crea un diccionario con los objectos obtenidos de acuerdo a un periodo
+    determinado
+
+    Recibe:
+        * Integer: codigo periodo
+
+    Retorna:
+        diccionario del modo:
+        {
+            codigo_periodo: [CursosGrupo, CursosGrupo, ...]
+        }
+    """
+
+    cg = CursosGrupo.objects
+    cg_values = cg.values('modulo').filter(periodo__id = periodo)
+    cg_values = cg_values.distinct()
+
+    cg_query = cg.all().filter(periodo__id = periodo)
+
+    dic = {}
+    aux = []
+
+    for i in cg_values:
+        for t in cg_query.filter(modulo__id=i['modulo']):
+            aux.append(t)
+        dic[i["modulo"]] = aux
+        aux = []
+
+    return dic
+
 class PeriodoProfesorModuloListView(StaffRequiredMixin, ViewListView):
     model = PeriodoProfesorModulo
     template_name = "horario/base_horario.html"
@@ -438,6 +470,9 @@ class HorarioTemplateView(StaffRequiredMixin, TemplateView):
 
         dia_semana = collections.OrderedDict(sorted(dic_dia_semana.items()))
         context["dia_semana"] = dia_semana
+
+        cg = create_dic_cursos_grupo(periodo)
+        context["cursos_grupo"] = cg
 
         query = PeriodoProfesorModulo.objects.all()
         if periodo is not None:
