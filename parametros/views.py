@@ -14,41 +14,42 @@ from django.views.decorators.cache import never_cache
 
 
 from .forms import (
-    DepartamentoForm,
-    CarreraForm,
-    PlanForm,
-    ModuloForm,
-    AnioForm,
-    PeriodoForm,
-    BloqueForm,
-    ProfesorForm,
-    SemestreForm,
-    ActividadForm,
-    ModuloEspejoForm,
-)
+        DepartamentoForm,
+        CarreraForm,
+        PlanForm,
+        ModuloForm,
+        AnioForm,
+        PeriodoForm,
+        BloqueForm,
+        ProfesorForm,
+        SemestreForm,
+        ActividadForm,
+        ModuloEspejoForm,
+        )
 
 from .models import (
-    Departamento,
-    Carrera,
-    Plan,
-    Modulo,
-    Anio,
-    Periodo,
-    Bloque,
-    Profesor,
-    Semestre,
-    Actividad,
-    ModuloEspejo,
-)
+        Departamento,
+        Carrera,
+        Plan,
+        Modulo,
+        Anio,
+        Periodo,
+        Bloque,
+        Profesor,
+        Semestre,
+        Actividad,
+        ModuloEspejo,
+        )
 
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 
 class StaffRequiredMixin(object):
-	@method_decorator(staff_member_required)
-	def dispatch(self, request, *args, **kwargs):
-		return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 class ViewListView(ListView):
@@ -80,12 +81,12 @@ class ViewCreateView(SuccessMessageMixin, CreateView):
 
 
     def get_success_message(self, cleaned_data):
-    #cleaned_data is the cleaned data from the form which is used for string formatting
+        #cleaned_data is the cleaned data from the form which is used for string formatting
         return self.success_message % dict(cleaned_data,
-                                       nombre=self.object.nombre)
+                nombre=self.object.nombre)
 
-    def get_success_url(self):
-        p = self.request.META['PATH_INFO']
+        def get_success_url(self):
+            p = self.request.META['PATH_INFO']
         if '_addanother' in self.request.POST:
             return (p)
         else:
@@ -109,8 +110,11 @@ class ViewUpdateView(SuccessMessageMixin, UpdateView):
 
 
     def get_success_message(self, cleaned_data):
-        return self.success_message % dict(cleaned_data,
-                                       nombre=self.object.nombre)
+        msj = self.success_message %dict(
+                cleaned_data,
+                nombre=self.object.nombre)
+
+        return msj
 
 class ViewDeleteView(SuccessMessageMixin, DeleteView):
     model = None
@@ -205,7 +209,7 @@ class ModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = Modulo
     form_class = ModuloForm
     titulo = "Edita Modulo"
-    template_name = "parametros/form_modulo.html"
+    template_name = "parametros/form.html"
     success_message = "El Modulo %(nombre)s ha sido actualizado"
     success_url = "/modulo/"
 

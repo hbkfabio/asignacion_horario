@@ -7,53 +7,53 @@ from django.contrib import messages
 from django.db.models import Max
 
 from parametros.views import (ViewListView,
-                            ViewCreateView,
-                            ViewUpdateView,
-                            ViewDeleteView,
-                            )
+        ViewCreateView,
+        ViewUpdateView,
+        ViewDeleteView,
+        )
 
 from .models import (PeriodoProfesorModulo,
-                     Horario,
-                     HorarioTemp,
-                     ReservaBloqueProtegido,
-                     CursosGrupo,
-                     )
+        Horario,
+        HorarioTemp,
+        ReservaBloqueProtegido,
+        CursosGrupo,
+        )
 
 from parametros.models import (Periodo,
-                               Plan,
-                               Profesor,
-                               Modulo,
-                               Carrera,
-                               Bloque,
-                               Actividad,
-                               )
+        Plan,
+        Profesor,
+        Modulo,
+        Carrera,
+        Bloque,
+        Actividad,
+        )
 
 from .forms import (PeriodoProfesorModuloForm,
-                    ReservaBloqueProtegidoForm,
-                    CursosGrupoForm,
-                    )
+        ReservaBloqueProtegidoForm,
+        CursosGrupoForm,
+        )
 
 from django.views.generic.base import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
 from .valida import (valida_cantidad_horas,
-                     valida_choque_horario_profesor,
-                     valida_choque_horario_modulo_semestre,
-                     # valida_ppm_horario,
-                     valida_existe_grupos_cursos,
-                    )
+        valida_choque_horario_profesor,
+        valida_choque_horario_modulo_semestre,
+        # valida_ppm_horario,
+        valida_existe_grupos_cursos,
+        )
 import json
 import collections
 
 # Create your views here.
 
 dic_dia_semana={"1": "Lunes",
-                "2":"Martes",
-                "3":"Miercoles",
-                "4":"Jueves",
-                "5":"Viernes",
-                }
+        "2":"Martes",
+        "3":"Miercoles",
+        "4":"Jueves",
+        "5":"Viernes",
+        }
 
 from parametros.views import StaffRequiredMixin
 
@@ -224,24 +224,24 @@ class PeriodoProfesorModuloCreateView(StaffRequiredMixin, ViewCreateView):
         formatting
         """
         return self.success_message % dict(cleaned_data,
-                                       nombre=self.object.profesor.nombre)
+                nombre=self.object.profesor.nombre)
 
-    def form_valid(self, form):
-        form.save()
+        def form_valid(self, form):
+            form.save()
         ppm = form.instance
         #Aca se debe guardar el temporal
         a = HorarioTemp.objects.all()
         a = a.filter(modulo = ppm.modulo,
-                     carrera = ppm.carrera,
-                     profesor = ppm.profesor,
-                     )
+                carrera = ppm.carrera,
+                profesor = ppm.profesor,
+                )
         for i in a:
             h = Horario(periodoprofesormodulo = ppm,
-                        dia_semana = i.dia_semana,
-                        bloque = i.bloque,
-                        actividad = i.actividad,
-                        reservado = True,
-                        )
+                    dia_semana = i.dia_semana,
+                    bloque = i.bloque,
+                    actividad = i.actividad,
+                    reservado = True,
+                    )
             h.save()
             i.delete()
 
@@ -271,7 +271,7 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
 
             cg = CursosGrupo.objects.all()
             cg = cg.filter(periodo = ppm.periodo,
-                            modulo = ppm.modulo)
+                    modulo = ppm.modulo)
             context["cursosgrupo"] = cg
 
         dic=create_dic_bloque()
@@ -300,9 +300,9 @@ class PeriodoProfesorModuloUpdateView(StaffRequiredMixin, ViewUpdateView):
 
 
     def get_success_message(self, cleaned_data):
-    #cleaned_data is the cleaned data from the form which is used for string formatting
+        #cleaned_data is the cleaned data from the form which is used for string formatting
         return self.success_message % dict(cleaned_data,
-                                       nombre=self.object.profesor.nombre)
+                nombre=self.object.profesor.nombre)
 
 
 
@@ -346,7 +346,7 @@ class ReservaBloqueProtegidoCreateView(StaffRequiredMixin, ViewCreateView):
 
 
     def get_success_message(self, cleaned_data):
-    #cleaned_data is the cleaned data from the form which is used for string formatting
+        #cleaned_data is the cleaned data from the form which is used for string formatting
         return self.success_message
 
 
@@ -360,7 +360,7 @@ class ReservaBloqueProtegidoUpdateView(StaffRequiredMixin, ViewUpdateView):
 
 
     def get_success_message(self, cleaned_data):
-    #cleaned_data is the cleaned data from the form which is used for string formatting
+        #cleaned_data is the cleaned data from the form which is used for string formatting
         return self.success_message
 
 
@@ -400,14 +400,14 @@ class CursosGrupoListView(StaffRequiredMixin, ViewListView):
 
 class CursosGrupoCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = CursosGrupoForm
-    template_name = "horario/form_CursosGrupo.html"
+    template_name = "horario/cursos_grupo_table.html"
     titulo = "Agrega Modulos Compartidos"
     success_message = "Se agregado los módulos compartidos"
-    success_url = "/reservabloqueprotegido/"
+    success_url = "/cursosgrupo/"
 
 
     def get_success_message(self, cleaned_data):
-    #cleaned_data is the cleaned data from the form which is used for string formatting
+        #cleaned_data is the cleaned data from the form which is used for string formatting
         return self.success_message
 
 
@@ -415,13 +415,13 @@ class CursosGrupoCreateView(StaffRequiredMixin, ViewCreateView):
 class CursosGrupoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = CursosGrupo
     form_class = CursosGrupo
-    template_name = "horario/form_CursosGrupo.html"
+    template_name = "horario/cursos_grupo_table.html"
     success_message = "Se han Actualizado los modulos compartidos"
-    success_url = "/reservabloqueprotegido/"
+    success_url = "/cursosgrupo/"
 
 
     def get_success_message(self, cleaned_data):
-    #cleaned_data is the cleaned data from the form which is used for string formatting
+        #cleaned_data is the cleaned data from the form which is used for string formatting
         return self.success_message
 
 
@@ -429,7 +429,7 @@ class CursosGrupoDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = CursosGrupo
     template_name = "parametros/elimina.html"
     success_message = 'Se han eliminado los modulos compartidos'
-    success_url = "/reservabloqueprotegido/"
+    success_url = "/cursosgrupo/"
 
 
     def delete(self, request, *args, **kwargs):
@@ -490,9 +490,9 @@ class HorarioTemplateView(StaffRequiredMixin, TemplateView):
             h = Horario.objects.all()
             h = h.filter(periodoprofesormodulo=ppm, reservado=True)
             h = h.order_by("dia_semana",
-                            "periodoprofesormodulo__modulo__semestre__nombre",
-                            "periodoprofesormodulo__profesor__nombre",
-                        )
+                    "periodoprofesormodulo__modulo__semestre__nombre",
+                    "periodoprofesormodulo__profesor__nombre",
+                    )
 
             for x in h:
                 temp = dic_temp[x.dia_semana]
@@ -542,10 +542,10 @@ def HorarioSave(request):
         titulo_bloque = dic["titulo_bloque"]
 
         query_ppm = PeriodoProfesorModulo.objects.all().filter(
-                        profesor__nombre=profesor,
-                        modulo__nombre=modulo,
-                        modulo__plan__nombre = plan,
-        )
+                profesor__nombre=profesor,
+                modulo__nombre=modulo,
+                modulo__plan__nombre = plan,
+                )
 
 
         query_horario = Horario.objects.all()
@@ -557,10 +557,10 @@ def HorarioSave(request):
             return HttpResponse(msj)
 
         validar1, msj = valida_choque_horario(dia_semana, titulo_bloque,
-                                            query_ppm[0].periodo,
-                                            query_ppm[0].modulo.semestre,
-                                            valor,
-                                            )
+                query_ppm[0].periodo,
+                query_ppm[0].modulo.semestre,
+                valor,
+                )
         if validar1 is False:
             return HttpResponse(msj)
 
@@ -586,25 +586,25 @@ def HorarioSave(request):
             else:
                 print("no existe")
                 query_horario=Horario(
-                    periodoprofesormodulo=query_ppm[0],
-                    bloque1=bloque1,
-                    bloque2=bloque2,
-                    bloque3=bloque3,
-                    bloque4=bloque4,
-                    bloque5=bloque5,
-                    bloque6=bloque6,
-                    bloque7=bloque7,
-                    bloque8=bloque8,
-                    bloque9=bloque9,
-                    bloque10=bloque10,
-                    dia_semana = dia_semana,
-                )
-            query_horario.save()
+                        periodoprofesormodulo=query_ppm[0],
+                        bloque1=bloque1,
+                        bloque2=bloque2,
+                        bloque3=bloque3,
+                        bloque4=bloque4,
+                        bloque5=bloque5,
+                        bloque6=bloque6,
+                        bloque7=bloque7,
+                        bloque8=bloque8,
+                        bloque9=bloque9,
+                        bloque10=bloque10,
+                        dia_semana = dia_semana,
+                        )
+                query_horario.save()
             return HttpResponse(msj)
         else:
 
             return HttpResponse(msj)
-            #return redirect("/horario/add/")
+        #return redirect("/horario/add/")
 
     else:
         return redirect("/horario/add/")
@@ -700,28 +700,28 @@ def GetValidaPpm(request):
 
         query = PeriodoProfesorModulo.objects.all()
         query = query.filter(
-            periodo__id = periodo,
-            carrera__id = carrera,
-            plan__id = plan,
-            modulo__id = modulo,
-            profesor__id = profesor,
-        )
+                periodo__id = periodo,
+                carrera__id = carrera,
+                plan__id = plan,
+                modulo__id = modulo,
+                profesor__id = profesor,
+                )
 
         if query.exists():
             msj = "El profesor %(profesor)s ya fue agendado con el modulo "
             msj +="%(modulo)s en la carrera %(carrera)s para el periodo %(periodo)s"
             msj = msj %{"profesor":query[0].profesor.nombre,
-                      "modulo": query[0].modulo.nombre,
-                      "carrera": query[0].carrera.nombre,
-                      "periodo": query[0].periodo.nombre
-                      }
+                    "modulo": query[0].modulo.nombre,
+                    "carrera": query[0].carrera.nombre,
+                    "periodo": query[0].periodo.nombre
+                    }
             dic={"success": False,
-                "msj":msj}
+                    "msj":msj}
         else:
             dic={"success": True,
-                "msj":""}
+                    "msj":""}
 
-        dic = json.dumps(dic).encode('utf_8')
+            dic = json.dumps(dic).encode('utf_8')
 
         return HttpResponse(dic)
 
@@ -767,16 +767,16 @@ def SaveHorarioProtegido(request):
 
         if not r.exists():
             r = r(
-            bloque = b[0],
-            reservado = value,
-            )
+                    bloque = b[0],
+                    reservado = value,
+                    )
             r.save()
         else:
             r.update(
-                reservado = value
-            )
+                    reservado = value
+                    )
 
-    return HttpResponse("")
+            return HttpResponse("")
 
 
 @csrf_exempt
@@ -818,20 +818,20 @@ def saveHorario(request):
             #valida si existe el mismo profesor en bloque seleccionado
             #para otro modulo
             v, msj = valida_choque_horario_profesor(periodo,
-                                                    modulo,
-                                                    profesor,
-                                                    dia,
-                                                    bloque,
-                                                    carrera,
-                                                    )
+                    modulo,
+                    profesor,
+                    dia,
+                    bloque,
+                    carrera,
+                    )
             if (not v):
                 return HttpResponse(msj)
 
             v, msj = valida_choque_horario_modulo_semestre(block[0],
-                                                           dia,
-                                                           plan,
-                                                           profesor,
-                                                           )
+                    dia,
+                    plan,
+                    profesor,
+                    )
             if (not v):
                 return HttpResponse(msj)
 
@@ -862,10 +862,10 @@ def saveHorario(request):
 
             #valido la cantidad de horas para la actividad
             v,msj = valida_cantidad_horas(actividad, query=h,
-                                         modulo_id=modulo, nuevo=False)
+                    modulo_id=modulo, nuevo=False)
 
             if (not v):
-                 return HttpResponse(msj)
+                return HttpResponse(msj)
 
             #Filtro para chequear si en horario ya está reservado el bloque
             a = h.filter(dia_semana = dia, bloque = block[0])
@@ -883,11 +883,11 @@ def saveHorario(request):
                 a.save()
             else:
                 a = Horario(periodoprofesormodulo = query[0],
-                    dia_semana = dia,
-                    reservado = True,
-                    bloque = block[0],
-                    actividad = actividad,
-                    )
+                        dia_semana = dia,
+                        reservado = True,
+                        bloque = block[0],
+                        actividad = actividad,
+                        )
                 a.save()
         else:
             #no existe está creando
@@ -902,20 +902,20 @@ def saveHorario(request):
 
             h = HorarioTemp.objects.all()
             h = h.filter(carrera = c[0],
-                         profesor = p[0],
-                         modulo = m[0],
-                         )
+                    profesor = p[0],
+                    modulo = m[0],
+                    )
 
             #valido la cantidad de horas para la actividad
             v,msj = valida_cantidad_horas(actividad, query=h,
-                                          modulo_id=modulo,nuevo=False)
+                    modulo_id=modulo,nuevo=False)
 
             if (not v):
                 return HttpResponse(msj)
 
             a = h.filter(dia_semana = dia,
-                         bloque = block[0]
-                         )
+                    bloque = block[0]
+                    )
 
             if a.exists():
                 #Si la actividad es None, se debe eliminar el registro temporal
@@ -927,14 +927,14 @@ def saveHorario(request):
                     a.save()
             else:
                 a = HorarioTemp(
-                    dia_semana = dia,
-                    reservado = True,
-                    bloque = block[0],
-                    actividad = actividad,
-                    carrera = c[0],
-                    profesor = p[0],
-                    modulo = m[0],
-                )
+                        dia_semana = dia,
+                        reservado = True,
+                        bloque = block[0],
+                        actividad = actividad,
+                        carrera = c[0],
+                        profesor = p[0],
+                        modulo = m[0],
+                        )
                 a.save()
 
     return HttpResponse(None)
@@ -958,9 +958,9 @@ def deleteHorarioTemp(request):
 
         h = HorarioTemp.objects.all()
         h = h.filter(carrera__id = carrera,
-                     modulo__id = modulo,
-                     profesor__id = profesor,
-                     )
+                modulo__id = modulo,
+                profesor__id = profesor,
+                )
         h.delete()
 
     return HttpResponse(None)
@@ -983,11 +983,11 @@ def saveCursosGrupo(request):
 
         ppm = PeriodoProfesorModulo.objects.all()
         ppm = ppm.filter(periodo__id = periodo,
-                    carrera__id = carrera,
-                    plan__id = plan,
-                    modulo__id = modulo,
-                    profesor__id = profesor
-                    )
+                carrera__id = carrera,
+                plan__id = plan,
+                modulo__id = modulo,
+                profesor__id = profesor
+                )
 
         cg = Modulo.objects.all().filter(id=cursosgrupo)
 
@@ -996,7 +996,7 @@ def saveCursosGrupo(request):
             if not v:
                 return HttpResponse(msj)
             cg = CursosGrupo(periodoprofesormodulo = ppm[0],
-                      modulo=cg[0])
+                    modulo=cg[0])
             cg.save()
 
     return HttpResponse(None)
