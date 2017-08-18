@@ -23,6 +23,7 @@ from parametros.models import (Periodo,
         Plan,
         Profesor,
         Modulo,
+        ModuloEspejo,
         Carrera,
         Bloque,
         Actividad,
@@ -648,8 +649,10 @@ def GetModulo(request):
         codigo = request.POST.get("codigo")
         p = request.POST.get("periodo")
         cg = CursosGrupo.objects.values_list("curso_grupo").filter(periodo_id=p)
-
+        e = ModuloEspejo.objects.values_list("espejo")
+        print(codigo)
         query = Modulo.objects.all().filter(plan__id = codigo)
+        query = query.exclude(id__in=e)
         query = query.exclude(id__in=cg)
         query = query.order_by("-id")
 
@@ -1000,3 +1003,74 @@ def saveCursosGrupo(request):
             cg.save()
 
     return HttpResponse(None)
+
+
+@csrf_exempt
+def GetModuloEspejoGruposCurso(request):
+
+    if request.method == "POST" and request.is_ajax():
+        #get modulo id
+        modulo = request.POST.get("modulo")
+
+        if modulo == "":
+            return HttpResponse(None)
+
+        e = ModuloEspejo.objects.all().filter(modulo__id=modulo)
+
+        cg = CursosGrupo.objects.all().filter(modulo__id=modulo)
+
+        msj = ""
+        table = ""
+
+        if e.exists():
+            msj = "%s tiene asociado lo siguiente:\n\n"%e[0].modulo.nombre
+            msj += "Módulo Espejo:\n"
+            for i in e:
+                msj +="\t \t * %s "%i.espejo.nombre
+                msj += "del plan %s "%i.espejo.plan.nombre
+                msj += "de %s"%i.espejo.carrera.nombre
+
+                #FIXME
+                table +="<tr>"
+                table +="<td name=id hidden>%s</td>"%i.id
+                table +="<td width=30%%> %s </td>"%i.espejo.carrera.nombre
+                table +="<td width=30%%>%s</td>"%i.espejo.plan.nombre
+                table +="<td width=30%%>%s</td>"%i.espejo.nombre
+                table +="""<td>
+                <center>
+                    <button class='btn btn-danger btn-sm delete-cursos-grupo'>
+                    <span class='glyphicon glyphicon-minus'></span></button>
+                    </center>
+                </td>
+                """
+
+
+                table +="</tr>"
+
+
+
+        if cg.exists():
+            if msj == "":
+                msj = "%s tiene asociado lo siguiente:"%e[0].modulo.nombre
+            msj += "\n\n"
+            msj += "Grupos Curso:\n"
+
+            for i in cg:
+                msj +="\t \t * %s "%i.curso_grupo.nombre
+                msj += "del plan %s "%i.curso_grupo.plan.nombre
+                msj += "de %s"%i.curso_grupo.carrera.nombre
+
+        if msj != "":
+            dic={"success": False,
+                    "msj":msj,
+                    "table":table}
+        else:
+            dic={"success": True,
+                    "msj":"",
+                    "table":table}
+
+        dic = json.dumps(dic).encode('utf_8')
+
+        return HttpResponse(dic)
+
+
