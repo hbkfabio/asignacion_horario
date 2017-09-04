@@ -44,6 +44,8 @@ from .views import (
     ModuloEspejoCreateView,
     ModuloEspejoUpdateView,
     ModuloEspejoDeleteView,
+    saveModuloEspejo,
+    GetDataModuloEspejo,
     LogoutView,
     LoginView,
     )
@@ -104,6 +106,8 @@ urlpatterns = [
     url(r'^moduloespejo/add/$', ModuloEspejoCreateView.as_view(), name='moduloespejo-add'),
     url(r'^moduloespejo/edit/(?P<pk>\d+)/$', ModuloEspejoUpdateView.as_view(), name='moduloespejo-edit'),
     url(r'^moduloespejo/(?P<pk>\d+)/delete/$', ModuloEspejoDeleteView.as_view(), name='moduloespejo-delete'),
+    url(r'^param/get_data_moduloespejo/$', GetDataModuloEspejo, name='get-param-moduloespejo'),
+    url(r'^param/save_moduloespejo/$', saveModuloEspejo, name='save-moduloespejo'),
     #logout
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^login/$', LoginView.as_view(), name='login'),

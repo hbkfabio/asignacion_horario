@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+
+{% if messages %}
+
+<div class="alert alert-info alert-dismissable">
+  {% for message in messages %}
+    {{ message }}
+  {% endfor %}
+
+</div>
+{% endif %}
+
+<fieldset>
+    <legend>{{ titulo }}</legend>
+</fieldset>
+<p></p>
+
+<form id="form" role="form" class="form-horizontal" method="post">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="id_carrera">Carrera</label>
+    <div class="col-md-9">
+      <select class="form-control" id="carrera" name="carrera" title="" required="">
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="plan">Plan</label>
+    <div class="col-md-9">
+      <select class="form-control" id="plan" name="plan" title="" required="">
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="modulo">Modulo</label>
+    <div class="col-md-9">
+      <select class="form-control" id="modulo" name="modulo" title="" required="">
+      </select>
+    </div>
+  </div>
+
+  {% include "parametros/tabla_moduloespejo.html" %}
+
+
+  {% buttons layout='horizontal'%}
+  <div class="submit-row">
+    <div class="btn-group btn-block">
+      {% if save_addanother %}
+      <button type="submit" class="btn btn-primary save-addanother" name="_addanother">
+        <span class="glyphicon glyphicon-save"></span>
+          Guardar y añadir otro
+      </button>
+      {% endif %}
+
+      <button type="submit" name="_save" class="btn btn-primary">
+          <span class="glyphicon glyphicon-saved"></span>
+          Guardar
+      </button>
+
+      <button type="reset" class="btn btn-danger reset">
+        <span class="glyphicon glyphicon-remove"></span>
+         Cancelar
+      </button>
+    </div>
+  </div>
+  {% endbuttons %}
+</form>
+
+<script src="/static/js/utils.js"></script>
+<script src="/static/js/modulo-espejo.js"></script>
+
+{% endblock %}

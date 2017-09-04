@@ -646,18 +646,18 @@ def GetProfesor(request):
 def GetModulo(request):
 
     if request.method == "POST" and request.is_ajax():
+        #plan #FIXME
         codigo = request.POST.get("codigo")
         p = request.POST.get("periodo")
-        cg = CursosGrupo.objects.values_list("curso_grupo").filter(periodo_id=p)
+        if codigo != "":
+            cg = CursosGrupo.objects.values_list("curso_grupo").filter(periodo_id=p)
         e = ModuloEspejo.objects.values_list("espejo")
-        print(codigo)
         query = Modulo.objects.all().filter(plan__id = codigo)
         query = query.exclude(id__in=e)
         query = query.exclude(id__in=cg)
         query = query.order_by("-id")
 
         return JsonResponse(serializers.serialize('json', query), safe=False)
-
 
 @csrf_exempt
 def GetCarrera(request):

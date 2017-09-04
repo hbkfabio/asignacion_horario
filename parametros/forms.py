@@ -268,6 +268,8 @@ class ModuloEspejoForm(forms.ModelForm):
 
     class Meta:
         model = ModuloEspejo
-        fields = ["modulo",
+        fields = [#"carrera",
+                #"plan",
+                "modulo",
                 "espejo",
                 ]

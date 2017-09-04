@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect, render, get_object_or_404, render_to_response
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.views.generic import TemplateView, DetailView, ListView, RedirectView, FormView
@@ -11,7 +11,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import never_cache
+from django.core import serializers
 
+import json
 
 from .forms import (
         DepartamentoForm,
@@ -44,6 +46,7 @@ from .models import (
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 class StaffRequiredMixin(object):
 
@@ -446,7 +449,6 @@ class ActividadUpdateView(StaffRequiredMixin, ViewUpdateView):
     success_url = "/actividad/"
 
 
-
 class ActividadDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = Actividad
     template_name = "parametros/elimina.html"
@@ -467,25 +469,42 @@ class ModuloEspejoView(StaffRequiredMixin, ViewListView):
         return context
 
 
-class ModuloEspejoCreateView(StaffRequiredMixin, CreateView):
+class ModuloEspejoCreateView(StaffRequiredMixin, ViewCreateView):
     form_class = ModuloEspejoForm
-    template_name = "parametros/form.html"
+    template_name = "parametros/form_moduloespejo.html"
     success_message = 'El modulo espejo ha sido creado'
     titulo = 'Agrega Módulo Espejo'
     success_url = '/moduloespejo/'
 
 
-class ModuloEspejoUpdateView(StaffRequiredMixin, UpdateView):
+    # def get_context_data(self, **kwargs):
+    #     context = super(ModuloEspejoCreateView, self).get_context_data(**kwargs)
+    #     carrera = Carrera.objects.all()
+    #     context['carrera'] = carrera
+    #     return context
+
+
+class ModuloEspejoUpdateView(StaffRequiredMixin, ViewUpdateView):
     model = ModuloEspejo
     form_class = ModuloEspejoForm
     titulo = "Edita Modulo Espejo"
-    template_name = "parametros/form.html"
+    template_name = "parametros/form_moduloespejo.html"
     success_message = "La actividad  ha sido actualizado"
     success_url = "/moduloespejo/"
 
 
+    def get_context_data(self, **kwargs):
+        context = super(ModuloEspejoUpdateView, self).get_context_data(**kwargs)
 
-class ModuloEspejoDeleteView(StaffRequiredMixin, DeleteView):
+        modulo = context['object'].modulo
+        m = ModuloEspejo.objects.all().filter(modulo = modulo)
+        context['espejos'] = m
+        # print(context['object'].modulo)
+        return context
+
+
+
+class ModuloEspejoDeleteView(StaffRequiredMixin, ViewDeleteView):
     model = ModuloEspejo
     template_name = "parametros/elimina.html"
     success_message = 'El Modulo Espejo ha sido Eliminado'
@@ -523,3 +542,56 @@ class LoginView(StaffRequiredMixin, FormView):
 
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
+
+#FIXME
+
+@csrf_exempt
+def GetDataModuloEspejo(request):
+
+    if request.method == "POST" and request.is_ajax():
+        moduloespejo = request.POST.get("codigo")
+
+        m = ModuloEspejo.objects.all().filter(id=moduloespejo)
+
+        #es solo un resultado
+        dic={"success": True,
+            "modulo":m[0].modulo.id,
+            "plan": m[0].modulo.plan.id,
+            "carrera": m[0].modulo.carrera.id
+             }
+        dic = json.dumps(dic).encode('utf_8')
+
+
+        return HttpResponse(dic)
+
+
+@csrf_exempt
+def saveModuloEspejo(request):
+
+    if request.method == "POST" and request.is_ajax():
+        espejo = request.POST.getlist("espejo[]")
+        modulo = request.POST.get("modulo")
+        plan = request.POST.get("plan")
+        carrera = request.POST.get("carrera")
+
+        m = ModuloEspejo.objects.all().filter(modulo__id=modulo)
+
+        if m.exists():
+            m.delete()
+
+        carrera = Carrera.objects.all().filter(id=carrera)
+        plan = Plan.objects.all().filter(id=plan)
+
+        for i in espejo:
+            modulo_ = Modulo.objects.all().filter(id=modulo)
+            espejo_ = Modulo.objects.all().filter(id=i)
+            m = ModuloEspejo(
+                carrera = carrera[0],
+                plan = plan[0],
+                modulo = modulo_[0],
+                espejo = espejo_[0],
+            )
+
+            m.save()
+
+        return HttpResponse("")

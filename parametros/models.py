@@ -118,7 +118,9 @@ class Actividad(models.Model):
 
 
 class ModuloEspejo(models.Model):
-    modulo = models.ForeignKey(Modulo)
+    # carrera = models.ForeignKey(Carrera, default=None)
+    # plan = models.ForeignKey(Plan, default=None)
+    modulo = models.ForeignKey(Modulo, default=None)
     espejo = models.ForeignKey(Modulo, related_name='+')
 
     def __str__(self):
