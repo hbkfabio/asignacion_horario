@@ -571,23 +571,13 @@ def saveModuloEspejo(request):
     if request.method == "POST" and request.is_ajax():
         espejo = request.POST.getlist("espejo[]")
         modulo = request.POST.get("modulo")
-        plan = request.POST.get("plan")
-        carrera = request.POST.get("carrera")
 
         m = ModuloEspejo.objects.all().filter(modulo__id=modulo)
-
-        if m.exists():
-            m.delete()
-
-        carrera = Carrera.objects.all().filter(id=carrera)
-        plan = Plan.objects.all().filter(id=plan)
 
         for i in espejo:
             modulo_ = Modulo.objects.all().filter(id=modulo)
             espejo_ = Modulo.objects.all().filter(id=i)
             m = ModuloEspejo(
-                carrera = carrera[0],
-                plan = plan[0],
                 modulo = modulo_[0],
                 espejo = espejo_[0],
             )

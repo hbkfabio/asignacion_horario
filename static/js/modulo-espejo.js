@@ -134,7 +134,7 @@ function action_modulo(){
     var table = $("#tabla-modulos-espejo");
     var rowCount = $(table).find("tr").length;
 
-    if (rowCount == 2){
+    if (rowCount => 2){
         url = "/horario/param/get_plan/";
         param = {"codigo":$("#carrera").val()};
         plan.empty();
@@ -210,7 +210,6 @@ $(document).on("change", "[name=modulo-me]", function(event){
 
     })
 
-
 })
 
 
@@ -250,10 +249,10 @@ $(document).on("click", "[name=_save]", function(event){
     var url = "/param/save_moduloespejo/";
     var param = [];
     var modulo = $("#modulo").val();
-    var carrera = $("#carrera").val();
-    var plan = $("#plan").val();
 
     tabla = $("#tabla-modulos-espejo");
+
+    alert(carrera);
 
     espejos = tabla.find("[name=modulo-me]");
 
@@ -273,7 +272,8 @@ $(document).on("click", "[name=_save]", function(event){
 
     }
 
-    dic ={"modulo": modulo,
+    dic ={
+        "modulo": modulo,
         "espejo" : param,
     }
 
